@@ -4,10 +4,11 @@ My personal site: a digital self that evolves from Neanderthal to a 2050 interfa
 
 **Live:** https://venthangowthams.github.io
 
-## Three modes
+## Four modes
 
 | Mode | Path | Style |
 |---|---|---|
+| **3100** | `/3100/` | A solar system: I'm the sun, a revolving sphere of light that turns into a human face when it talks. My work orbits as planets: Build, Evaluate, Read, Speak, Watch and Life. Tap a planet for a summary, tap again for details, or switch to Simple view for a plain readable page |
 | **2050** (default) | `/` | Colourless holographic interface with a light-particle human head that evolves Neanderthal → Homo sapiens → digital self |
 | **Orb** | `/orb/` | Glowing orb avatar whose hands reach out to Build · Evaluate · Read · Speak · Watch |
 | **Terminal** | `/terminal/` | Agent-terminal style, ask the twin by typing commands |
@@ -23,7 +24,7 @@ A switcher in the corner of every page moves between them.
 
 ## Update content
 
-All content lives in the data arrays near the top of each page's `<script>`: `REPOS`, `BOOKS`, `TALKS`, `VIDEOS` and `LINKS`. Add a YouTube video by putting its ID in `VIDEOS`, and it plays inline on this site.
+All content lives in the data arrays (in 3100 mode, the `SECTIONS` and `BOOKS` arrays) near the top of each page's `<script>`: `REPOS`, `BOOKS`, `TALKS`, `VIDEOS` and `LINKS`. Add a YouTube video by putting its ID in `VIDEOS`, and it plays inline on this site.
 
 ## Custom domain (later)
 

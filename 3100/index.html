@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Venthan · 3100</title>
+<meta name="description" content="Venthan: I make sure AI does what it says, and I build apps people use. Explore my work as a solar system.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--t:rgba(255,255,255,.94);--d:rgba(255,255,255,.62);--f:rgba(255,255,255,.34);--h:rgba(255,255,255,.12);
+  --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#02030a;color:var(--t);font-family:var(--sans);overflow:hidden;line-height:1.55}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:1px solid rgba(255,255,255,.7);outline-offset:4px}
+#space{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:default}
+.k{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--d)}
+
+/* intro */
+.intro{position:fixed;left:32px;top:28px;z-index:5;max-width:420px;pointer-events:none;transition:opacity .5s}
+.intro h1{font-weight:300;font-size:clamp(30px,3.4vw,48px);letter-spacing:-1px;line-height:1.05;margin:8px 0 10px}
+.intro p{font-size:16px;color:var(--d);max-width:380px}
+.intro p b{color:var(--t);font-weight:500}
+.hint{margin-top:16px;font-size:14px;color:var(--f)}
+.hint span{color:var(--t)}
+.top-r{position:fixed;right:24px;top:22px;z-index:6;display:flex;gap:10px;align-items:center}
+.pill{font-family:var(--mono);font-size:11.5px;letter-spacing:1px;padding:8px 14px;border-radius:999px;border:1px solid var(--h);background:rgba(0,0,0,.55);color:var(--d);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:.2s}
+.pill:hover{color:#fff;border-color:var(--f)}
+body.panel-on .top-r{right:calc(min(460px,100%) + 20px)}
+.top-r{transition:right .55s cubic-bezier(.2,.8,.2,1)}
+
+/* planet labels */
+.lbl{position:fixed;left:0;top:0;z-index:4;transform:translate(-50%,0);text-align:center;padding:4px 8px;border-radius:8px;transition:opacity .4s;white-space:nowrap}
+.lbl b{display:block;font-weight:500;font-size:15px;letter-spacing:.2px;text-shadow:0 0 12px rgba(0,0,0,.9)}
+.lbl small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--f);text-transform:uppercase}
+.lbl:hover b,.lbl.on b{color:var(--c)}
+.lbl.dim{opacity:.25}
+.sun-tip{position:fixed;z-index:4;transform:translate(-50%,0);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--f);text-transform:uppercase;pointer-events:none;transition:opacity .4s;white-space:nowrap}
+
+/* detail panel: level 2 + 3 */
+.panel{position:fixed;right:0;top:0;bottom:0;z-index:7;width:min(460px,100%);background:linear-gradient(90deg,rgba(2,3,10,.55),rgba(2,3,10,.94) 18%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-left:1px solid var(--h);padding:76px 34px 140px;overflow-y:auto;transform:translateX(105%);transition:transform .55s cubic-bezier(.2,.8,.2,1);scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
+.panel.open{transform:none}
+.panel .close{position:absolute;top:22px;right:24px;font-family:var(--mono);font-size:12px;color:var(--d);padding:6px 10px;border:1px solid var(--h);border-radius:999px}
+.panel .close:hover{color:#fff}
+.panel h2{font-weight:300;font-size:34px;letter-spacing:-.8px;line-height:1.1;margin:10px 0 10px}
+.panel .line{font-size:17px;color:#d9dcf0;margin-bottom:22px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);margin-right:8px;vertical-align:1px}
+.items{list-style:none;border-top:1px solid var(--h);margin-top:18px}
+.items li{border-bottom:1px solid var(--h)}
+.items .head{width:100%;display:flex;align-items:baseline;gap:12px;padding:15px 2px;text-align:left}
+.items .head b{font-weight:500;font-size:16px;flex:0 0 auto;max-width:60%}
+.items .head span{font-size:14px;color:var(--d);flex:1}
+.items .head i{font-style:normal;color:var(--f);transition:transform .3s;flex:0 0 auto}
+.items li.open .head i{transform:rotate(90deg);color:var(--c)}
+.items .head:hover b{color:var(--c)}
+.more{display:none;padding:0 2px 18px;font-size:15px;color:#cfd3ea}
+.items li.open .more{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.more .meta{font-family:var(--mono);font-size:11.5px;color:var(--f);margin-top:10px;letter-spacing:.5px}
+.more .links{display:flex;gap:16px;margin-top:12px;font-family:var(--mono);font-size:12.5px}
+.more .links a{color:var(--c);text-decoration:none;border-bottom:1px solid currentColor}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 4px}
+.stat{border:1px solid var(--h);border-radius:12px;padding:14px 12px;text-align:center}
+.stat b{display:block;font-weight:300;font-size:32px;color:var(--c);line-height:1}
+.stat small{display:block;font-size:12px;color:var(--d);margin-top:6px;line-height:1.35}
+.big{font-weight:300;font-size:22px;line-height:1.3;margin:4px 0 16px}
+.big em{font-style:normal;color:var(--c)}
+.shelf{display:flex;align-items:flex-end;gap:6px;height:190px;padding-top:24px;border-bottom:2px solid rgba(255,255,255,.18);margin:4px 0 6px;overflow-x:auto;scrollbar-width:none}
+.spine{flex:0 0 auto;width:36px;border-radius:3px 3px 1px 1px;display:flex;align-items:center;justify-content:center;transition:transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:inset -4px 0 8px rgba(0,0,0,.35),inset 2px 0 0 rgba(255,255,255,.18);position:relative}
+.spine span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;font-weight:600;color:rgba(0,0,0,.75);padding:8px 0;white-space:nowrap;overflow:hidden;max-height:100%}
+.spine:hover,.spine.sel{transform:translateY(-14px)}
+.spine .tag{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:8.5px;color:var(--c);white-space:nowrap}
+.cta{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:1px;padding:10px 14px;border:1px solid var(--c);color:var(--c);border-radius:999px;text-decoration:none}
+.cta:hover{background:var(--c);color:#000}
+
+/* simple view: everything readable, no motion */
+.simple{position:fixed;inset:0;z-index:8;overflow-y:auto;background:#05060c;display:none;padding:90px 7vw 160px}
+body.simple-on .simple{display:block}
+body.simple-on #space,body.simple-on .lbl,body.simple-on .intro,body.simple-on .panel,body.simple-on .sun-tip{visibility:hidden}
+.simple .wrap{max-width:820px;margin:0 auto}
+.simple h1{font-weight:300;font-size:clamp(32px,4.5vw,52px);letter-spacing:-1px;line-height:1.1}
+.simple .lead{font-size:18px;color:var(--d);margin:12px 0 40px}
+.simple section{margin:0 0 46px}
+.simple h2{font-weight:400;font-size:24px;margin-bottom:4px}
+.simple .sline{color:var(--d);margin-bottom:6px}
+
+/* ask bar */
+.bar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9;width:min(620px,calc(100vw - 32px))}
+.reply{display:none;margin-bottom:10px;padding:14px 16px;border-radius:14px;border:1px solid var(--h);background:rgba(2,3,10,.9);font-size:15px;white-space:pre-wrap;max-height:36vh;overflow:auto}
+.reply.show{display:block}
+.chips{display:none;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:8px}
+.bar.active .chips{display:flex}
+.chips button{font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--h);background:rgba(2,3,10,.85);color:var(--d)}
+.chips button:hover{color:#fff;border-color:var(--f)}
+.bar form{display:flex;gap:10px;align-items:center;padding:11px 14px;border-radius:999px;border:1px solid var(--f);background:rgba(2,3,10,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.bar form:focus-within{border-color:#fff;box-shadow:0 0 30px rgba(255,255,255,.1)}
+.bar .pulse{width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff;animation:pl 2.4s infinite;flex:0 0 auto}
+@keyframes pl{50%{opacity:.3}}
+.bar input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:15px var(--sans)}
+.bar input::placeholder{color:var(--f)}
+.bar .send{font-family:var(--mono);font-size:11px;color:var(--d);letter-spacing:1px}
+
+@media (max-width:760px){
+  body.panel-on .top-r{right:12px}
+  .intro{left:20px;top:100px;right:20px}
+  .intro p{font-size:15px}
+  .hint{display:none}
+  .top-r{right:12px;top:12px}
+  .panel{top:auto;height:64vh;width:100%;border-left:0;border-top:1px solid var(--h);border-radius:20px 20px 0 0;padding:58px 22px 150px;transform:translateY(105%);background:rgba(2,3,10,.96)}
+  .panel.open{transform:none}
+  .panel h2{font-size:28px}
+  .lbl b{font-size:13.5px}
+  .stats b{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="space" aria-hidden="true"></canvas>
+
+<div class="intro" id="intro">
+  <span class="k">Venthan · year 3100</span>
+  <h1>My work, in orbit.</h1>
+  <p>I make sure AI <b>does</b> what it says, and I build apps people actually use.</p>
+  <p class="hint">Tap a <span>planet</span> to explore. Tap the <span>sun</span> to talk to me.</p>
+</div>
+
+<div class="top-r"><button class="pill" id="simpleBtn" aria-pressed="false">☰ Simple view</button></div>
+
+<div id="labels"></div>
+<div class="sun-tip" id="sunTip">talk to me</div>
+
+<aside class="panel" id="panel" aria-live="polite" aria-label="Details"></aside>
+
+<div class="simple" id="simple"><div class="wrap" id="simpleWrap"></div></div>
+
+<div class="bar" id="bar">
+  <div class="reply" id="reply"><span class="k" style="display:block;margin-bottom:6px">Venthan · core</span><span id="replyText"></span></div>
+  <div class="chips" id="chips"></div>
+  <form id="ask" autocomplete="off"><span class="pulse"></span><input id="q" placeholder="Ask me anything… (e.g. explain your work simply)" aria-label="Ask Venthan's digital self"><button class="send" type="submit">ASK ↵</button></form>
+</div>
+
+<script>
+/* ============ CONFIG ============ */
+const LINKS={github:'https://github.com/VenthanGowthamS',linkedin:'',youtube:''};
+const GH='https://github.com/VenthanGowthamS/';
+
+/* ============ CONTENT: level 1 = planet, level 2 = line + item titles, level 3 = item details ============ */
+const SECTIONS=[
+ {id:'build',name:'Build',num:'01',c:'#5ff2ff',R:3.0,speed:.16,incl:.10,phase:.4,size:.30,
+  title:'Things I\'ve built',line:'Apps and tools, from test automation to AI agents. Many start with a real problem from my village or my family.',
+  items:[
+   {t:'Pannaipuram App',s:'Live village info hub · 100+ users',d:'An information hub for my ancestral village in Tamil Nadu: bus times, power cuts, water alerts, hospital timings and one-tap emergency numbers. There\'s no transit API, so the bus data came from a shop vendor who knew every timing by heart. I turned it into a database, and a feedback loop keeps it improving.',m:'Flutter Android · PWA · Node.js · PostgreSQL · Firebase',l:[['Open app','https://app.pannaipuram.com'],['Code',GH+'Pannaipuram']]},
+   {t:'agent-evals-lab',s:'Testing whether an AI agent really does its job',d:'A small AI support agent ran through 60 graded tests on my laptop. Every reply sounded fine, but only 72% of runs actually did the right thing.',m:'Python · Ollama · qwen2.5:3b · custom harness',l:[['Live report','https://venthangowthams.github.io/agent-evals-lab/results/report.html'],['Code',GH+'agent-evals-lab']]},
+   {t:'Kaizen Folio',s:'A growth journal for children',d:'"Small steps, every day." A private portfolio where families keep a child\'s paintings, speeches, medals and small wins, from age 5 to university applications.',m:'Node.js · Express · Cloudflare',l:[['Code',GH+'kaizen-folio']]},
+   {t:'daybrief-agent',s:'An AI agent built from scratch',d:'Writes me a daily brief with weather, top tech news and GitHub updates. I built it without a framework to learn how agents really work: the tool-use loop and the scheduler that keeps it running.',m:'Python · Gemini / Claude · tool-use loop',l:[['Code',GH+'daybrief-agent']]},
+   {t:'Hindu Middle School site',s:'Website for my village school (est. 1942)',d:'Honours the founder\'s legacy and gives the school a home online.',m:'HTML · CSS · JS',l:[['Code',GH+'hindu-middle-school']]},
+   {t:'Go learning journey',s:'Go, on a mentor\'s advice',d:'Hands-on programs from basics to HTTP servers, goroutines and channels.',m:'Go',l:[['Code',GH+'go-dev-roadmap']]},
+   {t:'Test automation (2021)',s:'Where the testing mindset began',d:'Behaviour-driven suites for a mobile app (Appium) and a web login flow (Selenium), with scenarios written in plain English and checked on real screens.',m:'Java · Appium · Selenium · Cucumber',l:[['Mobile',GH+'mobile-bdd-appium'],['Web',GH+'web-bdd-selenium']]}
+  ]},
+ {id:'evaluate',name:'Evaluate',num:'02',c:'#b8ff6a',R:4.15,speed:.11,incl:-.08,phase:2.2,size:.34,
+  title:'Does the AI really do its job?',line:'AI agents now take real actions, like refunding money. They can say "done" without doing it. I check what actually happened.',
+  extra:()=>`<p class="big">Every reply <em>sounded</em> fine.<br>Only <em>72%</em> actually did the right thing.</p>
+   <div class="stats"><div class="stat"><b>72%</b><small>runs did the right thing</small></div><div class="stat"><b>83%</b><small>tasks right at least once</small></div><div class="stat"><b>58%</b><small>tasks right every time</small></div></div>`,
+  items:[
+   {t:'What I tested',s:'A small AI customer-support agent',d:'It looks up orders, issues refunds or hands a case to a human, in a pretend online shop. It runs on my laptop with a small open model, at zero cloud cost.',m:'qwen2.5:3b via Ollama'},
+   {t:'How it\'s graded',s:'On what happened, not what it said',d:'12 real-world scenarios, each run 5 times because AI isn\'t consistent. 60 graded runs, checked on the shop\'s final state, the steps taken and the number of steps.',m:'Python harness · state-based graders'},
+   {t:'What I learned',s:'Sounding right ≠ being right',d:'An agent that sounds right but acts wrong is dangerous when it moves money. You only catch that by checking the outcome. That\'s 14 years of testing instinct, applied to AI.',m:''},
+   {t:'See it',s:'The live report and the code',d:'Every scenario, every run and every transcript is public.',m:'',l:[['Live report','https://venthangowthams.github.io/agent-evals-lab/results/report.html'],['Code',GH+'agent-evals-lab']]}
+  ]},
+ {id:'read',name:'Read',num:'03',c:'#ffc86a',R:5.3,speed:.08,incl:.06,phase:4.1,size:.28,
+  title:'My reading shelf',line:'Reading is a lifelong habit, and there\'s always a book on the go. I annotate as I read, as a way of giving credit to the author.',
+  extra:()=>`<div class="shelf" id="shelf">${BOOKS.map((b,i)=>`<button class="spine" data-i="${i}" style="height:${b.h}px;background:linear-gradient(90deg,${b.c},${b.c}bb)" aria-label="${b.t}">${b.tag?`<span class="tag">${b.tag}</span>`:''}<span>${b.t}</span></button>`).join('')}</div>`,
+  itemsFrom:()=>BOOKS.map(b=>({t:b.t,s:b.a+(b.tag?' · '+b.tag.toLowerCase():''),d:b.n,m:''}))},
+ {id:'speak',name:'Speak',num:'04',c:'#ff7ad4',R:6.35,speed:.06,incl:-.05,phase:5.6,size:.32,ring:true,
+  title:'On stage',line:'Club President of Eminent Communicators Toastmasters. Speaking is how I turn what I read and build into something that helps others.',
+  items:[
+   {t:'How Mental Models Rewired My Life',s:'🏆 Best Speaker',d:'Munger\'s inversion, compounding and the Lollapalooza effect, applied to everyday choices.',m:'Eminent Communicators'},
+   {t:'Deep Work',s:'🏆 Best Speaker',d:'Why distraction-free focus is a career superpower.',m:'Citi Toastmasters Club'},
+   {t:'Beyond Boundaries',s:'Inaugural address as President',d:'My first speech as elected Club President, at Chapter Meeting #244.',m:'Eminent Communicators'},
+   {t:'Home, Heart, Horizon',s:'President\'s welcome',d:'A welcome address that set the tone for the evening.',m:'Eminent Communicators'},
+   {t:'ELEVATE workshop',s:'Host',d:'Hosted a special workshop with guest trainers.',m:'Dell Technologies Singapore'},
+   {t:'International Speech Contest',s:'Judge',d:'Served on the judging panel.',m:'SINDA Singapore'}
+  ]},
+ {id:'watch',name:'Watch',num:'05',c:'#a98bff',R:7.3,speed:.045,incl:.09,phase:1.2,size:.25,
+  title:'Videos',line:'Talks, AI evaluation explained simply, and the stories behind my builds. The YouTube channel is launching soon.',
+  items:[
+   {t:'How Mental Models Rewired My Life',s:'Coming soon',d:'My Best Speaker talk, on video.',m:''},
+   {t:'AI agents that sound right but act wrong',s:'Coming soon',d:'agent-evals-lab explained in 5 minutes.',m:''},
+   {t:'Building an app for my village',s:'Coming soon',d:'From a bus-stop vendor\'s memory to a live app.',m:''}
+  ]},
+ {id:'life',name:'Life',num:'06',c:'#e8ecff',R:2.0,speed:.24,incl:-.12,phase:3.3,size:.16,
+  title:'Off the screen',line:'Consistency compounds, on the mat and on the court too.',
+  items:[
+   {t:'Yoga',s:'The daily reset',d:'Mat time keeps the mind as steady as the body.',m:''},
+   {t:'Shuttle',s:'Badminton',d:'Fast feet, quick reflexes, friendly rivalry.',m:''},
+   {t:'Pannaipuram',s:'My roots in Tamil Nadu',d:'My ancestral village, and the reason I build things for it.',m:''},
+   {t:'Tamil cinema · K-pop',s:'Stories and soundtracks',d:'My go-to for stories and soundtracks.',m:''}
+  ]}
+];
+const BOOKS=[
+ {t:'The Visual MBA',a:'Jason Barron',c:'#5ff2ff',h:150,tag:'NOW',n:'An MBA in sketches. Business school is an unfinished trip of mine, so I\'m taking it one page at a time.'},
+ {t:'Nexus',a:'Yuval Noah Harari',c:'#ff9a6a',h:164,tag:'123 NOTES',n:'How information networks shape power, from the Stone Age to AI. I annotated 123 connections.'},
+ {t:'Deep Work',a:'Cal Newport',c:'#a98bff',h:156,tag:'TALK',n:'Focus is a superpower. It became my Best Speaker talk.'},
+ {t:'Atomic Habits',a:'James Clear',c:'#ffc86a',h:138,n:'Small, boring, repeatable. That\'s where compounding starts.'},
+ {t:'Psychology of Money',a:'Morgan Housel',c:'#b8ff6a',h:144,n:'Behaviour beats spreadsheets.'},
+ {t:'The Courage to Be Disliked',a:'Kishimi & Koga',c:'#ff7ad4',h:162,n:'Separate your tasks from other people\'s tasks.'},
+ {t:'Eat That Frog!',a:'Brian Tracy',c:'#6affc0',h:128,n:'Do the hardest thing first, every morning.'},
+ {t:'Zen: The Art of Simple Living',a:'Shunmyo Masuno',c:'#cfd8ff',h:150,n:'Calm is a skill you can practise.'},
+ {t:'The Alchemist',a:'Paulo Coelho',c:'#ffd9b0',h:134,n:'The journey is the treasure.'}
+];
+SECTIONS.forEach(s=>{if(s.itemsFrom)s.items=s.itemsFrom()});
+const BYID=Object.fromEntries(SECTIONS.map(s=>[s.id,s]));
+
+/* ============ HELPERS ============ */
+const $=q=>document.querySelector(q);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sm=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)};
+const g2=(x,y,sx,sy)=>Math.exp(-(x*x)/(2*sx*sx)-(y*y)/(2*sy*sy));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const MOBILE=()=>innerWidth<760;
+
+/* ============ PANEL (levels 2 + 3) ============ */
+const panel=$('#panel');
+function itemsHTML(s){return `<ul class="items">${s.items.map((it,i)=>`<li data-i="${i}"><button class="head" aria-expanded="false"><b>${esc(it.t)}</b><span>${esc(it.s)}</span><i>›</i></button>
+  <div class="more"><p>${esc(it.d)}</p>${it.m?`<div class="meta">${esc(it.m)}</div>`:''}${it.l?`<div class="links">${it.l.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join('')}</div>`:''}</div></li>`).join('')}</ul>`}
+let focus=null,hoverItem=-1;
+function openSection(id,fromHash){
+  const s=BYID[id];if(!s)return;
+  focus=s;panel.style.setProperty('--c',s.c);
+  panel.innerHTML=`<button class="close" id="closeP">esc · close</button><span class="k"><span class="dot"></span>${s.num} · ${esc(s.name)}</span>
+   <h2>${esc(s.title)}</h2><p class="line">${esc(s.line)}</p>${s.extra?s.extra():''}${itemsHTML(s)}`;
+  panel.classList.add('open');panel.scrollTop=0;document.body.classList.add('panel-on');
+  $('#closeP').onclick=closeSection;
+  panel.querySelectorAll('.items li').forEach(li=>{
+    const b=li.querySelector('.head');
+    b.onclick=()=>{const o=li.classList.toggle('open');b.setAttribute('aria-expanded',o)};
+    li.onmouseenter=()=>hoverItem=+li.dataset.i;li.onmouseleave=()=>hoverItem=-1;
+  });
+  panel.querySelectorAll('.spine').forEach(sp=>{sp.onclick=sp.onmouseenter=()=>{
+    panel.querySelectorAll('.spine').forEach(x=>x.classList.remove('sel'));sp.classList.add('sel');
+    const li=panel.querySelector(`.items li[data-i="${sp.dataset.i}"]`);if(li&&!li.classList.contains('open'))li.querySelector('.head').click();
+    hoverItem=+sp.dataset.i}});
+  if(!fromHash)try{history.replaceState(null,'','#'+id)}catch(e){}
+  $('#intro').style.opacity=MOBILE()?0:.25;
+}
+function closeSection(){focus=null;panel.classList.remove('open');document.body.classList.remove('panel-on');$('#intro').style.opacity=1;try{history.replaceState(null,'',location.pathname)}catch(e){}}
+addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.body.classList.contains('simple-on'))toggleSimple();else closeSection()}});
+
+/* ============ SIMPLE VIEW ============ */
+$('#simpleWrap').innerHTML=`<span class="k">Venthan · simple view</span><h1>I make sure AI does what it says, and I build apps people actually use.</h1>
+ <p class="lead">Senior Software Engineer at Dell Technologies, Singapore. 14 years testing software, now building apps and evaluating AI agents. Club President at Eminent Communicators Toastmasters.</p>`+
+ SECTIONS.map(s=>`<section style="--c:${s.c}"><span class="k"><span class="dot"></span>${s.num} · ${esc(s.name)}</span><h2>${esc(s.title)}</h2><p class="sline">${esc(s.line)}</p>${itemsHTML(s)}</section>`).join('')+
+ `<section><h2>Say hi</h2><p class="sline">${LINKS.linkedin?`<a href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a> · `:''}<a href="${LINKS.github}" target="_blank" rel="noopener">GitHub ↗</a></p></section>`;
+$('#simpleWrap').querySelectorAll('.items li').forEach(li=>{const b=li.querySelector('.head');b.onclick=()=>{const o=li.classList.toggle('open');b.setAttribute('aria-expanded',o)}});
+function toggleSimple(){const on=document.body.classList.toggle('simple-on');$('#reply').classList.remove('show');bar.classList.remove('active');const b=$('#simpleBtn');b.textContent=on?'✦ Space view':'☰ Simple view';b.setAttribute('aria-pressed',on)}
+$('#simpleBtn').onclick=toggleSimple;
+
+/* ============ LABELS (real buttons, readable) ============ */
+const labels=$('#labels');
+SECTIONS.forEach(s=>{const b=document.createElement('button');b.className='lbl';b.style.setProperty('--c',s.c);b.innerHTML=`<b>${esc(s.name)}</b><small>${s.num}</small>`;
+  b.setAttribute('aria-label',`${s.name}: ${s.title}`);b.onclick=()=>openSection(s.id);
+  b.onmouseenter=()=>hoverPlanet=s;b.onmouseleave=()=>hoverPlanet=null;s.el=b;labels.appendChild(b)});
+
+/* ============ THE SUN: a sphere of light that becomes a human face when it speaks ============ */
+const SMALL=innerWidth<760;const RINGS=SMALL?46:64,SEG=SMALL?64:90;const base=[];
+for(let i=0;i<=RINGS;i++){const ph=i/RINGS*Math.PI;for(let j=0;j<SEG;j++){const th=j/SEG*Math.PI*2;base.push({ph,th,rnd:Math.random()})}}
+function headPoint(p,m){ // m: 0 neanderthal → 1 sapiens
+  const s=Math.sin(p.ph),c=Math.cos(p.ph);
+  let x=s*Math.sin(p.th),z=s*Math.cos(p.th),y=c;
+  const rx=.70+.02*m, ry=.90+.14*m, rz=.88+(1-m)*.16;
+  x*=rx;y*=ry;z*=rz;
+  const fr=Math.max(0,z/rz), back=Math.max(0,-z/rz);
+  // occipital bun (neanderthal)
+  z-=(1-m)*.16*g2(0,y-.1,1,.28)*back;
+  // forehead: neanderthal low & sloping, sapiens tall & vertical
+  if(y>.2){const k=sm(.2,1.05,y);z-=fr*k*((1-m)*.5+m*.05)*fr; y-=(1-m)*.10*k}
+  // temples
+  x*=1-.07*g2(0,y-.35,1,.18)*fr;
+  // brow ridge
+  z+=((1-m)*.20+m*.06)*g2(x,y-.22,.46,.08)*Math.pow(fr,2);
+  // eye sockets + eyes
+  for(const ex of [-.26,.26]){z-=.24*g2(x-ex,y-.07,.12,.075)*Math.pow(fr,2); z+=.06*g2(x-ex,y-.07,.05,.03)*Math.pow(fr,2)}
+  // cheekbones
+  z+=.07*(g2(x-.38,y+.12,.12,.1)+g2(x+.38,y+.12,.12,.1))*fr;
+  // nose bridge + tip (broad for neanderthal)
+  const nw=.075+(1-m)*.05;
+  z+=.08*g2(x,y-.0,.06,.12)*Math.pow(fr,4);
+  z+=(.33+(1-m)*.05)*g2(x,y+.26,nw*1.25,.13)*Math.pow(fr,5);
+  // midface forward (neanderthal)
+  z+=(1-m)*.10*g2(x,y+.35,.42,.25)*Math.pow(fr,3);
+  // jaw taper
+  if(y<-.3){const t=sm(-.3,-1.0,y);x*=1-.30*t}
+  // lips + mouth line
+  z+=.07*g2(x,y+.50,.16,.035)*Math.pow(fr,4); z+=.06*g2(x,y+.60,.14,.035)*Math.pow(fr,4); z-=.03*g2(x,y+.555,.14,.012)*Math.pow(fr,4);
+  // chin
+  z+=(m*.22-(1-m)*.06)*g2(x,y+.84,.2,.09)*Math.pow(fr,3);
+  // ears
+  const side=Math.abs(x)/rx; if(side>.9){x+=Math.sign(x)*.09*g2(0,y-.02,1,.15)*g2(z+.05,0,.16,1)}
+  return {x,y,z};
+}
+const sphereP=base.map(p=>({x:Math.sin(p.ph)*Math.sin(p.th)*.92,y:Math.cos(p.ph)*.92,z:Math.sin(p.ph)*Math.cos(p.th)*.92}));
+const headP=base.map(p=>headPoint(p,1));
+const obj=new Array(base.length);
+
+/* ============ SCENE ============ */
+const cv=$('#space'),cx=cv.getContext('2d');let W,H,dpr;
+function size(){dpr=Math.min(2,devicePixelRatio||1);W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr}
+size();addEventListener('resize',size);
+const stars=Array.from({length:260},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.1+.2,p:Math.random()*6}));
+let mx=0,my=0,hoverPlanet=null,hoverSun=false,talking=0,face=0,sunYaw=0,camX=0,camY=0,t0=performance.now(),last=t0;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+SECTIONS.forEach(s=>s.a=s.phase);
+
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
+  const mob=MOBILE(),open=!!focus;
+  // camera: centre shifts left when the panel is open (desktop) or up (mobile)
+  const tx=open&&!mob?-.2:0,ty=open&&mob?-.22:0;camX+=(tx-camX)*.06;camY+=(ty-camY)*.06;
+  const ox=W*(.5+camX),oy=H*((mob?.48:.46)+camY);
+  const scale=mob?Math.min(W,H)/(open?13:17):Math.min(W/17,H/22);
+  const tilt=1.08+my*.12,yaw=mx*.35;const ct=Math.cos(tilt),st=Math.sin(tilt),cyw=Math.cos(yaw),syw=Math.sin(yaw);
+  const view=(x,y,z)=>{let X=x*cyw+z*syw,Z=-x*syw+z*cyw;let Y=y*ct-Z*st;Z=y*st+Z*ct;const f=18/(18-Z);return [ox+X*scale*f,oy-Y*scale*f,Z,f]};
+
+  cx.clearRect(0,0,W,H);
+  // stars
+  for(const s of stars){cx.fillStyle=`rgba(255,255,255,${.25+.35*Math.sin(t*.8+s.p)**2})`;cx.fillRect(s.x*W,s.y*H,s.r*dpr,s.r*dpr)}
+
+  // orbits + planets
+  const slow=hoverPlanet?0:hoverSun?.25:1;
+  const pts=[];
+  for(const s of SECTIONS){
+    if(focus!==s)s.a+=dt*s.speed*slow;
+    const ci=Math.cos(s.incl),si=Math.sin(s.incl);
+    const at=a=>{const x=Math.cos(a)*s.R,z=Math.sin(a)*s.R;return [x,z*si,z*ci]};
+    // orbit path
+    cx.beginPath();for(let k=0;k<=96;k++){const [x,y,z]=at(k/96*Math.PI*2);const P=view(x,y,z);k?cx.lineTo(P[0],P[1]):cx.moveTo(P[0],P[1])}
+    const on=focus===s||hoverPlanet===s;cx.strokeStyle=on?s.c+'88':'rgba(255,255,255,.08)';cx.lineWidth=dpr*(on?1.2:.7);cx.stroke();
+    const [x,y,z]=at(s.a);const P=view(x,y,z);pts.push({s,P,w:[x,y,z]});
+  }
+  const sunDepth=0;
+  pts.sort((a,b)=>a.P[2]-b.P[2]);
+  const drawPlanet=({s,P,w})=>{
+    const dim=focus&&focus!==s;const r=s.size*scale*P[3]*(focus===s?1.35:hoverPlanet===s?1.2:1);
+    // glow
+    const g=cx.createRadialGradient(P[0],P[1],0,P[0],P[1],r*4);g.addColorStop(0,s.c+(dim?'22':'55'));g.addColorStop(1,s.c+'00');cx.fillStyle=g;cx.beginPath();cx.arc(P[0],P[1],r*4,0,7);cx.fill();
+    // body with a lit side facing the sun
+    const lx=(ox-P[0]),ly=(oy-P[1]),ll=Math.hypot(lx,ly)||1;
+    const b=cx.createRadialGradient(P[0]+lx/ll*r*.45,P[1]+ly/ll*r*.45,r*.1,P[0],P[1],r);b.addColorStop(0,'#fff');b.addColorStop(.35,s.c);b.addColorStop(1,'#0a0a1a');
+    cx.globalAlpha=dim?.35:1;cx.fillStyle=b;cx.beginPath();cx.arc(P[0],P[1],r,0,7);cx.fill();
+    if(s.ring){cx.strokeStyle=s.c+'aa';cx.lineWidth=dpr*1.2;cx.beginPath();cx.ellipse(P[0],P[1],r*2,r*.55,-.35,0,7);cx.stroke()}
+    cx.globalAlpha=1;
+    // moons = the items inside this planet, shown when it's open
+    if(focus===s){const n=s.items.length;for(let k=0;k<n;k++){const a=t*.5+k/n*Math.PI*2;const mr=s.size*2.6+.25;
+      const M=view(w[0]+Math.cos(a)*mr,w[1],w[2]+Math.sin(a)*mr);const big=hoverItem===k;
+      cx.fillStyle=big?'#fff':s.c;cx.globalAlpha=big?1:.75;cx.beginPath();cx.arc(M[0],M[1],(big?4:2.4)*dpr,0,7);cx.fill();
+      if(big){cx.strokeStyle=s.c;cx.lineWidth=dpr;cx.beginPath();cx.moveTo(P[0],P[1]);cx.lineTo(M[0],M[1]);cx.stroke()}cx.globalAlpha=1}}
+    // label position (CSS px)
+    const el=s.el;el.style.left=(P[0]/dpr)+'px';el.style.top=(P[1]/dpr+r/dpr+6)+'px';
+    el.classList.toggle('on',focus===s);el.classList.toggle('dim',!!dim);s.screen=[P[0],P[1],r];
+  };
+  for(const p of pts)if(p.P[2]<sunDepth)drawPlanet(p);
+  drawSun(t,dt,ox,oy,scale);
+  for(const p of pts)if(p.P[2]>=sunDepth)drawPlanet(p);
+  requestAnimationFrame(frame);
+}
+
+function drawSun(t,dt,ox,oy,scale){
+  // the face appears while the core is speaking or hovered; otherwise it's a revolving sphere
+  const want=(talking||hoverSun)?1:0;face+=(want-face)*(want?.05:.03);
+  if(face<.5)sunYaw+=dt*.45;else{const target=.55+mx*.6;let d=((target-sunYaw)%(Math.PI*2)+Math.PI*3)%(Math.PI*2)-Math.PI;sunYaw+=d*.06}
+  const R=scale*1.55;
+  // corona
+  const g=cx.createRadialGradient(ox,oy,R*.4,ox,oy,R*2.6);g.addColorStop(0,'rgba(140,200,255,.20)');g.addColorStop(.5,'rgba(150,110,255,.07)');g.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=g;cx.beginPath();cx.arc(ox,oy,R*2.6,0,7);cx.fill();
+  const cy=Math.cos(sunYaw),sy=Math.sin(sunYaw),pt=-.08+my*.15,cp=Math.cos(pt),sp=Math.sin(pt);
+  const rot=(x,y,z)=>{let X=x*cy+z*sy,Z=-x*sy+z*cy;let Y=y*cp-Z*sp;Z=y*sp+Z*cp;return [X,Y,Z]};
+  const talkAmp=talking?(.5+.5*Math.sin(t*26)):0;
+  const breathe=1+.015*Math.sin(t*1.6);
+  for(let k=0;k<base.length;k++){const a=sphereP[k],b=headP[k];let q={x:lerp(a.x,b.x,face)*breathe,y:lerp(a.y,b.y,face)*breathe,z:lerp(a.z,b.z,face)*breathe};
+    if(talkAmp&&face>.6&&b.z>.45&&b.y<-.56&&b.y>-.75)q.y-=talkAmp*.05*g2(b.x,0,.15,1);obj[k]=q}
+  const scanY=1.1-((t*.28)%1)*2.3;
+  for(let i=1;i<RINGS;i++){for(let j=0;j<SEG;j++){const k=i*SEG+j,q=obj[k];
+    const a1=obj[(i+1)*SEG+j]||q,a2=obj[i*SEG+((j+1)%SEG)];
+    const ux=a1.x-q.x,uy=a1.y-q.y,uz=a1.z-q.z,vx=a2.x-q.x,vy=a2.y-q.y,vz=a2.z-q.z;
+    let nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;const nl=Math.hypot(nx,ny,nz)||1;
+    const n=rot(nx/nl,ny/nl,nz/nl);if(n[2]<-.15)continue;
+    const [X,Y,Z]=rot(q.x,q.y,q.z);
+    const diff=Math.max(0,n[0]*.42+n[1]*.42+n[2]*.8);let al=.05+.9*Math.pow(diff,1.7);
+    if(Math.abs(q.y-scanY)<.045)al=Math.min(1,al+.45);
+    const f=3.6/(3.6-Z);const sx=ox+X*R*f,syy=oy-Y*R*f;const s=dpr*(.85+.4*(Z+1)/2);
+    cx.fillStyle=`rgba(${235-face*20},${245},255,${al})`;cx.fillRect(sx,syy,s,s)}}
+  // sun tip under the core
+  const tip=$('#sunTip');tip.style.left=(ox/dpr)+'px';tip.style.top=((oy+R*1.25)/dpr)+'px';tip.style.opacity=focus||talking?0:1;
+  sunScreen=[ox,oy,R];
+}
+let sunScreen=[0,0,0];
+requestAnimationFrame(frame);
+
+// canvas clicks: planet bodies and the sun
+cv.addEventListener('pointermove',e=>{const x=e.clientX*dpr,y=e.clientY*dpr;
+  hoverSun=Math.hypot(x-sunScreen[0],y-sunScreen[1])<sunScreen[2];
+  const hp=SECTIONS.find(s=>s.screen&&Math.hypot(x-s.screen[0],y-s.screen[1])<Math.max(s.screen[2]*1.6,14*dpr));
+  if(!document.activeElement||!document.activeElement.classList.contains('lbl'))hoverPlanet=hp||null;
+  cv.style.cursor=hp||hoverSun?'pointer':'default'});
+cv.addEventListener('click',e=>{const x=e.clientX*dpr,y=e.clientY*dpr;
+  const hp=SECTIONS.find(s=>s.screen&&Math.hypot(x-s.screen[0],y-s.screen[1])<Math.max(s.screen[2]*1.6,14*dpr));
+  if(hp)return openSection(hp.id);
+  if(Math.hypot(x-sunScreen[0],y-sunScreen[1])<sunScreen[2]){$('#q').focus();return ask('Who are you?','about')}
+  if(focus)closeSection()});
+
+/* ============ ASK THE CORE (scripted, no backend) ============ */
+const A={
+  about:`I'm Venthan, a Senior Software Engineer at Dell Technologies in Singapore. I spent 14+ years making sure software works, across healthcare, IoT, microfinance and edge computing. Now I test and evaluate AI agents, build apps with AI, and lead a Toastmasters club as President.`,
+  plain:`In simple words: AI tools can now take actions like refunding money or sending emails. Sometimes they say "done" when they didn't do it. I build exam rooms that catch this before real people get hurt.`,
+  build:`My favourite is the Pannaipuram app, an information hub for my village with 100+ users. There's also Kaizen Folio, daybrief-agent and a website for my village school. Opening Build for you.`,
+  evaluate:`I ran a small AI agent through 60 graded tests. Every reply sounded fine, but only 72% actually did the right thing. Check what the AI did, not what it said. Opening Evaluate.`,
+  read:`Right now, The Visual MBA. Before that, Nexus, where I made 123 notes. Opening my shelf.`,
+  speak:`I'm Club President at Eminent Communicators and a two-time Best Speaker. Opening Speak.`,
+  watch:`My YouTube channel is coming soon. Opening Watch.`,
+  life:`Yoga, shuttle, Tamil cinema and K-pop, and my roots in Pannaipuram.`,
+  idea:`In 3100, I imagine you won't navigate pages. You'll pull ideas into orbit. The sun is me; each planet is a part of my work. Tap one for a summary, then tap again for the details.`,
+  contact:()=>`LinkedIn is easiest${LINKS.linkedin?': '+LINKS.linkedin.replace('https://',''):''}, or see my work at github.com/VenthanGowthamS.`,
+  fallback:`I'm a simple core, still evolving like the original. Try one of the suggestions above, or tap a planet.`
+};
+const OPEN={build:'build',evaluate:'evaluate',read:'read',speak:'speak',watch:'watch',life:'life'};
+const IN=[[/simpl|plain|non.?tech|explain|mean/,'plain'],[/3100|future|solar|planet|sun|orbit|idea|why/,'idea'],[/eval|test|agent|\bai\b|72/,'evaluate'],[/build|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],[/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life/,'life'],[/who|about|venthan|work|dell|you/,'about']];
+const CH=[['Who are you?','about'],['Explain simply','plain'],['What have you built?','build'],['The AI test','evaluate'],['Why a solar system?','idea'],['Contact','contact']];
+const bar=$('#bar');$('#chips').innerHTML=CH.map(([l,k])=>`<button data-k="${k}">${l}</button>`).join('');
+let typer=null;
+function ask(q,key){if(!key){const l=q.toLowerCase();for(const [re,k] of IN)if(re.test(l)){key=k;break}}key=key||'fallback';
+  const txt=typeof A[key]==='function'?A[key]():A[key];$('#reply').classList.add('show');bar.classList.add('active');
+  clearTimeout(typer);let i=0;talking=1;const box=$('#replyText');box.textContent='';
+  (function s(){i=Math.min(txt.length,i+2);box.textContent=txt.slice(0,i);if(i<txt.length)typer=setTimeout(s,15);else{typer=setTimeout(()=>talking=0,600);if(OPEN[key])openSection(OPEN[key])}})()}
+$('#chips').onclick=e=>{const b=e.target.closest('button');if(b)ask(b.textContent,b.dataset.k)};
+$('#ask').onsubmit=e=>{e.preventDefault();const v=$('#q').value.trim();if(v){$('#q').value='';ask(v)}};
+$('#q').addEventListener('focus',()=>bar.classList.add('active'));
+document.addEventListener('pointerdown',e=>{if(!bar.contains(e.target)&&!$('#reply').classList.contains('show'))bar.classList.remove('active')});
+$('#reply').addEventListener('click',()=>{$('#reply').classList.remove('show');bar.classList.remove('active')});
+
+// deep links: /3100/#build opens Build
+const h=location.hash.slice(1);if(BYID[h])setTimeout(()=>openSection(h,true),400);
+</script>
+<nav class="modesw" aria-label="Site mode">
+<style>.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
+.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
+.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
+@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
+<a href="../3100/" aria-current="page">3100</a><a href="../">2050</a><a href="../orb/">Orb</a><a href="../terminal/">Terminal</a>
+</nav>
+</body>
+</html>
