@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Venthan · Test · Build · Evaluate</title>
+<meta name="description" content="Venthan — I make sure AI does what it says, and I build apps people use. Senior Software Engineer, Dell Technologies Singapore.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060b;--panel:rgba(14,18,34,.72);--line:rgba(120,160,255,.14);
+  --text:#e8ecff;--dim:#8c93b8;--cyan:#4ff0ff;--violet:#8b5cff;--pink:#ff5cc8;--lime:#b6ff5c;--amber:#ffc35c;
+  --mono:'JetBrains Mono',ui-monospace,monospace;--sans:'Space Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;line-height:1.55}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+::selection{background:var(--violet);color:#fff}
+#bgfx{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:2}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:14px 26px;font-family:var(--mono);font-size:12px;color:var(--dim);background:linear-gradient(to bottom,rgba(5,6,11,.92),transparent)}
+.topbar .brand{color:var(--text);font-weight:500}.topbar .brand b{color:var(--cyan);font-weight:500}
+.topnav{display:flex;gap:16px}.topnav a{color:var(--dim)}.topnav a:hover{color:var(--cyan);text-decoration:none}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime);margin-right:7px;animation:blink 2s infinite}
+@keyframes blink{50%{opacity:.35}}
+
+/* ===== HERO with orb + hands ===== */
+.hero{position:relative;min-height:100vh;padding:86px 4vw 40px;display:flex;flex-direction:column;align-items:center}
+.intro{text-align:center;max-width:820px;z-index:3}
+.intro h1{font-size:clamp(34px,5vw,64px);font-weight:600;letter-spacing:-1.2px;line-height:1.05}
+.intro h1 .name{background:linear-gradient(90deg,var(--cyan),var(--violet) 55%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.caret{display:inline-block;width:.07em;height:.9em;background:var(--cyan);margin-left:4px;vertical-align:-.08em;animation:blink 1s steps(1) infinite}
+.intro .plain{font-size:clamp(17px,1.9vw,22px);color:#d3d9ff;margin-top:12px}
+.journey{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px}
+.journey span{padding:6px 12px;border-radius:30px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.journey span.now{border-color:rgba(79,240,255,.5);color:var(--cyan);box-shadow:0 0 18px rgba(79,240,255,.15)}
+.journey i{color:var(--dim);font-style:normal}
+
+.hub{position:relative;width:100%;max-width:1200px;height:680px;margin-top:0}
+#arms{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.arm{fill:none;stroke-linecap:round}
+.arm.glow{stroke-width:10;opacity:.12;filter:blur(4px)}
+.arm.core{stroke-width:2.2;stroke-dasharray:6 10;animation:flow 1.4s linear infinite;opacity:.75}
+.arm.on.core{stroke-width:3.2;opacity:1;animation-duration:.6s}
+.arm.on.glow{opacity:.35}
+@keyframes flow{to{stroke-dashoffset:-32}}
+.palm{transition:r .3s}
+
+.orb-stage{position:absolute;left:50%;top:46%;width:260px;height:260px;transform:translate(-50%,-50%);z-index:2}
+.halo{position:absolute;inset:-25%;border-radius:50%;background:radial-gradient(circle,rgba(139,92,255,.35),rgba(79,240,255,.12) 40%,transparent 68%);filter:blur(20px);animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.1);opacity:.8}}
+.orb{position:absolute;inset:0;border-radius:50%;overflow:hidden;cursor:pointer;
+  background:radial-gradient(circle at 32% 28%,#fff 0%,#bfefff 6%,#4ff0ff 18%,#5a6dff 42%,#4a1fb8 64%,#120a33 86%);
+  box-shadow:0 0 60px rgba(79,240,255,.45),0 0 140px rgba(139,92,255,.45),inset -26px -34px 70px rgba(5,0,30,.85),inset 10px 14px 40px rgba(255,255,255,.25);transition:transform .4s}
+.orb::before{content:'';position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,rgba(255,92,200,.45),transparent 30%,rgba(79,240,255,.5),transparent 60%,rgba(182,255,92,.25),transparent);animation:spin 9s linear infinite;mix-blend-mode:screen;filter:blur(18px)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16%;transition:transform .2s ease-out;z-index:3}
+.eye{width:9%;height:18%;border-radius:40px;background:#fff;box-shadow:0 0 16px #fff,0 0 36px var(--cyan);animation:eyeblink 5.5s infinite}
+@keyframes eyeblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.mouth{position:absolute;left:50%;top:67%;width:16%;height:3%;transform:translateX(-50%);border-radius:20px;background:rgba(255,255,255,.85);box-shadow:0 0 12px var(--cyan);opacity:0;z-index:3}
+.orb.talk .mouth{opacity:1;animation:talk .18s ease-in-out infinite alternate}
+@keyframes talk{from{height:2%;width:12%}to{height:6%;width:18%}}
+.orb-tip{position:absolute;left:50%;bottom:calc(100% + 16px);transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:1px}
+.orb-tip b{color:var(--cyan);font-weight:500}
+
+.node{position:absolute;width:250px;padding:16px 18px;border-radius:16px;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s;z-index:3;text-align:left;color:inherit;font:inherit}
+.node:hover,.node:focus-visible{transform:translateY(-4px) scale(1.02);border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 18px 50px rgba(0,0,0,.5),0 0 40px color-mix(in srgb,var(--c) 30%,transparent);outline:none}
+.node .k{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--c)}
+.node h3{font-size:20px;font-weight:600;margin:4px 0 4px;display:flex;align-items:center;gap:8px}
+.node p{font-size:13.5px;color:var(--dim);line-height:1.45}
+.node .go{font-family:var(--mono);font-size:11.5px;color:var(--c);margin-top:8px;display:block}
+.n-build{left:2%;top:6%;--c:var(--cyan)}
+.n-eval{left:0;top:58%;--c:var(--lime)}
+.n-read{right:2%;top:6%;--c:var(--amber)}
+.n-speak{right:0;top:58%;--c:var(--pink)}
+.n-watch{left:50%;bottom:0;transform:translateX(-50%);--c:var(--violet)}
+.n-watch:hover,.n-watch:focus-visible{transform:translateX(-50%) translateY(-4px) scale(1.02)}
+.hint{font-family:var(--mono);font-size:12px;color:var(--dim);text-align:center;margin-top:34px}
+
+/* ===== SECTIONS ===== */
+section.blk{max-width:1180px;margin:0 auto;padding:110px 6vw 30px}
+.h2{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.h2 .tag{font-family:var(--mono);font-size:12px;letter-spacing:1.5px;color:var(--c);border:1px solid var(--c);padding:3px 9px;border-radius:5px}
+.h2 h2{font-size:clamp(26px,3.2vw,40px);font-weight:600;letter-spacing:-.6px}
+.lead{color:var(--dim);max-width:720px;margin-bottom:30px;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{position:relative;border:1px solid var(--line);border-radius:14px;padding:22px;background:linear-gradient(160deg,rgba(20,26,50,.78),rgba(10,12,24,.78));overflow:hidden;transition:transform .35s,border-color .35s}
+.card:hover{transform:translateY(-4px);border-color:rgba(79,240,255,.35)}
+.card h3{font-size:19px;font-weight:600;margin:10px 0 6px}
+.card p{color:#b8bfe6;font-size:14.5px}
+.card .tech{font-family:var(--mono);font-size:11.5px;color:var(--violet);margin-top:12px}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .date{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.card .links{margin-top:12px;font-family:var(--mono);font-size:12.5px;display:flex;gap:14px;flex-wrap:wrap}
+.pill{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:1px;padding:3px 8px;border-radius:4px;border:1px solid}
+.pill.live{color:var(--lime);border-color:rgba(182,255,92,.4)}
+.pill.ai{color:var(--cyan);border-color:rgba(79,240,255,.4)}
+.pill.web{color:var(--amber);border-color:rgba(255,195,92,.4)}
+.pill.learn{color:var(--pink);border-color:rgba(255,92,200,.4)}
+.card.feature{grid-column:1/-1;display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center}
+.origins{margin-top:20px;padding:16px 20px;border:1px dashed var(--line);border-radius:12px;color:var(--dim);font-size:14px}
+.origins b{color:var(--text)}
+.src{font-family:var(--mono);font-size:11px;color:#59608a;margin-top:14px}
+
+/* evals */
+.eval-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:start}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(14,18,34,.65)}
+.stat .v{font-family:var(--mono);font-size:38px;line-height:1;color:var(--lime);text-shadow:0 0 22px rgba(182,255,92,.35)}
+.stat .v.warn{color:var(--amber);text-shadow:0 0 22px rgba(255,195,92,.35)}
+.stat .l{font-size:13.5px;color:var(--dim);margin-top:8px}
+.quote{font-size:clamp(20px,2.2vw,26px);font-weight:500;line-height:1.3;margin-bottom:16px}
+.quote em{font-style:normal;color:var(--lime)}
+.steps{list-style:none;margin:14px 0 18px;counter-reset:s}
+.steps li{counter-increment:s;padding:8px 0 8px 40px;position:relative;color:#b8bfe6;font-size:14.5px;border-bottom:1px solid rgba(120,160,255,.07)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;border:1px solid var(--lime);color:var(--lime);font-family:var(--mono);font-size:12px;display:flex;align-items:center;justify-content:center}
+.btn{display:inline-block;font-family:var(--mono);font-size:13px;padding:11px 18px;border-radius:10px;border:1px solid var(--cyan);color:var(--cyan);background:rgba(79,240,255,.06);transition:.25s;cursor:pointer}
+.btn:hover{background:var(--cyan);color:#001;text-decoration:none;box-shadow:0 0 28px rgba(79,240,255,.45)}
+.btn.lime{border-color:var(--lime);color:var(--lime);background:rgba(182,255,92,.06)}
+.btn.lime:hover{background:var(--lime);color:#001}
+.btn.alt{border-color:var(--violet);color:#c9b8ff;background:rgba(139,92,255,.08)}
+.btn.alt:hover{background:var(--violet);color:#fff}
+
+/* books */
+.shelf{display:flex;align-items:flex-end;gap:8px;padding:28px 10px 0;border-bottom:6px solid #1c2140;overflow-x:auto;min-height:310px;scrollbar-width:thin;scrollbar-color:#2a3060 transparent}
+.book{flex:0 0 auto;width:56px;border-radius:4px 4px 2px 2px;position:relative;cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;justify-content:center;box-shadow:inset -6px 0 10px rgba(0,0,0,.35),inset 3px 0 0 rgba(255,255,255,.15);border:0}
+.book span{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:600;font-size:13px;color:rgba(0,0,0,.78);padding:12px 0;font-family:var(--sans)}
+.book:hover,.book.sel{transform:translateY(-22px)}
+.book .badge{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;white-space:nowrap;color:var(--lime);text-shadow:0 0 10px var(--lime)}
+.book-note{margin-top:22px;font-size:15px;color:var(--dim);min-height:52px;border-left:2px solid var(--amber);padding-left:14px}
+.book-note b{color:var(--text)}
+.read-stats{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+.read-stats .stat{flex:1 1 200px}
+.read-stats .v{color:var(--amber);text-shadow:0 0 22px rgba(255,195,92,.35)}
+
+/* speeches */
+.tl-list{position:relative;padding-left:30px;display:grid;grid-template-columns:1fr 1fr;gap:16px 22px}
+.tl-list::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--pink),var(--violet))}
+.tl-item{position:relative;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:rgba(14,18,34,.6)}
+.tl-item h3{font-size:17px;font-weight:600;margin:6px 0 4px}
+.tl-item p{color:var(--dim);font-size:14px}
+.tl-item .at{font-family:var(--mono);font-size:11px;color:var(--violet);margin-top:8px}
+.pill.win{color:var(--amber);border-color:rgba(255,195,92,.4)}
+.pill.role{color:var(--pink);border-color:rgba(255,92,200,.4)}
+
+/* videos */
+.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.vid{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(14,18,34,.7)}
+.vid .screen{aspect-ratio:16/9;position:relative;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 30% 30%,rgba(139,92,255,.35),transparent 60%),radial-gradient(circle at 75% 70%,rgba(79,240,255,.25),transparent 55%),#0b0e1c}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.play{width:64px;height:64px;border-radius:50%;border:2px solid rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(139,92,255,.5)}
+.play::after{content:'';border-left:18px solid #fff;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
+.vid .soon{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:1px;color:var(--violet);border:1px solid rgba(139,92,255,.5);padding:3px 8px;border-radius:4px;background:rgba(5,6,11,.6)}
+.vid .meta{padding:14px 16px}
+.vid h3{font-size:16px;font-weight:600}
+.vid p{font-size:13.5px;color:var(--dim);margin-top:2px}
+
+/* life */
+.life{display:flex;gap:12px;flex-wrap:wrap}
+.life div{flex:1 1 180px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:rgba(14,18,34,.6)}
+.life b{display:block;font-size:16px;margin-top:6px}.life span{font-size:26px}.life small{color:var(--dim);font-size:13px}
+
+.contact{text-align:center;padding:120px 6vw 120px}
+.contact h2{font-size:clamp(30px,4.4vw,52px);font-weight:600;letter-spacing:-1px}
+.contact h2 span{background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact p{color:var(--dim);margin:12px auto 28px;max-width:540px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:#545a80;padding:0 0 100px}
+
+/* ===== twin chat (friendly, with optional terminal look) ===== */
+.fab{position:fixed;right:22px;bottom:22px;z-index:40;display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:40px;border:1px solid rgba(79,240,255,.4);background:rgba(10,13,26,.9);color:var(--text);font:500 14px var(--sans);cursor:pointer;box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 30px rgba(79,240,255,.2)}
+.fab .mini{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,#4ff0ff 25%,#5a6dff 55%,#2a0f70);box-shadow:0 0 14px var(--cyan)}
+.chat{position:fixed;right:22px;bottom:84px;z-index:41;width:min(390px,calc(100vw - 32px));height:min(540px,calc(100vh - 120px));display:none;flex-direction:column;border-radius:18px;border:1px solid var(--line);background:rgba(10,13,26,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 40px rgba(139,92,255,.15);overflow:hidden}
+.chat.open{display:flex}
+.chat-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.chat-h .mini{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff,#4ff0ff 25%,#5a6dff 55%,#2a0f70)}
+.chat-h b{font-size:14px}.chat-h small{display:block;font-size:11.5px;color:var(--dim)}
+.chat-h .sp{flex:1}
+.chat-h button{white-space:nowrap;background:none;border:1px solid var(--line);color:var(--dim);border-radius:6px;padding:4px 8px;font:11px var(--mono);cursor:pointer}
+.chat-h button:hover{color:var(--cyan);border-color:var(--cyan)}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:#2a3060 transparent}
+.m{max-width:88%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap}
+.m.bot{background:rgba(79,240,255,.07);border:1px solid rgba(79,240,255,.18);border-bottom-left-radius:4px;align-self:flex-start}
+.m.me{background:linear-gradient(135deg,var(--violet),#5a3cd6);border-bottom-right-radius:4px;align-self:flex-end}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
+.chips button{font:12px var(--sans);color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);padding:6px 11px;border-radius:20px;cursor:pointer}
+.chips button:hover{border-color:var(--cyan);color:var(--cyan)}
+.chat form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+.chat input{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--text);font:14px var(--sans);outline:none}
+.chat input:focus{border-color:var(--cyan)}
+.chat form button{border:0;border-radius:10px;padding:0 14px;background:var(--cyan);color:#001;font-weight:600;cursor:pointer}
+/* terminal look */
+.chat.term .m{font-family:var(--mono);font-size:12.5px;background:none;border:0;padding:2px 0;max-width:100%;border-radius:0;align-self:stretch}
+.chat.term .m.bot::before{content:'v-01 ❯ ';color:var(--cyan)}
+.chat.term .m.me{color:var(--lime)}.chat.term .m.me::before{content:'you ❯ ';color:var(--dim)}
+.chat.term input{font-family:var(--mono);font-size:13px}
+.chat.term .chips button{font-family:var(--mono);border-radius:6px}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .topnav{display:none}
+  .hub{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:330px}
+  #arms{display:none}
+  .orb-stage{top:150px;width:200px;height:200px}
+  .node{position:relative;inset:auto!important;width:auto;transform:none!important}
+  .n-watch{grid-column:1/-1}
+  .card.feature,.eval-wrap{grid-template-columns:1fr}
+  .tl-list{grid-template-columns:1fr}
+}
+@media (max-width:520px){.hub{grid-template-columns:1fr}.node h3{font-size:18px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bgfx"></canvas>
+
+<div class="topbar">
+  <div class="brand">venthan<b>.agent</b></div>
+  <div class="topnav"><a href="#build">Build</a><a href="#evaluate">Evaluate</a><a href="#read">Read</a><a href="#speak">Speak</a><a href="#watch">Watch</a></div>
+  <div><span class="dot"></span>SGT <span id="clock">--:--</span></div>
+</div>
+
+<main>
+<section class="hero" id="home">
+  <div class="intro">
+    <h1>hi, I'm <span class="name" id="typed"></span><span class="caret"></span></h1>
+    <p class="plain">I make sure AI <b>does</b> what it says, and I build apps people actually use.</p>
+    <div class="journey"><span>14 yrs testing software</span><i>→</i><span>building apps</span><i>→</i><span class="now">evaluating AI agents</span></div>
+  </div>
+
+  <div class="hub" id="hub">
+    <svg id="arms" aria-hidden="true"></svg>
+    <div class="orb-stage" id="stage">
+      <div class="halo"></div>
+      <div class="orb" id="orb" title="Talk to my digital twin" role="button" tabindex="0">
+        <div class="face" id="face"><div class="eye"></div><div class="eye"></div></div>
+        <div class="mouth"></div>
+      </div>
+      <div class="orb-tip">tap me to talk to my <b>digital twin</b></div>
+    </div>
+
+    <button class="node n-build" data-go="build"><span class="k">01 · BUILD</span><h3>🛠 Things I've built</h3><p>Live apps and side projects, straight from my GitHub.</p><span class="go">see 6 projects →</span></button>
+    <button class="node n-eval" data-go="evaluate"><span class="k">02 · EVALUATE</span><h3>🧪 Testing AI agents</h3><p>An AI can say "done" without doing it. I measure what it really did.</p><span class="go">see the experiment →</span></button>
+    <button class="node n-read" data-go="read"><span class="k">03 · READ</span><h3>📚 My reading</h3><p>Books that shaped how I think, work and live.</p><span class="go">open the shelf →</span></button>
+    <button class="node n-speak" data-go="speak"><span class="k">04 · SPEAK</span><h3>🎤 On stage</h3><p>Toastmasters Club President and two-time Best Speaker.</p><span class="go">see speeches →</span></button>
+    <button class="node n-watch" data-go="watch"><span class="k">05 · WATCH</span><h3>▶ Videos</h3><p>Talks and build stories, coming to YouTube.</p><span class="go">watch →</span></button>
+  </div>
+  <p class="hint">each hand reaches into one part of my work · pick one</p>
+</section>
+
+<!-- BUILD -->
+<section class="blk" id="build" style="--c:var(--cyan)">
+  <div class="h2 reveal"><span class="tag">01 · BUILD</span><h2>Things I've built</h2></div>
+  <p class="lead reveal">Each project starts with a real problem, often from my village or my family. I build spec-first with Claude Code. The plain-English line says what it does, and the purple line is for engineers.</p>
+  <div class="cards" id="buildCards"></div>
+  <div class="origins reveal"><b>Where it started (2018–2021):</b> test automation frameworks with Appium, Cucumber BDD and Gradle for Android and web. That's the testing mindset I now bring to AI.</div>
+  <p class="src reveal">pulled from github.com/VenthanGowthamS · Nov 2026</p>
+</section>
+
+<!-- EVALUATE -->
+<section class="blk" id="evaluate" style="--c:var(--lime)">
+  <div class="h2 reveal"><span class="tag">02 · EVALUATE</span><h2>Does the AI really do its job?</h2></div>
+  <p class="lead reveal">AI agents don't just chat. They take actions like refunding orders or sending emails. My job as a tester is to check what actually happened, not what the AI <i>said</i> happened.</p>
+  <div class="eval-wrap">
+    <div class="reveal">
+      <p class="quote">Every reply <em>sounded</em> fine.<br>Only <em>72%</em> actually did the right thing.</p>
+      <p style="color:#b8bfe6">I built a small AI customer-support agent for a pretend shop. It can look up orders, issue refunds or hand a case to a human. Then I built an "exam room" around it:</p>
+      <ol class="steps">
+        <li>12 real-world scenarios, each with a correct answer</li>
+        <li>Every scenario run 5 times, because AI isn't consistent</li>
+        <li>Graded on the shop's final state, not the AI's words</li>
+        <li>Runs fully on my laptop with a small open model, at zero cloud cost</li>
+      </ol>
+      <a class="btn lime" href="https://venthangowthams.github.io/agent-evals-lab/results/report.html" target="_blank" rel="noopener">open the live report ↗</a>
+      <a class="btn alt" href="https://github.com/VenthanGowthamS/agent-evals-lab" target="_blank" rel="noopener" style="margin-left:8px">see the code ↗</a>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><div class="v">60</div><div class="l">graded test runs (12 scenarios × 5)</div></div>
+      <div class="stat"><div class="v warn">72%</div><div class="l">of runs actually did the right thing</div></div>
+      <div class="stat"><div class="v">83%</div><div class="l">of tasks it got right at least once</div></div>
+      <div class="stat"><div class="v warn">58%</div><div class="l">of tasks it got right every single time</div></div>
+      <div class="stat" style="grid-column:1/-1"><div class="l" style="margin:0;font-family:var(--mono);font-size:12px;color:var(--violet)">qwen2.5:3b via Ollama · Python harness · state-based graders · DeepEval / RAGAs trained</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- READ -->
+<section class="blk" id="read" style="--c:var(--amber)">
+  <div class="h2 reveal"><span class="tag">03 · READ</span><h2>My reading shelf</h2></div>
+  <p class="lead reveal">Reading is a lifelong habit, and I always have a book on the go. I annotate as I read, and that's my way of giving credit to the author. Hover over or tap a book.</p>
+  <div class="shelf reveal" id="shelf"></div>
+  <div class="book-note reveal" id="bookNote">▸ pick a book</div>
+  <div class="read-stats reveal">
+    <div class="stat"><div class="v">123</div><div class="l">ideas and connections annotated while reading <i>Nexus</i></div></div>
+    <div class="stat"><div class="v">2</div><div class="l">Best Speaker talks that grew out of books (<i>Deep Work</i> and mental models)</div></div>
+    <div class="stat"><div class="v">∞</div><div class="l">always mid-book, now <i>The Visual MBA</i></div></div>
+  </div>
+</section>
+
+<!-- SPEAK -->
+<section class="blk" id="speak" style="--c:var(--pink)">
+  <div class="h2 reveal"><span class="tag">04 · SPEAK</span><h2>On stage</h2></div>
+  <p class="lead reveal">Club President of Eminent Communicators Toastmasters. Speaking is how I turn what I read and build into something that helps others.</p>
+  <div class="tl-list" id="speechList"></div>
+</section>
+
+<!-- WATCH -->
+<section class="blk" id="watch" style="--c:var(--violet)">
+  <div class="h2 reveal"><span class="tag">05 · WATCH</span><h2>Videos</h2></div>
+  <p class="lead reveal">Talks, walkthroughs and build stories. My YouTube channel is launching soon, and videos will play right here.</p>
+  <div class="vids" id="vids"></div>
+</section>
+
+<!-- LIFE -->
+<section class="blk" id="life">
+  <div class="h2 reveal" style="--c:var(--cyan)"><span class="tag">AWAY FROM THE KEYBOARD</span></div>
+  <div class="life reveal">
+    <div><span>🧘</span><b>Yoga</b><small>My daily reset</small></div>
+    <div><span>🏸</span><b>Shuttle</b><small>Fast feet, friendly rivalry</small></div>
+    <div><span>🌾</span><b>Pannaipuram</b><small>My roots in Tamil Nadu</small></div>
+    <div><span>🎬</span><b>Tamil cinema & K-pop</b><small>Stories and soundtracks</small></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2 class="reveal">Let's build something <span>that matters.</span></h2>
+  <p class="reveal">Open to conversations on AI evaluation, agent workflows and public speaking. Still learning, still growing.</p>
+  <div class="btns reveal" id="btns"></div>
+</section>
+<footer>Senior Software Engineer · Dell Technologies Singapore · AWS · Azure · OCI certified<br>consistency compounds.</footer>
+</main>
+
+<button class="fab" id="fab"><span class="mini"></span>Ask my twin</button>
+<div class="chat" id="chat" role="dialog" aria-label="Chat with Venthan's digital twin">
+  <div class="chat-h"><span class="mini"></span><div><b>V-01 · Venthan's twin</b><small>ask about work, books, talks</small></div><span class="sp"></span><button id="modeBtn" title="Switch style">⌨ terminal</button><button id="closeBtn" aria-label="Close">✕</button></div>
+  <div class="msgs" id="msgs"></div>
+  <div class="chips" id="chips"></div>
+  <form id="form" autocomplete="off"><input id="cmd" placeholder="Type a question…" aria-label="Your question"><button>Send</button></form>
+</div>
+
+<script>
+/* ============ CONFIG ============ */
+const LINKS={github:'https://github.com/VenthanGowthamS', linkedin:'', youtube:''};
+// Add YouTube video IDs here when uploaded, e.g. {id:'dQw4w9WgXcQ', t:'Title', d:'One line'}
+const VIDEOS=[
+  {id:'', t:'How Mental Models Rewired My Life', d:'My Best Speaker talk.'},
+  {id:'', t:'AI agents that sound right but act wrong', d:'The agent-evals-lab story in 5 minutes.'},
+  {id:'', t:'Building an app for my village', d:'From a bus-stop vendor\'s memory to a live app.'}
+];
+
+/* ============ DATA (from GitHub, Nov 2026) ============ */
+const BUILDS=[
+  {p:['live','LIVE'],t:'Pannaipuram App · பண்ணைப்புரம்',d:'An information hub for my ancestral village with bus times, power cuts, water alerts, hospital timings and one-tap emergency numbers. 100+ villagers use it.',tech:'Flutter Android · PWA · Node.js · PostgreSQL · Firebase',date:'2026-10-24',l:[['open app ↗','https://app.pannaipuram.com'],['code ↗','https://github.com/VenthanGowthamS/Pannaipuram']]},
+  {p:['ai','AI EVALS'],t:'agent-evals-lab',d:'A test lab that checks whether an AI agent really does its job or only sounds like it does. 60 graded runs on my laptop.',tech:'Python · Ollama · qwen2.5:3b · custom harness',date:'2026-10-30',l:[['live report ↗','https://venthangowthams.github.io/agent-evals-lab/results/report.html'],['code ↗','https://github.com/VenthanGowthamS/agent-evals-lab']]},
+  {p:['web','PRODUCT'],t:'Kaizen Folio 🌱',d:'"Small steps, every day." A private portfolio and growth journal where families keep a child\'s every painting, speech, medal and small win, from age 5 to university applications.',tech:'Node.js · Cloudflare · Render',date:'2026-10-24',l:[['code ↗','https://github.com/VenthanGowthamS/kaizen-folio']]},
+  {p:['ai','AGENT'],t:'daybrief-agent',d:'A from-scratch AI agent that writes me a daily brief with weather, top tech news and GitHub updates. I built it to learn how agents really work under the hood.',tech:'Python · Gemini 2.5 Flash / Claude · tool-use loop · scheduler',date:'2026-08-28',l:[['code ↗','https://github.com/VenthanGowthamS/daybrief-agent']]},
+  {p:['web','WEBSITE'],t:'Hindu Middle School, Pannaipuram',d:'A website for my village school, established in 1942, honouring its founder\'s legacy.',tech:'HTML · CSS · JS',date:'2026-06-20',l:[['code ↗','https://github.com/VenthanGowthamS/hindu-middle-school']]},
+  {p:['learn','LEARNING'],t:'Go learning journey',d:'Hands-on Go programs written on a mentor\'s advice, from basics to HTTP servers and goroutines.',tech:'Go',date:'2025-06-07',l:[['code ↗','https://github.com/VenthanGowthamS/go-dev-roadmap']]}
+];
+const BOOKS=[
+  {t:'The Visual MBA',a:'Jason Barron',c:'#4ff0ff',h:250,b:'READING NOW',n:'An MBA in sketches. Business school is an unfinished trip of mine, so I\'m taking it one page at a time.'},
+  {t:'Nexus',a:'Yuval Noah Harari',c:'#ff8a5c',h:276,b:'123 NOTES',n:'How information networks shape power, from the Stone Age to AI. I annotated 123 connections.'},
+  {t:'Deep Work',a:'Cal Newport',c:'#8b5cff',h:262,b:'🏆 TALK',n:'Focus is a superpower. It became my Best Speaker talk at Citi Toastmasters.'},
+  {t:'Atomic Habits',a:'James Clear',c:'#ffc35c',h:228,n:'Small, boring, repeatable. That\'s where compounding starts.'},
+  {t:'Psychology of Money',a:'Morgan Housel',c:'#b6ff5c',h:236,n:'Behaviour beats spreadsheets.'},
+  {t:'The Courage to Be Disliked',a:'Kishimi & Koga',c:'#ff5cc8',h:270,n:'Separate your tasks from other people\'s tasks.'},
+  {t:'Eat That Frog!',a:'Brian Tracy',c:'#5cffb0',h:214,n:'Do the hardest thing first, every morning.'},
+  {t:'Zen: The Art of Simple Living',a:'Shunmyo Masuno',c:'#c9d4ff',h:244,n:'Calm is a skill you can practise.'},
+  {t:'The Alchemist',a:'Paulo Coelho',c:'#ffd0a8',h:224,n:'The journey is the treasure.'}
+];
+const SPEECHES=[
+  {p:['win','🏆 BEST SPEAKER'],t:'How Mental Models Rewired My Life',d:'Munger\'s inversion, compounding and the Lollapalooza effect, applied to everyday choices.',at:'Eminent Communicators'},
+  {p:['win','🏆 BEST SPEAKER'],t:'Deep Work',d:'Why distraction-free focus is a career superpower.',at:'Citi Toastmasters Club'},
+  {p:['role','CLUB PRESIDENT'],t:'Beyond Boundaries',d:'My inaugural address as elected President, at Chapter Meeting #244.',at:'Eminent Communicators'},
+  {p:['role','PRESIDENT'],t:'Home, Heart, Horizon',d:'A welcome address that set the tone for the evening.',at:'Eminent Communicators'},
+  {p:['role','HOST'],t:'ELEVATE Your Toastmasters Journey',d:'Hosted a special workshop with guest trainers.',at:'Dell Technologies Singapore'},
+  {p:['role','JUDGE'],t:'International Speech Contest',d:'Served on the judging panel.',at:'SINDA Singapore'}
+];
+
+/* ============ RENDER ============ */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=d=>new Date(d+'T00:00:00').toLocaleDateString('en-SG',{month:'short',year:'numeric'});
+$('#buildCards').innerHTML=BUILDS.map(b=>`<div class="card reveal"><div class="row"><span class="pill ${b.p[0]}">${b.p[1]}</span><span class="date">updated ${fmt(b.date)}</span></div><h3>${esc(b.t)}</h3><p>${esc(b.d)}</p><div class="tech">${esc(b.tech)}</div><div class="links">${b.l.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}</div></div>`).join('');
+$('#speechList').innerHTML=SPEECHES.map(s=>`<div class="tl-item reveal"><span class="pill ${s.p[0]}">${s.p[1]}</span><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p><div class="at">@ ${esc(s.at)}</div></div>`).join('');
+
+const shelf=$('#shelf'),note=$('#bookNote');
+BOOKS.forEach(b=>{const el=document.createElement('button');el.className='book';el.setAttribute('aria-label',b.t);
+  el.style.cssText=`height:${b.h}px;background:linear-gradient(90deg,${b.c},${b.c}cc 70%,${b.c}99)`;
+  el.innerHTML=(b.b?`<span class="badge">${b.b}</span>`:'')+`<span>${esc(b.t)}</span>`;
+  const show=()=>{document.querySelectorAll('.book').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');note.innerHTML=`▸ <b>${esc(b.t)}</b> · ${esc(b.a)}<br>${esc(b.n)}`};
+  el.onmouseenter=show;el.onclick=show;el.onfocus=show;shelf.appendChild(el)});
+
+// videos: embed on own hosting (e.g. GitHub Pages); link cards elsewhere (claude.ai blocks iframes)
+const canEmbed=!/claude\.ai|claudeusercontent|anthropic/.test(location.hostname)&&location.protocol.startsWith('http');
+$('#vids').innerHTML=VIDEOS.map(v=>{
+  if(v.id&&canEmbed) return `<div class="vid reveal"><div class="screen"><iframe src="https://www.youtube-nocookie.com/embed/${esc(v.id)}" title="${esc(v.t)}" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="meta"><h3>${esc(v.t)}</h3><p>${esc(v.d)}</p></div></div>`;
+  const inner=`<div class="screen">${v.id?'':'<span class="soon">COMING SOON</span>'}<div class="play"></div></div><div class="meta"><h3>${esc(v.t)}</h3><p>${esc(v.d)}</p></div>`;
+  return v.id?`<a class="vid reveal" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${inner}</a>`:`<div class="vid reveal">${inner}</div>`;
+}).join('');
+
+$('#btns').innerHTML=(LINKS.linkedin?`<a class="btn" href="${LINKS.linkedin}" target="_blank" rel="noopener">Connect on LinkedIn ↗</a>`:'')+
+  `<a class="btn alt" href="${LINKS.github}" target="_blank" rel="noopener">GitHub ↗</a>`+
+  (LINKS.youtube?`<a class="btn alt" href="${LINKS.youtube}" target="_blank" rel="noopener">YouTube ↗</a>`:'')+
+  `<button class="btn" id="talkBtn">Ask my twin</button>`;
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const tick=()=>{try{$('#clock').textContent=new Date().toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Singapore'})}catch(e){}};tick();setInterval(tick,20000);
+const go=id=>document.getElementById(id).scrollIntoView();
+document.querySelectorAll('.topnav a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(a.getAttribute('href').slice(1))}));
+
+/* typewriter */
+const names=['Venthan','வேந்தன்'];let ni=0,ci=0,del=false;const typed=$('#typed');
+(function loop(){const w=names[ni];typed.textContent=w.slice(0,ci);
+  if(!del&&ci<w.length){ci++;setTimeout(loop,120)}else if(!del){del=true;setTimeout(loop,3200)}
+  else if(ci>0){ci--;setTimeout(loop,60)}else{del=false;ni=(ni+1)%names.length;setTimeout(loop,300)}})();
+
+/* ============ HANDS: arms from orb to nodes ============ */
+const hub=$('#hub'),svg=$('#arms'),stage=$('#stage'),orb=$('#orb'),face=$('#face');
+const nodes=[...document.querySelectorAll('.node')];
+const NS='http://www.w3.org/2000/svg';
+let arms=[];
+function drawArms(){
+  svg.innerHTML='';arms=[];
+  if(getComputedStyle(svg).display==='none')return;
+  const H=hub.getBoundingClientRect(),O=stage.getBoundingClientRect();
+  const ox=O.left-H.left+O.width/2,oy=O.top-H.top+O.height/2,R=O.width/2;
+  nodes.forEach(n=>{
+    const r=n.getBoundingClientRect();const c=getComputedStyle(n).getPropertyValue('--c').trim()||'#4ff0ff';
+    let tx=r.left-H.left+r.width/2,ty=r.top-H.top+r.height/2;
+    // attach to nearest edge of card
+    if(tx<ox-40)tx=r.right-H.left;else if(tx>ox+40)tx=r.left-H.left;else ty=r.top-H.top;
+    const ang=Math.atan2(ty-oy,tx-ox);const sx=ox+Math.cos(ang)*R*.92,sy=oy+Math.sin(ang)*R*.92;
+    const mx=(sx+tx)/2,my=(sy+ty)/2;const bend=(tx<ox?-1:1)*40;
+    const d=`M${sx},${sy} C${sx+Math.cos(ang)*90},${sy+Math.sin(ang)*90} ${mx+bend},${my-30} ${tx},${ty}`;
+    const g=document.createElementNS(NS,'g');
+    const p1=document.createElementNS(NS,'path');p1.setAttribute('d',d);p1.setAttribute('class','arm glow');p1.setAttribute('stroke',c);
+    const p2=document.createElementNS(NS,'path');p2.setAttribute('d',d);p2.setAttribute('class','arm core');p2.setAttribute('stroke',c);
+    const palm=document.createElementNS(NS,'circle');palm.setAttribute('cx',tx);palm.setAttribute('cy',ty);palm.setAttribute('r',6);palm.setAttribute('fill',c);palm.setAttribute('class','palm');palm.style.filter=`drop-shadow(0 0 8px ${c})`;
+    g.append(p1,p2,palm);svg.appendChild(g);arms.push({n,p:[p1,p2],palm,tx,ty});
+  });
+}
+let lookAt=null;
+nodes.forEach(n=>{
+  n.addEventListener('mouseenter',()=>{const a=arms.find(x=>x.n===n);if(a){a.p.forEach(p=>p.classList.add('on'));a.palm.setAttribute('r',10);lookAt=a}});
+  n.addEventListener('mouseleave',()=>{const a=arms.find(x=>x.n===n);if(a){a.p.forEach(p=>p.classList.remove('on'));a.palm.setAttribute('r',6)}lookAt=null});
+  n.addEventListener('click',()=>go(n.dataset.go));
+});
+addEventListener('resize',drawArms);addEventListener('load',drawArms);setTimeout(drawArms,300);
+if(document.fonts)document.fonts.ready.then(drawArms);
+
+document.addEventListener('pointermove',e=>{
+  const O=stage.getBoundingClientRect();let tx=e.clientX,ty=e.clientY;
+  if(lookAt){const H=hub.getBoundingClientRect();tx=H.left+lookAt.tx;ty=H.top+lookAt.ty}
+  const dx=tx-(O.left+O.width/2),dy=ty-(O.top+O.height/2),m=Math.hypot(dx,dy)||1,k=Math.min(1,m/400);
+  face.style.transform=`translate(${dx/m*26*k}px,${dy/m*26*k}px)`;
+});
+
+/* ============ TWIN CHAT ============ */
+const chat=$('#chat'),msgs=$('#msgs');
+const A={
+  start:`Hi 👋 I'm V-01, Venthan's digital twin. What would you like to know?`,
+  about:`Venthan is a Senior Software Engineer at Dell Technologies in Singapore. He spent 14+ years making sure software works, across healthcare, IoT, microfinance and edge computing.\n\nToday he tests and evaluates AI agents, builds apps with AI, and is Toastmasters Club President.`,
+  plain:`In simple words: AI tools can now take actions like refunding money or sending emails. Sometimes they say "done" when they didn't do it, or did the wrong thing.\n\nVenthan builds "exam rooms" that catch this before real users get hurt.`,
+  build:`His favourite build is the Pannaipuram app, an info hub for his village (bus times, power cuts, emergency numbers) with 100+ users.\n\nOthers: Kaizen Folio (a growth journal for kids), daybrief-agent (a from-scratch AI agent) and a website for his village school.`,
+  evaluate:`In his agent-evals-lab, a small AI ran 60 graded tests. Every reply sounded fine, but only 72% actually did the right thing.\n\nThe lesson: check what the AI did, not what it said.`,
+  read:`He's reading The Visual MBA right now. Favourites include Nexus (123 notes!), Deep Work, Atomic Habits, Psychology of Money and The Courage to Be Disliked.`,
+  speak:`He's Club President at Eminent Communicators Toastmasters and has won Best Speaker twice: "How Mental Models Rewired My Life" and "Deep Work".`,
+  watch:`His YouTube channel is coming soon, with talks, evals explained simply and build stories.`,
+  contact:()=>`The easiest way is LinkedIn${LINKS.linkedin?' ('+LINKS.linkedin.replace('https://','')+')':''}, or check his work at github.com/VenthanGowthamS. He's open to AI evaluation and AI engineering conversations.`,
+  life:`Off the keyboard: yoga 🧘, shuttle 🏸, Tamil cinema and K-pop. His heart is in Pannaipuram, his village in Tamil Nadu.`,
+  fallback:`I'm a simple twin and still learning, like the original 🙂 Try one of the buttons below.`
+};
+const CHIPS=[['Who is Venthan?','about'],['Explain his work simply','plain'],['What has he built?','build'],['Show me the AI test','evaluate'],['What does he read?','read'],['Speaking','speak'],['How to contact?','contact']];
+const SCROLL={build:'build',evaluate:'evaluate',read:'read',speak:'speak',watch:'watch',life:'life'};
+const INTENTS=[[/simpl|plain|non.?tech|explain|eli5|mean/,'plain'],[/eval|test|agent|ai\b|72/,'evaluate'],[/build|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],[/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect|email/,'contact'],[/yoga|shuttle|badminton|hobb|life|free time/,'life'],[/who|about|venthan|work|dell|you/,'about'],[/^(hi|hey|hello|vanakkam)/,'start']];
+$('#chips').innerHTML=CHIPS.map(([l,k])=>`<button data-k="${k}">${l}</button>`).join('');
+let busy=false;
+function add(cls,text){const d=document.createElement('div');d.className='m '+cls;d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
+function say(text,after){busy=true;orb.classList.add('talk');const d=add('bot','');let i=0;
+  (function s(){i=Math.min(text.length,i+3);d.textContent=text.slice(0,i);msgs.scrollTop=msgs.scrollHeight;
+    if(i<text.length)setTimeout(s,14);else{busy=false;orb.classList.remove('talk');after&&after()}})()}
+function ask(q,key){if(busy)return;add('me',q);
+  if(!key){const l=q.toLowerCase();for(const [re,k] of INTENTS)if(re.test(l)){key=k;break}}
+  const r=A[key||'fallback'];say(typeof r==='function'?r():r,()=>{if(SCROLL[key])setTimeout(()=>go(SCROLL[key]),400)})}
+let opened=false;
+function openChat(){chat.classList.add('open');if(!opened){opened=true;say(A.start)}setTimeout(()=>$('#cmd').focus({preventScroll:true}),50)}
+$('#fab').onclick=()=>chat.classList.contains('open')?chat.classList.remove('open'):openChat();
+$('#closeBtn').onclick=()=>chat.classList.remove('open');
+orb.onclick=openChat;orb.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openChat()}};
+$('#talkBtn').onclick=openChat;
+$('#modeBtn').onclick=()=>{const t=chat.classList.toggle('term');$('#modeBtn').textContent=t?'💬 chat':'⌨ terminal'};
+$('#chips').onclick=e=>{const b=e.target.closest('button');if(b)ask(b.textContent,b.dataset.k)};
+$('#form').onsubmit=e=>{e.preventDefault();const v=$('#cmd').value.trim();if(v){$('#cmd').value='';ask(v)}};
+
+/* ============ BACKGROUND ============ */
+const cv=$('#bgfx'),cx=cv.getContext('2d');let W,H,P=[];const dpr=Math.min(2,devicePixelRatio||1);
+function rs(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';
+  P=Array.from({length:Math.min(110,Math.floor(innerWidth/11))},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.5+.4,h:Math.random()<.5?190:265}))}
+rs();addEventListener('resize',rs);
+(function draw(){cx.clearRect(0,0,W,H);const L=110*dpr;
+  for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r*dpr,0,7);cx.fillStyle=`hsla(${p.h},100%,72%,.6)`;cx.fill()}
+  for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<L){cx.strokeStyle=`rgba(120,160,255,${(1-d/L)*.15})`;cx.lineWidth=dpr*.6;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()}}
+  requestAnimationFrame(draw)})();
+</script>
+<nav class="modesw" aria-label="Site mode">
+<style>.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
+.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
+.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
+@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
+<a href="../" >2050</a><a href="../orb/" aria-current="page">Orb</a><a href="../terminal/" >Terminal</a>
+</nav>
+</body>
+</html>
