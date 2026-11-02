@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Venthan · 2050</title>
 <meta name="description" content="Venthan — I make sure AI does what it says, and I build apps people use.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Venthan">
+<meta property="og:title" content="Venthan · Test · Build · Evaluate">
+<meta property="og:description" content="I make sure AI does what it says, and I build apps people actually use. A personal interface that evolves from Neanderthal to 2050.">
+<meta property="og:url" content="https://venthangowthams.github.io/">
+<meta property="og:image" content="https://venthangowthams.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#02030a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -162,7 +173,7 @@ section.blk{max-width:1140px;margin:0 auto;padding:130px 7vw 40px}
 .end{text-align:center;padding:140px 6vw 120px}
 .end h2{font-weight:200;font-size:clamp(30px,4.4vw,56px);letter-spacing:-1.4px}
 .end p{color:var(--d);margin:14px auto 30px;max-width:520px}
-footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--f);text-transform:uppercase}
+footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--d);text-transform:uppercase}
 
 /* command bar */
 .bar{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:30;width:min(640px,calc(100vw - 40px))}
@@ -195,15 +206,19 @@ footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10p
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.tap{opacity:1;filter:none;transform:none}}
 </style>
+<style id="modesw-css">.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
+.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
+.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
+@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
 </head>
 <body>
 <div class="vignette"></div><div class="grain"></div>
-<div class="hud"><i></i><i></i><i></i><i></i>
+<header class="hud"><i></i><i></i><i></i><i></i>
   <div class="tl">Venthan // personal interface</div>
   <div class="tr">SGT <span id="clock">--:--</span> · 1.35°N 103.8°E</div>
   <div class="bl" id="hudStage">signal: human</div>
-</div>
-<nav class="rail" id="rail">
+</header>
+<nav class="rail" id="rail" aria-label="Sections">
   <a href="#home" data-s="home">Origin</a><a href="#build" data-s="build">Tools</a><a href="#evaluate" data-s="evaluate">Judgement</a>
   <a href="#read" data-s="read">Knowledge</a><a href="#speak" data-s="speak">Stories</a><a href="#watch" data-s="watch">Images</a><a href="#end" data-s="end">Contact</a>
 </nav>
@@ -211,11 +226,11 @@ footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10p
 <main>
 <section class="hero" id="home">
   <div class="side l">
-    <button class="tap" data-go="build"><span class="mono">01 · Tools</span><b>Build</b><small>apps from my GitHub</small></button>
-    <button class="tap" data-go="evaluate"><span class="mono">02 · Judgement</span><b>Evaluate</b><small>does the AI really do it?</small></button>
+    <button type="button" class="tap" data-go="build"><span class="mono">01 · Tools</span><b>Build</b><small>apps from my GitHub</small></button>
+    <button type="button" class="tap" data-go="evaluate"><span class="mono">02 · Judgement</span><b>Evaluate</b><small>does the AI really do it?</small></button>
   </div>
   <div class="center">
-    <canvas id="head" aria-label="A human head made of light that can evolve from Neanderthal to digital"></canvas>
+    <canvas id="head" role="img" aria-label="A human head made of light that can evolve from Neanderthal to digital"></canvas>
     <div class="stage-label" id="stageLabel">&nbsp;</div>
     <div class="evo">
       <input type="range" id="evo" min="0" max="2" step="0.001" value="0" aria-label="Evolve the avatar">
@@ -227,9 +242,9 @@ footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10p
     </div>
   </div>
   <div class="side r">
-    <button class="tap" data-go="read"><span class="mono">03 · Knowledge</span><b>Read</b><small>the books that shaped me</small></button>
-    <button class="tap" data-go="speak"><span class="mono">04 · Stories</span><b>Speak</b><small>on stage at Toastmasters</small></button>
-    <button class="tap" data-go="watch"><span class="mono">05 · Images</span><b>Watch</b><small>videos, coming soon</small></button>
+    <button type="button" class="tap" data-go="read"><span class="mono">03 · Knowledge</span><b>Read</b><small>the books that shaped me</small></button>
+    <button type="button" class="tap" data-go="speak"><span class="mono">04 · Stories</span><b>Speak</b><small>on stage at Toastmasters</small></button>
+    <button type="button" class="tap" data-go="watch"><span class="mono">05 · Images</span><b>Watch</b><small>videos, coming soon</small></button>
   </div>
 </section>
 
@@ -323,11 +338,11 @@ footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10p
 <footer>Senior Software Engineer · Dell Technologies Singapore · AWS · Azure · OCI<br><br>consistency compounds</footer>
 </main>
 
-<div class="bar" id="bar">
-  <div class="panel reply" id="reply"><span class="mono who">Venthan · digital self <span id="aiMode" style="opacity:.6">· scripted</span></span><span id="replyText"></span></div>
+<section class="bar" id="bar" aria-label="Ask me">
+  <div class="panel reply" id="reply"><span class="mono who">Venthan · digital self</span><span id="replyText"></span></div>
   <div class="chips" id="chips"></div>
-  <form id="form" autocomplete="off"><span class="pulse"></span><input id="q" placeholder="Ask me anything… (e.g. explain your work simply)" aria-label="Ask Venthan's digital self"><button type="button" class="x" id="hideReply">clear</button></form>
-</div>
+  <form id="form" autocomplete="off"><span class="pulse"></span><input id="q" type="text" placeholder="Ask me anything… (e.g. explain your work simply)" aria-label="Ask Venthan's digital self"><button type="submit" class="x">ask ↵</button><button type="button" class="x" id="hideReply">clear</button></form>
+</section>
 
 <script>
 /* ===== CONFIG ===== */
@@ -408,7 +423,7 @@ $('#vids').innerHTML=VIDEOS.map(v=>{
   const inner=`<div class="screen">${v.id?'':'<span class="mono soon">coming soon</span>'}<div class="play"></div></div><div class="meta"><h3>${esc(v.t)}</h3><p>${esc(v.d)}</p></div>`;
   return v.id?`<a class="vid reveal" style="border-bottom:1px solid var(--h)" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener">${inner}</a>`:`<div class="vid reveal">${inner}</div>`}).join('');
 
-$('#btns').innerHTML=(LINKS.linkedin?`<a class="cta" href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>`:'')+`<a class="cta" href="${LINKS.github}" target="_blank" rel="noopener">GitHub ↗</a>`+(LINKS.youtube?`<a class="cta" href="${LINKS.youtube}" target="_blank" rel="noopener">YouTube ↗</a>`:'')+`<button class="cta" id="askBtn">Ask my digital self</button>`;
+$('#btns').innerHTML=(LINKS.linkedin?`<a class="cta" href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>`:'')+`<a class="cta" href="${LINKS.github}" target="_blank" rel="noopener">GitHub ↗</a>`+(LINKS.youtube?`<a class="cta" href="${LINKS.youtube}" target="_blank" rel="noopener">YouTube ↗</a>`:'')+`<button type="button" class="cta" id="askBtn">Ask my digital self</button>`;
 $('#askBtn').onclick=()=>$('#q').focus();
 
 /* reveal + gauges + rail */
@@ -473,8 +488,11 @@ function label(v){let l=labels[0][1];for(const [k,s] of labels)if(v>=k-0.02)l=s;
 let lastLabel='';
 const LX=.42,LY=.42,LZ=.80; // light: upper-left-front
 const obj=new Array(base.length);
+let headVisible=true;new IntersectionObserver(es=>{headVisible=es[0].isIntersecting}).observe(cv);
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function frame(now){
-  const t=(now-t0)/1000;
+  if(!headVisible){requestAnimationFrame(frame);return}
+  const t=(RM?0:(now-t0)/1000)+(RM?6:0);
   if(auto){evo=sm(.8,5,t)*1.3;ev.value=evo}
   const m=Math.min(1,evo),dg=Math.max(0,evo-1);
   const L=label(evo);if(L!==lastLabel){lastLabel=L;$('#stageLabel').textContent=L;$('#hudStage').textContent='signal: '+(evo<1?'ancestral':evo<1.9?'human':'human + digital')}
@@ -536,27 +554,9 @@ const A={
 const CH=[['Who are you?','about'],['Explain simply','plain'],['What have you built?','build'],['The AI test','evaluate'],['Books','read'],['Why the evolving face?','evolve'],['Contact','contact']];
 const IN=[[/simpl|plain|non.?tech|explain|mean/,'plain'],[/evolv|neander|sapien|face|avatar|head/,'evolve'],[/eval|test|agent|\bai\b|72/,'evaluate'],[/build|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],[/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life/,'life'],[/who|about|venthan|work|dell|you/,'about']];
 const GO={build:'build',evaluate:'evaluate',read:'read',speak:'speak',watch:'watch'};
-$('#chips').innerHTML=CH.map(([l,k])=>`<button data-k="${k}">${l}</button>`).join('');
-const bar=$('#bar');let typing=null,AI=null,aiBusy=null;
-(async()=>{try{if(window.claude&&claude.use){AI=await claude.use('sample');if(AI)$('#aiMode').textContent='· live AI'}}catch(e){AI=null}})();
-const PROFILE=`You are the "digital self" of Venthan on his personal website. Speak in first person as Venthan, warm and plain, 2-4 short sentences, simple words a non-technical visitor understands. Use ONLY these facts; if asked something not covered, say you'd rather he answer that himself and suggest connecting on LinkedIn. Never invent facts, numbers, employers or opinions. Do not discuss family, finances or anything private.
-FACTS:
-- Senior Software Engineer at Dell Technologies, Singapore. 14+ years in software, mostly quality engineering, across healthcare, IoT/manufacturing & logistics, microfinance and edge computing. AWS, Azure and Oracle Cloud certified.
-- Now: validating AI agent workflows; building with Claude Code, MCP and spec-driven development. Open to AI evaluation and AI engineering conversations.
-- agent-evals-lab: a small AI support agent (qwen2.5:3b via Ollama, on a laptop) tested in 12 scenarios x 5 runs = 60 graded runs. Every reply sounded fine, but only 72% of runs did the right thing; 83% of tasks right at least once, 58% right every time. Lesson: check what the AI did, not what it said.
-- Builds: Pannaipuram app (village info hub: bus times, power cuts, water alerts, hospital timings, emergency numbers; Flutter Android + PWA, Node.js, PostgreSQL; 100+ users; bus data came from a shop vendor's memory because no transit API exists). Kaizen Folio (private portfolio and growth journal for children). daybrief-agent (from-scratch agent writing a daily brief; Gemini or Claude). Hindu Middle School Pannaipuram website (school est. 1942). Go learning journey. Earlier: Appium/Cucumber mobile and Selenium/Cucumber web test automation.
-- Reading: currently The Visual MBA. Also Nexus (annotated 123 connections), Deep Work, Atomic Habits, Psychology of Money, The Courage to Be Disliked, Eat That Frog!, Zen: The Art of Simple Living, The Alchemist. Likes Munger mental models.
-- Speaking: Club President, Eminent Communicators Toastmasters. Best Speaker for "How Mental Models Rewired My Life" and for "Deep Work" (Citi Toastmasters). Inaugural address "Beyond Boundaries"; welcome "Home, Heart, Horizon"; hosted ELEVATE workshop at Dell Singapore; judge at an international speech contest at SINDA.
-- Life: yoga, shuttle (badminton), Tamil cinema, K-pop; roots in Pannaipuram, Tamil Nadu. Motto: consistency compounds; still learning, still growing.
-- YouTube channel coming soon. Contact: LinkedIn, or github.com/VenthanGowthamS.
-- The avatar evolves Neanderthal -> Homo sapiens -> 2050 digital self: humans won by tools, judgement, knowledge, stories and images, mapped to Build, Evaluate, Read, Speak, Watch.`;
-async function askAI(q,key){const box=$('#replyText');$('#reply').classList.add('show');bar.classList.add('active');
-  if(aiBusy)aiBusy.abort();aiBusy=new AbortController();talk=1;box.textContent='…';
-  try{const r=await AI(PROFILE+'\n\nVisitor asks: '+q,{cache:false,modelTier:'quick',signal:aiBusy.signal,onText:({text})=>{box.textContent=text}});
-    box.textContent=r.text;talk=0;if(GO[key])setTimeout(()=>go(GO[key]),1400)}
-  catch(e){talk=0;if(e&&e.name==='AbortError')return;if(e&&e.code==='not_granted'){AI=null;$('#aiMode').textContent='· scripted'}scripted(q,key)}}
-function ask(q,key,typed){let k=key;if(!k){const l=q.toLowerCase();for(const [re,kk] of IN)if(re.test(l)){k=kk;break}}
-  if(AI&&typed)return askAI(q,k);scripted(q,k)}
+$('#chips').innerHTML=CH.map(([l,k])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
+const bar=$('#bar');let typing=null;
+function ask(q,key){scripted(q,key)}
 function scripted(q,key){if(!key){const l=q.toLowerCase();for(const [re,k] of IN)if(re.test(l)){key=k;break}}key=key||'fallback';
   const txt=typeof A[key]==='function'?A[key]():A[key];const box=$('#replyText');$('#reply').classList.add('show');bar.classList.add('active');
   clearTimeout(typing);let i=0;talk=1;box.textContent='';
@@ -564,14 +564,10 @@ function scripted(q,key){if(!key){const l=q.toLowerCase();for(const [re,k] of IN
   if(key==='evolve'){go('home');auto=false;let v=0;const st=performance.now();(function an(n){v=Math.min(2,(n-st)/2500*2);evo=v;ev.value=v;if(v<2)requestAnimationFrame(an)})(st)}}
 $('#chips').onclick=e=>{const b=e.target.closest('button');if(b)ask(b.textContent,b.dataset.k)};
 $('#q').addEventListener('focus',()=>bar.classList.add('active'));document.addEventListener('pointerdown',e=>{if(!bar.contains(e.target)&&!$('#reply').classList.contains('show'))bar.classList.remove('active')});
-$('#form').onsubmit=e=>{e.preventDefault();const v=$('#q').value.trim();if(v){$('#q').value='';ask(v,null,true)}};
+$('#form').onsubmit=e=>{e.preventDefault();const v=$('#q').value.trim();if(v){$('#q').value='';ask(v)}};
 $('#hideReply').onclick=()=>{$('#reply').classList.remove('show');bar.classList.remove('active');talk=0};
 </script>
 <nav class="modesw" aria-label="Site mode">
-<style>.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
-.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
-.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
-@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
 <a href="./3100/">3100</a><a href="./" aria-current="page">2050</a><a href="./orb/">Orb</a><a href="./terminal/">Terminal</a>
 </nav>
 </body>

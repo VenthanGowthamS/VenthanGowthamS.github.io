@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Venthan · 3100</title>
 <meta name="description" content="Venthan: I make sure AI does what it says, and I build apps people use. Explore my work as a solar system.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Venthan">
+<meta property="og:title" content="Venthan · My work, in orbit">
+<meta property="og:description" content="A solar-system interface for the year 3100: my AI evaluation work, apps I've built, my reading shelf and talks, in orbit.">
+<meta property="og:url" content="https://venthangowthams.github.io/3100/">
+<meta property="og:image" content="https://venthangowthams.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#02030a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -118,31 +129,35 @@ body.simple-on #space,body.simple-on .lbl,body.simple-on .intro,body.simple-on .
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<style id="modesw-css">.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
+.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
+.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
+@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
 </head>
 <body>
 <canvas id="space" aria-hidden="true"></canvas>
 
-<div class="intro" id="intro">
+<header class="intro" id="intro">
   <span class="k">Venthan · year 3100</span>
   <h1>My work, in orbit.</h1>
   <p>I make sure AI <b>does</b> what it says, and I build apps people actually use.</p>
   <p class="hint">Tap a <span>planet</span> to explore. Tap the <span>sun</span> to talk to me.</p>
-</div>
+</header>
 
-<div class="top-r"><button class="pill" id="simpleBtn" aria-pressed="false">☰ Simple view</button></div>
+<aside class="top-r" aria-label="View options"><button type="button" class="pill" id="simpleBtn" aria-pressed="false">☰ Simple view</button></aside>
 
-<div id="labels"></div>
-<div class="sun-tip" id="sunTip">talk to me</div>
+<nav id="labels" aria-label="Planets"></nav>
+<div class="sun-tip" id="sunTip" aria-hidden="true">talk to me</div>
 
 <aside class="panel" id="panel" aria-live="polite" aria-label="Details"></aside>
 
 <div class="simple" id="simple"><div class="wrap" id="simpleWrap"></div></div>
 
-<div class="bar" id="bar">
+<section class="bar" id="bar" aria-label="Ask me">
   <div class="reply" id="reply"><span class="k" style="display:block;margin-bottom:6px">Venthan · core</span><span id="replyText"></span></div>
   <div class="chips" id="chips"></div>
-  <form id="ask" autocomplete="off"><span class="pulse"></span><input id="q" placeholder="Ask me anything… (e.g. explain your work simply)" aria-label="Ask Venthan's digital self"><button class="send" type="submit">ASK ↵</button></form>
-</div>
+  <form id="ask" autocomplete="off"><span class="pulse"></span><input id="q" type="text" placeholder="Ask me anything… (e.g. explain your work simply)" aria-label="Ask Venthan's digital self"><button class="send" type="submit">ASK ↵</button></form>
+</section>
 
 <script>
 /* ============ CONFIG ============ */
@@ -174,7 +189,7 @@ const SECTIONS=[
   ]},
  {id:'read',name:'Read',num:'03',c:'#ffc86a',R:5.3,speed:.08,incl:.06,phase:4.1,size:.28,
   title:'My reading shelf',line:'Reading is a lifelong habit, and there\'s always a book on the go. I annotate as I read, as a way of giving credit to the author.',
-  extra:()=>`<div class="shelf" id="shelf">${BOOKS.map((b,i)=>`<button class="spine" data-i="${i}" style="height:${b.h}px;background:linear-gradient(90deg,${b.c},${b.c}bb)" aria-label="${b.t}">${b.tag?`<span class="tag">${b.tag}</span>`:''}<span>${b.t}</span></button>`).join('')}</div>`,
+  extra:()=>`<div class="shelf" id="shelf">${BOOKS.map((b,i)=>`<button type="button" class="spine" data-i="${i}" style="height:${b.h}px;background:linear-gradient(90deg,${b.c},${b.c}bb)" aria-label="${b.t}">${b.tag?`<span class="tag">${b.tag}</span>`:''}<span>${b.t}</span></button>`).join('')}</div>`,
   itemsFrom:()=>BOOKS.map(b=>({t:b.t,s:b.a+(b.tag?' · '+b.tag.toLowerCase():''),d:b.n,m:''}))},
  {id:'speak',name:'Speak',num:'04',c:'#ff7ad4',R:6.35,speed:.06,incl:-.05,phase:5.6,size:.32,ring:true,
   title:'On stage',line:'Club President of Eminent Communicators Toastmasters. Speaking is how I turn what I read and build into something that helps others.',
@@ -226,15 +241,16 @@ const MOBILE=()=>innerWidth<760;
 
 /* ============ PANEL (levels 2 + 3) ============ */
 const panel=$('#panel');
-function itemsHTML(s){return `<ul class="items">${s.items.map((it,i)=>`<li data-i="${i}"><button class="head" aria-expanded="false"><b>${esc(it.t)}</b><span>${esc(it.s)}</span><i>›</i></button>
+function itemsHTML(s){return `<ul class="items">${s.items.map((it,i)=>`<li data-i="${i}"><button type="button" class="head" aria-expanded="false"><b>${esc(it.t)}</b><span>${esc(it.s)}</span><i>›</i></button>
   <div class="more"><p>${esc(it.d)}</p>${it.m?`<div class="meta">${esc(it.m)}</div>`:''}${it.l?`<div class="links">${it.l.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join('')}</div>`:''}</div></li>`).join('')}</ul>`}
 let focus=null,hoverItem=-1;
 function openSection(id,fromHash){
   const s=BYID[id];if(!s)return;
   focus=s;panel.style.setProperty('--c',s.c);
-  panel.innerHTML=`<button class="close" id="closeP">esc · close</button><span class="k"><span class="dot"></span>${s.num} · ${esc(s.name)}</span>
+  panel.innerHTML=`<button type="button" class="close" id="closeP">esc · close</button><span class="k"><span class="dot"></span>${s.num} · ${esc(s.name)}</span>
    <h2>${esc(s.title)}</h2><p class="line">${esc(s.line)}</p>${s.extra?s.extra():''}${itemsHTML(s)}`;
   panel.classList.add('open');panel.scrollTop=0;document.body.classList.add('panel-on');
+  const h2=panel.querySelector('h2');h2.tabIndex=-1;setTimeout(()=>h2.focus({preventScroll:true}),60);
   $('#closeP').onclick=closeSection;
   panel.querySelectorAll('.items li').forEach(li=>{
     const b=li.querySelector('.head');
@@ -248,7 +264,7 @@ function openSection(id,fromHash){
   if(!fromHash)try{history.replaceState(null,'','#'+id)}catch(e){}
   $('#intro').style.opacity=MOBILE()?0:.25;
 }
-function closeSection(){focus=null;panel.classList.remove('open');document.body.classList.remove('panel-on');$('#intro').style.opacity=1;try{history.replaceState(null,'',location.pathname)}catch(e){}}
+function closeSection(){const was=focus;if(was&&was.el&&panel.contains(document.activeElement))was.el.focus({preventScroll:true});focus=null;panel.classList.remove('open');document.body.classList.remove('panel-on');$('#intro').style.opacity=1;try{history.replaceState(null,'',location.pathname)}catch(e){}}
 addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.body.classList.contains('simple-on'))toggleSimple();else closeSection()}});
 
 /* ============ SIMPLE VIEW ============ */
@@ -316,8 +332,10 @@ let mx=0,my=0,hoverPlanet=null,hoverSun=false,talking=0,face=0,sunYaw=0,camX=0,c
 addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
 SECTIONS.forEach(s=>s.a=s.phase);
 
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function frame(now){
-  const dt=Math.min(.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
+  if(document.body.classList.contains('simple-on')){last=now;requestAnimationFrame(frame);return}
+  const dt=RM?0:Math.min(.05,(now-last)/1000);last=now;const t=RM?0:(now-t0)/1000;
   const mob=MOBILE(),open=!!focus;
   // camera: centre shifts left when the panel is open (desktop) or up (mobile)
   const tx=open&&!mob?-.2:0,ty=open&&mob?-.22:0;camX+=(tx-camX)*.06;camY+=(ty-camY)*.06;
@@ -430,7 +448,7 @@ const A={
 const OPEN={build:'build',evaluate:'evaluate',read:'read',speak:'speak',watch:'watch',life:'life'};
 const IN=[[/simpl|plain|non.?tech|explain|mean/,'plain'],[/3100|future|solar|planet|sun|orbit|idea|why/,'idea'],[/eval|test|agent|\bai\b|72/,'evaluate'],[/build|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],[/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life/,'life'],[/who|about|venthan|work|dell|you/,'about']];
 const CH=[['Who are you?','about'],['Explain simply','plain'],['What have you built?','build'],['The AI test','evaluate'],['Why a solar system?','idea'],['Contact','contact']];
-const bar=$('#bar');$('#chips').innerHTML=CH.map(([l,k])=>`<button data-k="${k}">${l}</button>`).join('');
+const bar=$('#bar');$('#chips').innerHTML=CH.map(([l,k])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
 let typer=null;
 function ask(q,key){if(!key){const l=q.toLowerCase();for(const [re,k] of IN)if(re.test(l)){key=k;break}}key=key||'fallback';
   const txt=typeof A[key]==='function'?A[key]():A[key];$('#reply').classList.add('show');bar.classList.add('active');
@@ -446,10 +464,6 @@ $('#reply').addEventListener('click',()=>{$('#reply').classList.remove('show');b
 const h=location.hash.slice(1);if(BYID[h])setTimeout(()=>openSection(h,true),400);
 </script>
 <nav class="modesw" aria-label="Site mode">
-<style>.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
-.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
-.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
-@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
 <a href="../3100/" aria-current="page">3100</a><a href="../">2050</a><a href="../orb/">Orb</a><a href="../terminal/">Terminal</a>
 </nav>
 </body>

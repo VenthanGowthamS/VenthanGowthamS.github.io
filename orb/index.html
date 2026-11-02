@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Venthan · Test · Build · Evaluate</title>
 <meta name="description" content="Venthan — I make sure AI does what it says, and I build apps people use. Senior Software Engineer, Dell Technologies Singapore.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Venthan">
+<meta property="og:title" content="Venthan · Test · Build · Evaluate">
+<meta property="og:description" content="I make sure AI does what it says, and I build apps people actually use.">
+<meta property="og:url" content="https://venthangowthams.github.io/orb/">
+<meta property="og:image" content="https://venthangowthams.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#02030a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -69,8 +80,8 @@ main{position:relative;z-index:2}
   cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s;z-index:3;text-align:left;color:inherit;font:inherit}
 .node:hover,.node:focus-visible{transform:translateY(-4px) scale(1.02);border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 18px 50px rgba(0,0,0,.5),0 0 40px color-mix(in srgb,var(--c) 30%,transparent);outline:none}
 .node .k{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--c)}
-.node h3{font-size:20px;font-weight:600;margin:4px 0 4px;display:flex;align-items:center;gap:8px}
-.node p{font-size:13.5px;color:var(--dim);line-height:1.45}
+.node .nt{display:flex;font-size:20px;font-weight:600;margin:4px 0 4px;display:flex;align-items:center;gap:8px}
+.node .nd{display:block;font-size:13.5px;color:var(--dim);line-height:1.45}
 .node .go{font-family:var(--mono);font-size:11.5px;color:var(--c);margin-top:8px;display:block}
 .n-build{left:2%;top:6%;--c:var(--cyan)}
 .n-eval{left:0;top:58%;--c:var(--lime)}
@@ -103,7 +114,7 @@ section.blk{max-width:1180px;margin:0 auto;padding:110px 6vw 30px}
 .card.feature{grid-column:1/-1;display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center}
 .origins{margin-top:20px;padding:16px 20px;border:1px dashed var(--line);border-radius:12px;color:var(--dim);font-size:14px}
 .origins b{color:var(--text)}
-.src{font-family:var(--mono);font-size:11px;color:#59608a;margin-top:14px}
+.src{font-family:var(--mono);font-size:11px;color:#8a90b8;margin-top:14px}
 
 /* evals */
 .eval-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:start}
@@ -169,7 +180,7 @@ section.blk{max-width:1180px;margin:0 auto;padding:110px 6vw 30px}
 .contact h2 span{background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
 .contact p{color:var(--dim);margin:12px auto 28px;max-width:540px}
 .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:#545a80;padding:0 0 100px}
+footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:#8a90b8;padding:0 0 100px}
 
 /* ===== twin chat (friendly, with optional terminal look) ===== */
 .fab{position:fixed;right:22px;bottom:22px;z-index:40;display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:40px;border:1px solid rgba(79,240,255,.4);background:rgba(10,13,26,.9);color:var(--text);font:500 14px var(--sans);cursor:pointer;box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 30px rgba(79,240,255,.2)}
@@ -216,15 +227,19 @@ footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:#545a80;
 @media (max-width:520px){.hub{grid-template-columns:1fr}.node h3{font-size:18px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<style id="modesw-css">.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
+.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
+.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
+@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
 </head>
 <body>
-<canvas id="bgfx"></canvas>
+<canvas id="bgfx" aria-hidden="true"></canvas>
 
-<div class="topbar">
+<header class="topbar">
   <div class="brand">venthan<b>.agent</b></div>
   <div class="topnav"><a href="#build">Build</a><a href="#evaluate">Evaluate</a><a href="#read">Read</a><a href="#speak">Speak</a><a href="#watch">Watch</a></div>
   <div><span class="dot"></span>SGT <span id="clock">--:--</span></div>
-</div>
+</header>
 
 <main>
 <section class="hero" id="home">
@@ -245,11 +260,11 @@ footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:#545a80;
       <div class="orb-tip">tap me to talk to my <b>digital twin</b></div>
     </div>
 
-    <button class="node n-build" data-go="build"><span class="k">01 · BUILD</span><h3>🛠 Things I've built</h3><p>Live apps and side projects, straight from my GitHub.</p><span class="go">see 6 projects →</span></button>
-    <button class="node n-eval" data-go="evaluate"><span class="k">02 · EVALUATE</span><h3>🧪 Testing AI agents</h3><p>An AI can say "done" without doing it. I measure what it really did.</p><span class="go">see the experiment →</span></button>
-    <button class="node n-read" data-go="read"><span class="k">03 · READ</span><h3>📚 My reading</h3><p>Books that shaped how I think, work and live.</p><span class="go">open the shelf →</span></button>
-    <button class="node n-speak" data-go="speak"><span class="k">04 · SPEAK</span><h3>🎤 On stage</h3><p>Toastmasters Club President and two-time Best Speaker.</p><span class="go">see speeches →</span></button>
-    <button class="node n-watch" data-go="watch"><span class="k">05 · WATCH</span><h3>▶ Videos</h3><p>Talks and build stories, coming to YouTube.</p><span class="go">watch →</span></button>
+    <button type="button" class="node n-build" data-go="build"><span class="k">01 · BUILD</span><span class="nt">🛠 Things I've built</span><span class="nd">Live apps and side projects, straight from my GitHub.</span><span class="go">see 6 projects →</span></button>
+    <button type="button" class="node n-eval" data-go="evaluate"><span class="k">02 · EVALUATE</span><span class="nt">🧪 Testing AI agents</span><span class="nd">An AI can say "done" without doing it. I measure what it really did.</span><span class="go">see the experiment →</span></button>
+    <button type="button" class="node n-read" data-go="read"><span class="k">03 · READ</span><span class="nt">📚 My reading</span><span class="nd">Books that shaped how I think, work and live.</span><span class="go">open the shelf →</span></button>
+    <button type="button" class="node n-speak" data-go="speak"><span class="k">04 · SPEAK</span><span class="nt">🎤 On stage</span><span class="nd">Toastmasters Club President and two-time Best Speaker.</span><span class="go">see speeches →</span></button>
+    <button type="button" class="node n-watch" data-go="watch"><span class="k">05 · WATCH</span><span class="nt">▶ Videos</span><span class="nd">Talks and build stories, coming to YouTube.</span><span class="go">watch →</span></button>
   </div>
   <p class="hint">each hand reaches into one part of my work · pick one</p>
 </section>
@@ -336,13 +351,15 @@ footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:#545a80;
 <footer>Senior Software Engineer · Dell Technologies Singapore · AWS · Azure · OCI certified<br>consistency compounds.</footer>
 </main>
 
-<button class="fab" id="fab"><span class="mini"></span>Ask my twin</button>
+<aside aria-label="Chat with my twin">
+<button type="button" class="fab" id="fab"><span class="mini"></span>Ask my twin</button>
 <div class="chat" id="chat" role="dialog" aria-label="Chat with Venthan's digital twin">
-  <div class="chat-h"><span class="mini"></span><div><b>V-01 · Venthan's twin</b><small>ask about work, books, talks</small></div><span class="sp"></span><button id="modeBtn" title="Switch style">⌨ terminal</button><button id="closeBtn" aria-label="Close">✕</button></div>
+  <div class="chat-h"><span class="mini"></span><div><b>V-01 · Venthan's twin</b><small>ask about work, books, talks</small></div><span class="sp"></span><button type="button" id="modeBtn" title="Switch style">⌨ terminal</button><button type="button" id="closeBtn" aria-label="Close">✕</button></div>
   <div class="msgs" id="msgs"></div>
   <div class="chips" id="chips"></div>
-  <form id="form" autocomplete="off"><input id="cmd" placeholder="Type a question…" aria-label="Your question"><button>Send</button></form>
+  <form id="form" autocomplete="off"><input id="cmd" type="text" placeholder="Type a question…" aria-label="Your question"><button type="submit">Send</button></form>
 </div>
+</aside>
 
 <script>
 /* ============ CONFIG ============ */
@@ -408,7 +425,7 @@ $('#vids').innerHTML=VIDEOS.map(v=>{
 $('#btns').innerHTML=(LINKS.linkedin?`<a class="btn" href="${LINKS.linkedin}" target="_blank" rel="noopener">Connect on LinkedIn ↗</a>`:'')+
   `<a class="btn alt" href="${LINKS.github}" target="_blank" rel="noopener">GitHub ↗</a>`+
   (LINKS.youtube?`<a class="btn alt" href="${LINKS.youtube}" target="_blank" rel="noopener">YouTube ↗</a>`:'')+
-  `<button class="btn" id="talkBtn">Ask my twin</button>`;
+  `<button type="button" class="btn" id="talkBtn">Ask my twin</button>`;
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
@@ -481,13 +498,14 @@ const A={
 const CHIPS=[['Who is Venthan?','about'],['Explain his work simply','plain'],['What has he built?','build'],['Show me the AI test','evaluate'],['What does he read?','read'],['Speaking','speak'],['How to contact?','contact']];
 const SCROLL={build:'build',evaluate:'evaluate',read:'read',speak:'speak',watch:'watch',life:'life'};
 const INTENTS=[[/simpl|plain|non.?tech|explain|eli5|mean/,'plain'],[/eval|test|agent|ai\b|72/,'evaluate'],[/build|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],[/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect|email/,'contact'],[/yoga|shuttle|badminton|hobb|life|free time/,'life'],[/who|about|venthan|work|dell|you/,'about'],[/^(hi|hey|hello|vanakkam)/,'start']];
-$('#chips').innerHTML=CHIPS.map(([l,k])=>`<button data-k="${k}">${l}</button>`).join('');
-let busy=false;
+$('#chips').innerHTML=CHIPS.map(([l,k])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
+let busy=false,finishNow=null;
 function add(cls,text){const d=document.createElement('div');d.className='m '+cls;d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
-function say(text,after){busy=true;orb.classList.add('talk');const d=add('bot','');let i=0;
-  (function s(){i=Math.min(text.length,i+3);d.textContent=text.slice(0,i);msgs.scrollTop=msgs.scrollHeight;
-    if(i<text.length)setTimeout(s,14);else{busy=false;orb.classList.remove('talk');after&&after()}})()}
-function ask(q,key){if(busy)return;add('me',q);
+function say(text,after){busy=true;orb.classList.add('talk');const d=add('bot','');let i=0,stopped=false;
+  finishNow=()=>{stopped=true;d.textContent=text;busy=false;finishNow=null;orb.classList.remove('talk')};
+  (function s(){if(stopped)return;i=Math.min(text.length,i+3);d.textContent=text.slice(0,i);msgs.scrollTop=msgs.scrollHeight;
+    if(i<text.length)setTimeout(s,14);else{busy=false;finishNow=null;orb.classList.remove('talk');after&&after()}})()}
+function ask(q,key){if(busy&&finishNow)finishNow();add('me',q);
   if(!key){const l=q.toLowerCase();for(const [re,k] of INTENTS)if(re.test(l)){key=k;break}}
   const r=A[key||'fallback'];say(typeof r==='function'?r():r,()=>{if(SCROLL[key])setTimeout(()=>go(SCROLL[key]),400)})}
 let opened=false;
@@ -505,16 +523,13 @@ const cv=$('#bgfx'),cx=cv.getContext('2d');let W,H,P=[];const dpr=Math.min(2,dev
 function rs(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';
   P=Array.from({length:Math.min(110,Math.floor(innerWidth/11))},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.5+.4,h:Math.random()<.5?190:265}))}
 rs();addEventListener('resize',rs);
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)P.forEach(p=>{p.vx=p.vy=0});
 (function draw(){cx.clearRect(0,0,W,H);const L=110*dpr;
   for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r*dpr,0,7);cx.fillStyle=`hsla(${p.h},100%,72%,.6)`;cx.fill()}
   for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<L){cx.strokeStyle=`rgba(120,160,255,${(1-d/L)*.15})`;cx.lineWidth=dpr*.6;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()}}
   requestAnimationFrame(draw)})();
 </script>
 <nav class="modesw" aria-label="Site mode">
-<style>.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
-.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
-.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
-@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
 <a href="../3100/">3100</a><a href="../">2050</a><a href="../orb/" aria-current="page">Orb</a><a href="../terminal/">Terminal</a>
 </nav>
 </body>
