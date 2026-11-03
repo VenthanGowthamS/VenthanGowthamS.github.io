@@ -1,30 +1,43 @@
 # venthangowthams.github.io
 
-My personal site: a digital self that evolves from Neanderthal to a 2050 interface. It covers what I build, how I evaluate AI agents, what I read, and where I speak.
+My personal site, imagined for the year 2126.
 
 **Live:** https://venthangowthams.github.io
 
-## Four modes
+## What it is
 
-| Mode | Path | Style |
-|---|---|---|
-| **3100** | `/3100/` | A solar system: I'm the sun, a revolving sphere of light that turns into a human face when it talks. My work orbits as planets: Build, Evaluate, Read, Speak, Watch and Life. Tap a planet for a summary, tap again for details, or switch to Simple view for a plain readable page |
-| **2050** (default) | `/` | Colourless holographic interface with a light-particle human head that evolves Neanderthal → Homo sapiens → digital self |
-| **Orb** | `/orb/` | Glowing orb avatar whose hands reach out to Build · Evaluate · Read · Speak · Watch |
-| **Terminal** | `/terminal/` | Agent-terminal style, ask the twin by typing commands |
+One page that works for everyone who visits:
 
-A switcher in the corner of every page moves between them.
+- **The core:** a sphere of light that is my agent. It ripples when it speaks, and two halo rings orbit it.
+- **The solar system:** my work orbits the core as seven planets: Build, Evaluate, Method, Read, Speak, Watch and Life.
+- **Three lenses:** visitors choose **Everyone**, **Leader** or **Engineer** at the top, and every summary, one-liner and "at a glance" number changes to fit. Each item opens into three layers: *in plain words*, *why it matters* and *under the hood*.
+- **Read it as a page:** scrolling down shows everything as a plain, readable page, so nobody has to explore to find the facts.
+- **The console:** a terminal at the bottom that anyone can use. Type in plain words or tap a suggestion. Commands include `help`, `lens leader`, `orbic` and `clear`.
+
+## Invented languages
+
+- **Orbic:** a small word-language for 2126. Planet names carry an Orbic word (*sora* = build, *kesh* = test, *lio* = read, *tama* = speak), always with English beside it.
+- **Ora:** "intent code", where you state what you mean, not how to do it. The site's "hi code" is written in Ora, and the console boots with it.
+
+## Past versions
+
+| Version | Path |
+|---|---|
+| 2050: holographic head that evolves | `/2050/` |
+| 3100: first solar system | `/3100/` |
+| Orb: glowing orb with reaching hands | `/orb/` |
+| Terminal: agent terminal | `/terminal/` |
 
 ## How it's built
 
-- Plain HTML, CSS and JavaScript: no framework, no build step, no backend.
-- The 2050 head is about 10,000 points drawn on a 2D canvas, with a hand-built 3D projection and per-point lighting.
-- The "ask me" twin answers from a fixed set of facts written in the page.
-- Hosted on GitHub Pages. Each page is a single self-contained file.
+- Plain HTML, CSS and JavaScript in one file per page: no framework, no build step, no backend.
+- The core is about 2,200 points on a 2D canvas, with a hand-built 3D projection and lighting. Rendering pauses when the hero is off screen, and it respects the "reduce motion" setting.
+- The console answers from facts written in the page.
+- Valid HTML, with zero axe accessibility violations. It has link-preview tags, so it shares well on LinkedIn.
 
 ## Update content
 
-All content lives in the data arrays (in 3100 mode, the `SECTIONS` and `BOOKS` arrays) near the top of each page's `<script>`: `REPOS`, `BOOKS`, `TALKS`, `VIDEOS` and `LINKS`. Add a YouTube video by putting its ID in `VIDEOS`, and it plays inline on this site.
+Everything lives in the `SECTIONS`, `BOOKS`, `GLANCE` and `LINKS` objects near the top of `index.html`'s script. Each item has `s` (plain one-liner), `i` (why it matters), `m` (under the hood), `d` (the story) and optional `l` (links).
 
 ## Custom domain (later)
 

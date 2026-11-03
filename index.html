@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Venthan · 2050</title>
-<meta name="description" content="Venthan — I make sure AI does what it says, and I build apps people use.">
+<title>Venthan · 2126</title>
+<meta name="description" content="Venthan: I make sure AI does what it says, and I build apps people actually use. Explore my work as a solar system, at your level: everyone, leader or engineer.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Venthan">
-<meta property="og:title" content="Venthan · Test · Build · Evaluate">
-<meta property="og:description" content="I make sure AI does what it says, and I build apps people actually use. A personal interface that evolves from Neanderthal to 2050.">
+<meta property="og:title" content="Venthan · I make sure AI does what it says">
+<meta property="og:description" content="AI evaluation, apps people use, a reading shelf and Toastmasters talks, in orbit around one agent. Pick your lens: everyone, leader or engineer.">
 <meta property="og:url" content="https://venthangowthams.github.io/">
 <meta property="og:image" content="https://venthangowthams.github.io/og.png">
 <meta property="og:image:width" content="1200">
@@ -17,558 +17,550 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#02030a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--w:255,255,255;--t:rgba(var(--w),.92);--d:rgba(var(--w),.52);--f:rgba(var(--w),.28);--h:rgba(var(--w),.12);--hh:rgba(var(--w),.06);
-  --mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'Inter',system-ui,sans-serif}
+:root{--t:rgba(255,255,255,.94);--d:rgba(255,255,255,.66);--f:rgba(255,255,255,.58);--h:rgba(255,255,255,.12);--hh:rgba(255,255,255,.06);
+  --cyan:#5ff2ff;--lime:#b8ff6a;--violet:#a98bff;--pink:#ff7ad4;--amber:#ffc86a;
+  --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:#000;color:var(--t);font-family:var(--sans);font-weight:300;overflow-x:hidden;line-height:1.6;letter-spacing:.1px}
-a{color:var(--t);text-decoration:none;border-bottom:1px solid var(--f)}a:hover{border-color:var(--t)}
-::selection{background:#fff;color:#000}
-.vignette{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at 50% 40%,transparent 40%,rgba(0,0,0,.85));}
-.grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.05;background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
-main{position:relative;z-index:2}
-.mono{font-family:var(--mono);font-weight:300;letter-spacing:2px;text-transform:uppercase;font-size:11px;color:var(--d)}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:#02030a;color:var(--t);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:1px solid rgba(255,255,255,.75);outline-offset:4px;border-radius:6px}
+.k{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--d)}
+.orbic{font-family:var(--mono);font-style:normal;color:var(--f);letter-spacing:1px;border-bottom:1px dotted var(--f);cursor:help}
 
-/* HUD frame */
-.hud{position:fixed;inset:16px;z-index:20;pointer-events:none}
-.hud i{position:absolute;width:22px;height:22px;border-color:var(--f);border-style:solid}
-.hud i:nth-child(1){top:0;left:0;border-width:1px 0 0 1px}.hud i:nth-child(2){top:0;right:0;border-width:1px 1px 0 0}
-.hud i:nth-child(3){bottom:0;left:0;border-width:0 0 1px 1px}.hud i:nth-child(4){bottom:0;right:0;border-width:0 1px 1px 0}
-.hud .tl,.hud .tr,.hud .bl{position:absolute;font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:var(--d);text-transform:uppercase}
-.hud .tl{top:6px;left:34px}.hud .tr{top:6px;right:34px;text-align:right}.hud .bl{display:none}
-nav.rail{position:fixed;right:30px;top:50%;transform:translateY(-50%);z-index:21;display:flex;flex-direction:column;gap:14px;align-items:flex-end}
-nav.rail a{border:0;font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:var(--f);display:flex;align-items:center;gap:10px;text-transform:uppercase;transition:.3s}
-nav.rail a::after{content:'';width:14px;height:1px;background:var(--f);transition:.3s}
-nav.rail a:hover,nav.rail a.on{color:var(--t)}nav.rail a.on::after{width:34px;background:var(--t)}
+/* ---------- top bar ---------- */
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;
+  background:linear-gradient(rgba(2,3,10,.92),rgba(2,3,10,0))}
+.brand{font-weight:600;letter-spacing:.3px;text-decoration:none}
+.brand span{font-family:var(--mono);font-weight:400;font-size:11px;color:var(--f);margin-left:8px;letter-spacing:1.5px}
+.lens{display:flex;align-items:center;gap:8px}
+.lens .k{font-size:10px}
+.seg{display:flex;padding:3px;border:1px solid var(--h);border-radius:999px;background:rgba(2,3,10,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.seg button{font-size:13px;padding:6px 14px;border-radius:999px;color:var(--d);transition:.2s}
+.seg button[aria-pressed="true"]{background:#fff;color:#000}
+.seg button:hover:not([aria-pressed="true"]){color:#fff}
+.read-link{font-size:13px;color:var(--d);text-decoration:none;padding:7px 12px;border:1px solid var(--h);border-radius:999px}
+.read-link:hover{color:#fff;border-color:var(--f)}
 
-/* HERO */
-.hero{min-height:100vh;padding-bottom:120px!important;display:grid;grid-template-columns:1fr minmax(320px,560px) 1fr;align-items:center;padding:70px 5vw 40px;gap:2vw;position:relative}
-.side{display:flex;flex-direction:column;gap:46px}
-.side.l{align-items:flex-end;text-align:right}.side.r{align-items:flex-start}
-.tap{background:none;border:0;color:inherit;font:inherit;cursor:pointer;text-align:inherit;max-width:240px;opacity:0;transform:translateY(8px);transition:opacity 1s,transform 1s}
-.tap.in{opacity:1;transform:none}
-.tap .mono{display:block;margin-bottom:4px}
-.tap b{display:block;font-weight:300;font-size:22px;letter-spacing:-.3px;color:var(--t);transition:.3s}
-.tap small{display:block;font-size:13px;color:var(--d);margin-top:2px}
-.tap:hover b,.tap:focus-visible b{text-shadow:0 0 18px rgba(255,255,255,.7)}
-.tap:focus-visible{outline:1px solid var(--f);outline-offset:8px}
-.center{display:flex;flex-direction:column;align-items:center;text-align:center}
-#head{width:100%;max-width:min(500px,56vh);aspect-ratio:1/1.05;display:block;cursor:pointer}
-.stage-label{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--d);height:16px;margin-top:-6px;text-transform:uppercase}
-.evo{width:min(380px,80vw);margin-top:16px}
-.evo input{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:24px;cursor:pointer}
-.evo input::-webkit-slider-runnable-track{height:1px;background:var(--f)}
-.evo input::-moz-range-track{height:1px;background:var(--f)}
-.evo input::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:#000;border:1px solid #fff;margin-top:-6px;box-shadow:0 0 12px #fff}
-.evo input::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#000;border:1px solid #fff;box-shadow:0 0 12px #fff}
-.evo .ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;color:var(--f);text-transform:uppercase}
-.intro{margin-top:20px}
-.intro h1{font-weight:200;font-size:clamp(34px,4.4vw,58px);letter-spacing:-1.5px;line-height:1.05}
-.intro p{color:var(--d);font-size:16.5px;margin-top:10px;max-width:520px}
-.intro p b{color:var(--t);font-weight:400}
-.cursor{display:inline-block;width:1px;height:.85em;background:#fff;margin-left:6px;vertical-align:-.05em;animation:bl 1s steps(1) infinite}
-@keyframes bl{50%{opacity:0}}
+/* ---------- hero: the system ---------- */
+.hero{position:relative;height:100vh;min-height:620px;overflow:hidden}
+#space{position:absolute;inset:0;width:100%;height:100%;display:block}
+.intro{position:absolute;left:32px;top:84px;z-index:3;max-width:430px}
+.intro .hello{font-family:var(--mono);font-size:13px;color:var(--d);letter-spacing:1px}
+.intro .hello b{color:#fff;font-weight:500;font-size:15px}
+.intro h1{font-weight:300;font-size:clamp(30px,3.6vw,50px);letter-spacing:-1.2px;line-height:1.08;margin:10px 0 10px}
+.intro h1 em{font-style:normal;font-weight:500}
+.intro p{font-size:16.5px;color:var(--d)}
+.intro .how{margin-top:14px;font-size:14px;color:var(--f)}
+.intro .how b{color:var(--t);font-weight:500}
+.lbl{position:absolute;left:0;top:0;z-index:4;transform:translate(-50%,0);text-align:center;padding:3px 8px;border-radius:8px;white-space:nowrap;transition:opacity .4s}
+.lbl b{display:block;font-weight:500;font-size:15px;text-shadow:0 0 12px #000}
+.lbl small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--f)}
+.lbl:hover b,.lbl.on b{color:var(--c)}
+.lbl.dim{opacity:.25}
+.core-tip{position:absolute;z-index:3;transform:translate(-50%,0);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--f);text-transform:uppercase;pointer-events:none;white-space:nowrap;transition:opacity .4s}
+.scroll-cue{position:absolute;left:50%;bottom:92px;transform:translateX(-50%);z-index:3;font-size:13px;color:var(--f);text-decoration:none;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,5px)}}
 
-/* sections */
-section.blk{max-width:1140px;margin:0 auto;padding:130px 7vw 40px}
-.sh{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:14px}
-.sh .n{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--d)}
-.sh h2{font-weight:200;font-size:clamp(30px,3.6vw,46px);letter-spacing:-1px}
-.sh .era{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:var(--f);text-transform:uppercase}
-.lead{color:var(--d);max-width:700px;font-size:16px;margin-bottom:38px}
-.lead b{color:var(--t);font-weight:400}
-.panel{position:relative;border:1px solid var(--h);background:linear-gradient(180deg,rgba(var(--w),.035),rgba(var(--w),.01));padding:24px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.panel::before,.panel::after{content:'';position:absolute;width:10px;height:10px;border-color:var(--d);border-style:solid}
-.panel::before{top:-1px;left:-1px;border-width:1px 0 0 1px}.panel::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
-.reveal{opacity:0;transform:translateY(18px);filter:blur(6px);transition:opacity 1.1s,transform 1.1s,filter 1.1s}
-.reveal.in{opacity:1;transform:none;filter:none}
+/* ---------- panel (layer 2 + 3) ---------- */
+.panel{position:fixed;right:0;top:0;bottom:0;z-index:30;width:min(470px,100%);background:rgba(3,4,12,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-left:1px solid var(--h);padding:76px 32px 150px;overflow-y:auto;transform:translateX(105%);transition:transform .5s cubic-bezier(.2,.8,.2,1);scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
+.panel.open{transform:none}
+.panel .close{position:absolute;top:20px;right:22px;font-family:var(--mono);font-size:12px;color:var(--d);padding:6px 11px;border:1px solid var(--h);border-radius:999px}
+.panel .close:hover{color:#fff}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);margin-right:8px;vertical-align:1px}
+h2.ttl{font-weight:300;font-size:32px;letter-spacing:-.7px;line-height:1.12;margin:10px 0 10px}
+.line{font-size:17px;color:#dadcf0;margin-bottom:18px;max-width:640px}
+.items{list-style:none;border-top:1px solid var(--h);margin-top:16px}
+.items li{border-bottom:1px solid var(--h)}
+.items .head{width:100%;display:flex;align-items:baseline;gap:12px;padding:15px 2px;text-align:left}
+.items .head b{font-weight:500;font-size:16px;flex:0 0 auto;max-width:55%}
+.items .head span{font-size:14px;color:var(--d);flex:1}
+.items .head i{font-style:normal;color:var(--f);transition:transform .3s}
+.items li.open .head i{transform:rotate(90deg);color:var(--c)}
+.items .head:hover b{color:var(--c)}
+.more{display:none;padding:0 2px 18px}
+.items li.open .more{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.layer{display:grid;grid-template-columns:118px 1fr;gap:12px;padding:6px 0;font-size:15px;color:#cfd3ea}
+.layer .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--f);padding-top:3px}
+.layer.mine .lab{color:var(--c)}
+.layer code{font-family:var(--mono);font-size:12.5px;color:#cfd3ea}
+.links{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-family:var(--mono);font-size:12.5px}
+.links a{color:var(--c);text-decoration:none;border-bottom:1px solid currentColor}
+.big{font-weight:300;font-size:22px;line-height:1.3;margin:2px 0 14px}
+.big em{font-style:normal;color:var(--c)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 6px;max-width:560px}
+.stat{border:1px solid var(--h);border-radius:12px;padding:14px 12px;text-align:center}
+.stat b{display:block;font-weight:300;font-size:30px;color:var(--c);line-height:1}
+.stat small{display:block;font-size:12px;color:var(--d);margin-top:6px;line-height:1.35}
+.shelf{display:flex;align-items:flex-end;gap:6px;height:190px;padding-top:24px;border-bottom:2px solid rgba(255,255,255,.18);margin:4px 0 6px;overflow-x:auto;scrollbar-width:none;max-width:560px}
+.spine{flex:0 0 auto;width:38px;border-radius:3px 3px 1px 1px;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:inset -4px 0 8px rgba(0,0,0,.35),inset 2px 0 0 rgba(255,255,255,.18)}
+.spine span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;font-weight:600;color:rgba(0,0,0,.78);padding:8px 0;white-space:nowrap;overflow:hidden;max-height:100%}
+.spine:hover,.spine.sel{transform:translateY(-14px)}
+.spine .tag{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:8.5px;color:var(--c);white-space:nowrap}
 
-/* thought */
-.thought{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--h);border-bottom:1px solid var(--h)}
-.thought div{padding:22px 18px;border-right:1px solid var(--h)}
-.thought div:last-child{border-right:0}
-.thought .then{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--f);text-transform:uppercase}
-.thought b{display:block;font-weight:300;font-size:19px;margin:8px 0 4px}
-.thought .now{font-size:13.5px;color:var(--d)}
-.thought .arrow{font-family:var(--mono);font-size:10px;color:var(--d);margin-top:10px;letter-spacing:1.5px;text-transform:uppercase}
+/* ---------- readable page below the hero ---------- */
+main.page{position:relative;z-index:2;max-width:1060px;margin:0 auto;padding:40px 7vw 220px}
+.glance{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:10px 0 80px}
+.g{border:1px solid var(--h);border-radius:16px;padding:20px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01))}
+.g b{display:block;font-weight:300;font-size:38px;letter-spacing:-1px;line-height:1}
+.g span{display:block;font-size:14px;color:var(--d);margin-top:10px;line-height:1.45}
+.sec{margin:0 0 84px;scroll-margin-top:80px}
+.sec header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.sec h2.ttl{font-size:34px}
+.sec .open-orbit{font-family:var(--mono);font-size:11px;color:var(--f);letter-spacing:1px;text-decoration:none;border-bottom:1px dotted var(--f)}
+.sec .open-orbit:hover{color:var(--c)}
+.contact{text-align:center;padding:40px 0 20px}
+.contact h2{font-weight:300;font-size:clamp(30px,4vw,48px);letter-spacing:-1px}
+.contact p{color:var(--d);margin:10px auto 24px;max-width:520px}
+.btn{display:inline-block;margin:4px 6px;font-family:var(--mono);font-size:12.5px;letter-spacing:1px;padding:11px 18px;border:1px solid var(--f);border-radius:999px;text-decoration:none;transition:.2s}
+.btn:hover{background:#fff;color:#000;border-color:#fff}
+.lang{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:70px 0 0;border-top:1px solid var(--h);padding-top:34px}
+.lang h3{font-weight:400;font-size:18px;margin-bottom:6px}
+.lang p{font-size:14.5px;color:var(--d)}
+.lang table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+.lang td{padding:6px 0;border-bottom:1px solid var(--hh)}
+.lang td:first-child{font-family:var(--mono);color:#fff;width:90px}
+.lang td:last-child{color:var(--d)}
+pre.ora{margin-top:12px;padding:16px;border:1px solid var(--h);border-radius:12px;background:rgba(255,255,255,.025);font:13px/1.7 var(--mono);color:#dfe3ff;overflow-x:auto}
+pre.ora .c{color:var(--f)}pre.ora .kw{color:var(--violet)}pre.ora .s{color:var(--lime)}pre.ora .w{color:var(--cyan)}
+footer{text-align:center;padding:30px 20px 130px;font-size:12.5px;color:var(--f)}
+footer a{color:var(--d)}
 
-/* build: timeline */
-.track{position:relative;height:110px;margin:10px 0 30px}
-.track .line{position:absolute;left:0;right:0;top:54px;height:1px;background:linear-gradient(90deg,transparent,var(--f) 8%,var(--f) 92%,transparent)}
-.band{position:absolute;top:84px;font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:var(--f);text-transform:uppercase;border-top:1px solid var(--h);padding-top:6px}
-.yr{position:absolute;top:16px;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--d);transform:translateX(-50%)}
-.pt{position:absolute;top:47px;width:15px;height:15px;transform:translateX(-50%);border-radius:50%;border:1px solid var(--d);background:#000;cursor:pointer;padding:0;transition:.3s}
-.pt:hover,.pt.on{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.08),0 0 18px #fff;background:#fff}
-.pt.private{border-style:dashed}
-.pt span{position:absolute;top:22px;left:50%;transform:translateX(-50%) rotate(0);white-space:nowrap;font-family:var(--mono);font-size:9.5px;color:var(--f);opacity:0;transition:.3s;pointer-events:none}
-.pt:hover span,.pt.on span{opacity:1;color:var(--t)}
-.detail{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;min-height:210px}
-.detail h3{font-weight:200;font-size:30px;letter-spacing:-.6px;margin:6px 0 10px}
-.detail p{color:var(--d);font-size:15.5px}
-.detail .kv{font-family:var(--mono);font-size:12px;color:var(--d);line-height:2}
-.detail .kv b{color:var(--t);font-weight:300}
-.detail .links{margin-top:16px;display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;letter-spacing:1px}
-.fadeswap{animation:fs .6s ease}
-@keyframes fs{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:none}}
+/* ---------- console (the terminal) ---------- */
+.console{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:25;width:min(680px,calc(100vw - 28px));
+  border:1px solid var(--f);border-radius:18px;background:rgba(3,4,12,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 20px 60px rgba(0,0,0,.55)}
+.console:focus-within{border-color:rgba(255,255,255,.7)}
+body.panel-on .console{left:calc((100vw - min(470px,100vw))/2)}
+.console{transition:left .5s cubic-bezier(.2,.8,.2,1)}
+h2[tabindex="-1"]:focus{outline:none}
+.log{display:none;max-height:min(42vh,360px);overflow-y:auto;padding:14px 16px 4px;font:13px/1.65 var(--mono);scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
+.console.open .log{display:block}
+.log .u{color:var(--lime)}.log .u::before{content:'you ❯ ';color:var(--f)}
+.log .a{color:#e2e5ff;white-space:pre-wrap}.log .a::before{content:'venthan ❯ ';color:var(--cyan)}
+.log .sys{color:var(--f)}.log .code{color:var(--violet)}.log .ok{color:var(--lime)}
+.chips{display:none;flex-wrap:wrap;gap:6px;padding:8px 14px 0}
+.console.open .chips,.console:focus-within .chips{display:flex}
+.chips button{font-size:12.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--h);color:var(--d)}
+.chips button:hover{color:#fff;border-color:var(--f)}
+.console form{display:flex;align-items:center;gap:10px;padding:11px 14px}
+.console .pr{font-family:var(--mono);font-size:13px;color:var(--cyan);flex:0 0 auto}
+.console input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:14.5px var(--sans)}
+.console input::placeholder{color:var(--f)}
+.console .tool{font-family:var(--mono);font-size:11px;color:var(--d);letter-spacing:1px;padding:4px 6px}
+.console .tool:hover{color:#fff}
 
-/* eval */
-.eval{display:grid;grid-template-columns:1.1fr 1fr;gap:34px;align-items:center}
-.big{font-weight:200;font-size:clamp(24px,2.6vw,34px);line-height:1.25;letter-spacing:-.5px}
-.big em{font-style:normal;text-shadow:0 0 22px rgba(255,255,255,.75);font-weight:300}
-.gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.g{text-align:center}
-.g svg{width:100%;max-width:150px}
-.g .l{font-size:12.5px;color:var(--d);margin-top:6px;line-height:1.4}
-.steps{margin:20px 0;list-style:none;counter-reset:s}
-.steps li{counter-increment:s;padding:9px 0 9px 44px;position:relative;color:var(--d);font-size:14.5px;border-bottom:1px solid var(--hh)}
-.steps li::before{content:'0' counter(s);position:absolute;left:0;top:10px;font-family:var(--mono);font-size:11px;color:var(--t);letter-spacing:1px}
-.cta{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:1px solid var(--d);color:var(--t);margin:6px 8px 0 0;transition:.3s;background:none;cursor:pointer}
-.cta:hover{background:#fff;color:#000;border-color:#fff;box-shadow:0 0 30px rgba(255,255,255,.4)}
-
-/* shelf (holo) */
-.shelf{display:flex;align-items:flex-end;gap:10px;padding:34px 10px 0;overflow-x:auto;min-height:320px;border-bottom:1px solid var(--d);box-shadow:0 12px 30px -12px rgba(255,255,255,.25);scrollbar-width:none}
-.book{flex:0 0 auto;width:54px;position:relative;cursor:pointer;border:1px solid rgba(var(--w),.35);background:linear-gradient(90deg,rgba(var(--w),var(--a)),rgba(var(--w),calc(var(--a)*.4)));
-  display:flex;align-items:center;justify-content:center;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .4s,background .4s;padding:0;color:inherit}
-.book::before{content:'';position:absolute;left:6px;right:6px;top:10px;height:1px;background:rgba(var(--w),.4)}
-.book::after{content:'';position:absolute;left:6px;right:6px;bottom:10px;height:1px;background:rgba(var(--w),.4)}
-.book span{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--sans);font-weight:300;font-size:12.5px;letter-spacing:.6px;color:var(--t);padding:14px 0}
-.book:hover,.book.sel{transform:translateY(-26px);box-shadow:0 0 30px rgba(255,255,255,.35),inset 0 0 20px rgba(255,255,255,.15);background:rgba(var(--w),.22)}
-.book .badge{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:1.5px;white-space:nowrap;color:var(--t)}
-.reflect{height:40px;margin-top:2px;background:linear-gradient(rgba(255,255,255,.05),transparent)}
-.book-note{margin-top:8px;min-height:60px;font-size:16px;color:var(--d)}
-.book-note b{color:var(--t);font-weight:400}
-.rstats{display:flex;gap:40px;flex-wrap:wrap;margin-top:28px}
-.rstats div{font-size:13.5px;color:var(--d);max-width:240px}
-.rstats b{display:block;font-weight:200;font-size:44px;color:var(--t);line-height:1}
-
-/* speak */
-.talks{border-top:1px solid var(--h)}
-.talk{display:grid;grid-template-columns:150px 1fr 220px;gap:20px;padding:20px 0;border-bottom:1px solid var(--h);align-items:baseline;transition:.3s}
-.talk:hover{background:rgba(var(--w),.025)}
-.talk .r{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:var(--d);text-transform:uppercase}
-.talk .r.win{color:var(--t);text-shadow:0 0 12px rgba(255,255,255,.6)}
-.talk h3{font-weight:300;font-size:20px}
-.talk p{font-size:14px;color:var(--d)}
-.talk .at{font-family:var(--mono);font-size:11px;color:var(--f);text-align:right}
-
-/* watch */
-.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px}
-.vid{border:1px solid var(--h);display:block;color:inherit}
-.vid .screen{aspect-ratio:16/9;position:relative;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,rgba(255,255,255,.06),transparent 70%)}
-.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.vid .screen::before{content:'';position:absolute;inset:12px;border:1px dashed var(--hh)}
-.play{width:54px;height:54px;border-radius:50%;border:1px solid var(--d);display:flex;align-items:center;justify-content:center}
-.play::after{content:'';border-left:14px solid var(--t);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:4px}
-.vid .soon{position:absolute;top:18px;left:18px}
-.vid .meta{padding:14px 16px;border-top:1px solid var(--h)}
-.vid h3{font-weight:300;font-size:16px}.vid p{font-size:13px;color:var(--d)}
-
-.life{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid var(--h);border-bottom:1px solid var(--h)}
-.life div{flex:1 1 200px;padding:20px;border-right:1px solid var(--h)}
-.life div:last-child{border-right:0}
-.life b{display:block;font-weight:300;font-size:18px}.life small{color:var(--d);font-size:13px}
-
-.end{text-align:center;padding:140px 6vw 120px}
-.end h2{font-weight:200;font-size:clamp(30px,4.4vw,56px);letter-spacing:-1.4px}
-.end p{color:var(--d);margin:14px auto 30px;max-width:520px}
-footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--d);text-transform:uppercase}
-
-/* command bar */
-.bar{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:30;width:min(640px,calc(100vw - 40px))}
-.reply{margin-bottom:10px;padding:16px 18px;font-size:14.5px;color:var(--t);white-space:pre-wrap;display:none;max-height:44vh;overflow:auto;background:rgba(0,0,0,.82)}
-.reply.show{display:block}
-.reply .who{display:block;margin-bottom:6px}
-.chips{display:none;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:8px}
-.bar.active .chips{display:flex}
-.chips button{background:rgba(0,0,0,.7);border:1px solid var(--h);color:var(--d);font-family:var(--mono);font-size:10.5px;letter-spacing:1px;padding:6px 10px;cursor:pointer;transition:.25s}
-.chips button:hover{color:var(--t);border-color:var(--d)}
-.bar form{display:flex;align-items:center;gap:12px;border:1px solid var(--f);background:rgba(0,0,0,.8);padding:12px 16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.bar form:focus-within{border-color:#fff;box-shadow:0 0 30px rgba(255,255,255,.12)}
-.bar .pulse{width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff;animation:pl 2.4s infinite}
-@keyframes pl{50%{opacity:.25}}
-.bar input{flex:1;background:none;border:0;outline:0;color:var(--t);font:300 15px var(--sans)}
-.bar input::placeholder{color:var(--f)}
-.bar .x{background:none;border:0;color:var(--d);font-family:var(--mono);font-size:11px;cursor:pointer;letter-spacing:1px}
-
-@media (max-width:980px){
-  .hero{grid-template-columns:1fr;padding-top:60px}
-  .side{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:20px 30px;order:2}
-  .side.l,.side.r{align-items:center;text-align:center}
-  .center{order:1}
-  .tap{max-width:160px}.tap b{font-size:18px}
-  nav.rail{display:none}
-  .thought{grid-template-columns:1fr 1fr}.thought div{border-bottom:1px solid var(--h)}
-  .detail,.eval{grid-template-columns:1fr}
-  .talk{grid-template-columns:1fr}.talk .at{text-align:left}
-  .hud .tr{display:none}
+@media (max-width:820px){
+  body.panel-on .console{left:50%}
+  .top{padding:10px 14px}
+  .brand span,.lens .k,.read-link{display:none}
+  .seg button{padding:5px 10px;font-size:12px}
+  .intro{left:18px;right:18px;top:64px}
+  .intro h1{font-size:30px}
+  .intro p{font-size:15px}
+  .intro .how{display:none}
+  .scroll-cue{bottom:84px}
+  .glance{grid-template-columns:1fr 1fr}
+  .lang{grid-template-columns:1fr}
+  .panel{top:auto;height:70vh;width:100%;border-left:0;border-top:1px solid var(--h);border-radius:20px 20px 0 0;padding:58px 20px 150px;transform:translateY(105%)}
+  .panel.open{transform:none}
+  .layer{grid-template-columns:1fr;gap:2px}
+  .lbl b{font-size:13px}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.tap{opacity:1;filter:none;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
-<style id="modesw-css">.modesw{position:fixed;left:18px;bottom:18px;z-index:9999;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:500 11px/1 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;letter-spacing:.5px}
-.modesw a{color:rgba(255,255,255,.6);text-decoration:none;border:0;padding:7px 11px;border-radius:999px;transition:.2s}
-.modesw a:hover{color:#fff}.modesw a[aria-current]{background:#fff;color:#000}
-@media (max-width:700px){.modesw{left:50%;transform:translateX(-50%);bottom:auto;top:52px}}</style>
 </head>
 <body>
-<div class="vignette"></div><div class="grain"></div>
-<header class="hud"><i></i><i></i><i></i><i></i>
-  <div class="tl">Venthan // personal interface</div>
-  <div class="tr">SGT <span id="clock">--:--</span> · 1.35°N 103.8°E</div>
-  <div class="bl" id="hudStage">signal: human</div>
+<header class="top">
+  <a class="brand" href="#top">Venthan<span>· 2126</span></a>
+  <div class="lens" role="group" aria-label="Explain things for">
+    <span class="k">Explain for</span>
+    <div class="seg" id="lens">
+      <button type="button" data-lens="everyone" aria-pressed="true">Everyone</button>
+      <button type="button" data-lens="leader" aria-pressed="false">Leader</button>
+      <button type="button" data-lens="engineer" aria-pressed="false">Engineer</button>
+    </div>
+  </div>
+  <a class="read-link" href="#page">Read as a page ↓</a>
 </header>
-<nav class="rail" id="rail" aria-label="Sections">
-  <a href="#home" data-s="home">Origin</a><a href="#build" data-s="build">Tools</a><a href="#evaluate" data-s="evaluate">Judgement</a>
-  <a href="#read" data-s="read">Knowledge</a><a href="#speak" data-s="speak">Stories</a><a href="#watch" data-s="watch">Images</a><a href="#end" data-s="end">Contact</a>
-</nav>
 
-<main>
-<section class="hero" id="home">
-  <div class="side l">
-    <button type="button" class="tap" data-go="build"><span class="mono">01 · Tools</span><b>Build</b><small>apps from my GitHub</small></button>
-    <button type="button" class="tap" data-go="evaluate"><span class="mono">02 · Judgement</span><b>Evaluate</b><small>does the AI really do it?</small></button>
+<section class="hero" id="top" aria-label="My work as a solar system">
+  <canvas id="space" aria-hidden="true"></canvas>
+  <div class="intro">
+    <p class="hello"><b class="orbic" title="Orbic for “hello”">Vela.</b> &nbsp;hello, in Orbic, a language from 2126</p>
+    <h1>I make sure AI <em>does</em> what it says.</h1>
+    <p>And I build apps people actually use. Senior Software Engineer, Singapore.</p>
+    <p class="how">Tap a <b>planet</b> to explore · tap the <b>core</b> or type below to ask me.</p>
   </div>
-  <div class="center">
-    <canvas id="head" role="img" aria-label="A human head made of light that can evolve from Neanderthal to digital"></canvas>
-    <div class="stage-label" id="stageLabel">&nbsp;</div>
-    <div class="evo">
-      <input type="range" id="evo" min="0" max="2" step="0.001" value="0" aria-label="Evolve the avatar">
-      <div class="ticks"><span>Neanderthal</span><span>Homo sapiens</span><span>2050 · digital</span></div>
+  <nav id="labels" aria-label="Planets"></nav>
+  <div class="core-tip" id="coreTip" aria-hidden="true">ask me</div>
+  <a class="scroll-cue" href="#page">or read it as a page ↓</a>
+</section>
+
+<main class="page" id="page">
+  <div class="glance" id="glance"></div>
+  <div id="sections"></div>
+  <section class="contact" id="contact" aria-label="Contact">
+    <h2>Still evolving. Let's talk.</h2>
+    <p>Open to conversations on AI evaluation, agent workflows and public speaking. Still learning, still growing.</p>
+    <div id="btns"></div>
+  </section>
+  <section class="lang" aria-label="About the invented languages">
+    <div>
+      <h3>Orbic, a word-language for 2126</h3>
+      <p>A small made-up language for this site. Planet names carry an Orbic word, and English is always beside it.</p>
+      <table id="glossary"></table>
     </div>
-    <div class="intro">
-      <h1 id="hi">Venthan<span class="cursor"></span></h1>
-      <p>I make sure AI <b>does</b> what it says, and I build apps people actually use.<br>14 years testing software → building apps → evaluating AI agents.</p>
+    <div>
+      <h3>Ora, intent code</h3>
+      <p>Code in 2126 states what you mean, not how to do it. This is the "hi code" that greets you in the console:</p>
+<pre class="ora"><span class="c">// Ora · intent code</span>
+<span class="kw">intent</span> <span class="w">hi</span>(visitor) {
+  <span class="kw">say</span>   <span class="s">"vela"</span>              <span class="c">// hello</span>
+  <span class="kw">offer</span> [sora, kesh, lio, tama]  <span class="c">// build, test, read, speak</span>
+  <span class="kw">match</span> visitor.lens            <span class="c">// everyone · leader · engineer</span>
+  <span class="kw">listen</span>
+}</pre>
     </div>
-  </div>
-  <div class="side r">
-    <button type="button" class="tap" data-go="read"><span class="mono">03 · Knowledge</span><b>Read</b><small>the books that shaped me</small></button>
-    <button type="button" class="tap" data-go="speak"><span class="mono">04 · Stories</span><b>Speak</b><small>on stage at Toastmasters</small></button>
-    <button type="button" class="tap" data-go="watch"><span class="mono">05 · Images</span><b>Watch</b><small>videos, coming soon</small></button>
-  </div>
-</section>
-
-<!-- THOUGHT -->
-<section class="blk" id="origin">
-  <div class="sh reveal"><span class="n">00</span><h2>The thought behind this</h2></div>
-  <p class="lead reveal">Humans didn't win because we were the strongest. We made <b>tools</b>, told <b>stories</b>, passed <b>knowledge</b> on, and learned to <b>judge</b> what was safe. Fifty thousand years later, my work is the same five instincts, just pointed at software and AI.</p>
-  <div class="thought reveal">
-    <div><span class="then">then · stone tools</span><b>Tools</b><span class="now">I build apps that solve real problems.</span><div class="arrow">→ Build</div></div>
-    <div><span class="then">then · is it safe to eat?</span><b>Judgement</b><span class="now">I test whether AI is safe to trust.</span><div class="arrow">→ Evaluate</div></div>
-    <div><span class="then">then · knowledge passed on</span><b>Knowledge</b><span class="now">I read every day and pass it on.</span><div class="arrow">→ Read</div></div>
-    <div><span class="then">then · stories by the fire</span><b>Stories</b><span class="now">I speak to move people.</span><div class="arrow">→ Speak</div></div>
-    <div><span class="then">then · cave walls</span><b>Images</b><span class="now">I share on video what I learn.</span><div class="arrow">→ Watch</div></div>
-  </div>
-</section>
-
-<!-- BUILD -->
-<section class="blk" id="build">
-  <div class="sh reveal"><span class="n">01</span><h2>Tools I've built</h2><span class="era">github.com/VenthanGowthamS</span></div>
-  <p class="lead reveal">My GitHub as a timeline, from test automation frameworks to AI agents today. <b>Tap any point</b> to open it.</p>
-  <div class="track reveal" id="track"><div class="line"></div></div>
-  <div class="panel detail reveal" id="detail"></div>
-</section>
-
-<!-- EVALUATE -->
-<section class="blk" id="evaluate">
-  <div class="sh reveal"><span class="n">02</span><h2>Judgement: does the AI really do its job?</h2></div>
-  <p class="lead reveal">AI agents now take real actions, like refunding money or sending emails. They can say "done" without doing it. I build exam rooms that check <b>what actually happened</b>.</p>
-  <div class="eval">
-    <div class="reveal">
-      <p class="big">Every reply <em>sounded</em> fine.<br>Only <em>72%</em> actually did the right thing.</p>
-      <ol class="steps">
-        <li>A small AI support agent for a pretend shop: look up orders, refund, or hand over to a human</li>
-        <li>12 real-world scenarios, each run 5 times, because AI isn't consistent</li>
-        <li>Graded on the shop's final state, not on the AI's words</li>
-        <li>Runs entirely on my laptop with qwen2.5:3b via Ollama, at zero cloud cost</li>
-      </ol>
-      <a class="cta" href="https://venthangowthams.github.io/agent-evals-lab/results/report.html" target="_blank" rel="noopener" style="border-bottom:1px solid var(--d)">Live report ↗</a>
-      <a class="cta" href="https://github.com/VenthanGowthamS/agent-evals-lab" target="_blank" rel="noopener" style="border-bottom:1px solid var(--d)">Code ↗</a>
-    </div>
-    <div class="panel reveal">
-      <div class="gauges" id="gauges"></div>
-      <p class="mono" style="margin-top:18px;text-align:center">60 graded runs · 12 scenarios × 5</p>
-    </div>
-  </div>
-</section>
-
-<!-- READ -->
-<section class="blk" id="read">
-  <div class="sh reveal"><span class="n">03</span><h2>Knowledge: my reading shelf</h2></div>
-  <p class="lead reveal">Reading is a lifelong habit, and there's always a book on the go. I annotate as I read, because that's my way of giving credit to the author. <b>Touch a spine.</b></p>
-  <div class="shelf reveal" id="shelf"></div>
-  <div class="reflect"></div>
-  <div class="book-note" id="bookNote"><span class="mono">select a book</span></div>
-  <div class="rstats reveal">
-    <div><b>123</b>ideas and connections annotated while reading <i>Nexus</i></div>
-    <div><b>2</b>Best Speaker talks that grew out of books</div>
-    <div><b>∞</b>always mid-book, now <i>The Visual MBA</i></div>
-  </div>
-</section>
-
-<!-- SPEAK -->
-<section class="blk" id="speak">
-  <div class="sh reveal"><span class="n">04</span><h2>Stories: on stage</h2></div>
-  <p class="lead reveal">Humans have gathered around fire to tell stories for tens of thousands of years. Mine is Toastmasters, where I'm Club President at <b>Eminent Communicators</b>.</p>
-  <div class="talks" id="talks"></div>
-</section>
-
-<!-- WATCH -->
-<section class="blk" id="watch">
-  <div class="sh reveal"><span class="n">05</span><h2>Images: videos</h2></div>
-  <p class="lead reveal">From cave walls to screens. My YouTube channel is launching soon.</p>
-  <div class="vids" id="vids"></div>
-</section>
-
-<section class="blk" id="life">
-  <div class="sh reveal"><span class="n">∙</span><h2>Off the interface</h2></div>
-  <div class="life reveal">
-    <div><b>Yoga</b><small>the body's own reset</small></div>
-    <div><b>Shuttle</b><small>fast feet, friendly rivalry</small></div>
-    <div><b>Pannaipuram</b><small>my roots in Tamil Nadu</small></div>
-    <div><b>Tamil cinema · K-pop</b><small>stories and soundtracks</small></div>
-  </div>
-</section>
-
-<section class="end" id="end">
-  <h2 class="reveal">Still evolving.</h2>
-  <p class="reveal">Open to conversations on AI evaluation, agent workflows and public speaking. Still learning, still growing.</p>
-  <div class="reveal" id="btns"></div>
-</section>
-<footer>Senior Software Engineer · Dell Technologies Singapore · AWS · Azure · OCI<br><br>consistency compounds</footer>
+  </section>
 </main>
+<footer>Venthan · Senior Software Engineer, Dell Technologies Singapore · AWS · Azure · OCI certified<br>
+Past versions: <a href="/2050/">2050</a> · <a href="/3100/">3100</a> · <a href="/orb/">Orb</a> · <a href="/terminal/">Terminal</a></footer>
 
-<section class="bar" id="bar" aria-label="Ask me">
-  <div class="panel reply" id="reply"><span class="mono who">Venthan · digital self</span><span id="replyText"></span></div>
+<aside class="panel" id="panel" aria-label="Details"></aside>
+
+<section class="console" id="console" aria-label="Ask me">
+  <div class="log" id="log" aria-live="polite"></div>
   <div class="chips" id="chips"></div>
-  <form id="form" autocomplete="off"><span class="pulse"></span><input id="q" type="text" placeholder="Ask me anything… (e.g. explain your work simply)" aria-label="Ask Venthan's digital self"><button type="submit" class="x">ask ↵</button><button type="button" class="x" id="hideReply">clear</button></form>
+  <form id="ask" autocomplete="off">
+    <span class="pr" aria-hidden="true">ora ❯</span>
+    <input id="q" type="text" placeholder="Ask me anything, e.g. “explain your work simply”" aria-label="Ask Venthan">
+    <button type="submit" class="tool">ASK ↵</button>
+    <button type="button" class="tool" id="hideLog" aria-label="Close the conversation">✕</button>
+  </form>
 </section>
 
 <script>
-/* ===== CONFIG ===== */
+/* =================== CONFIG =================== */
 const LINKS={github:'https://github.com/VenthanGowthamS',linkedin:'',youtube:''};
-const VIDEOS=[{id:'',t:'How Mental Models Rewired My Life',d:'My Best Speaker talk.'},{id:'',t:'AI agents that sound right but act wrong',d:'agent-evals-lab in 5 minutes.'},{id:'',t:'Building an app for my village',d:'From a bus-stop vendor\'s memory to a live app.'}];
+const GH='https://github.com/VenthanGowthamS/';
 
-/* ===== DATA ===== */
-const REPOS=[ // last activity on GitHub, Nov 2026
- {n:'mobile-bdd-appium',d:'2021-02',era:0,t:'Mobile test automation (BDD)',p:'An Android weather app tested through its real screens: connection, data download, results. It checks what the app actually shows, using screen objects and explicit waits. This is where my "test what the user sees" habit comes from.',tech:'Java · Appium (UiAutomator2) · Cucumber · Maven',gh:1},
- {n:'web-bdd-selenium',d:'2021-04',era:0,t:'Web test automation (BDD)',p:'A login flow tested end to end in real Chrome: valid login, three kinds of invalid login, and logout. Five plain-English scenarios, all passing, that anyone can clone and run with one command.',tech:'Java · Selenium WebDriver · Cucumber · Page Object Model · Gradle',gh:1},
- {n:'go-dev-roadmap',d:'2025-06',era:1,t:'Go learning journey',p:'Hands-on Go written on a mentor\'s advice, from basics to HTTP servers and goroutines.',tech:'Go',gh:1},
- {n:'hindu-middle-school',d:'2026-06',era:1,t:'Hindu Middle School, Pannaipuram',p:'A website for my village school, established in 1942, honouring its founder\'s legacy.',tech:'HTML · CSS · JS',gh:1},
- {n:'daybrief-agent',d:'2026-08',era:2,t:'daybrief-agent',p:'A from-scratch AI agent that writes me a daily brief with weather, top tech news and GitHub updates. I built it to learn how agents really work under the hood.',tech:'Python · Gemini 2.5 Flash / Claude · tool-use loop · scheduler',gh:1},
- {n:'Pannaipuram',d:'2026-10',era:1,t:'Pannaipuram App · பண்ணைப்புரம்',p:'An information hub for my ancestral village with bus times, power cuts, water alerts, hospital timings and one-tap emergency numbers. There\'s no transit API, so the bus data came from a vendor\'s memory. Now used by 100+ villagers.',tech:'Flutter Android · PWA · Node.js · PostgreSQL · Firebase',gh:1,live:'https://app.pannaipuram.com',tag:'LIVE · 100+ USERS'},
- {n:'kaizen-folio',d:'2026-10',era:1,t:'Kaizen Folio',p:'"Small steps, every day." A private portfolio and growth journal where families keep a child\'s every painting, speech, medal and small win, from age 5 to university applications.',tech:'Node.js · Cloudflare · Render',gh:1},
- {n:'agent-evals-lab',d:'2026-10',era:2,t:'agent-evals-lab',p:'A test lab that checks whether an AI agent really does its job or only sounds like it does. 60 graded runs, all on my laptop.',tech:'Python · Ollama · qwen2.5:3b · custom harness',gh:1,live:'https://venthangowthams.github.io/agent-evals-lab/results/report.html',tag:'AI EVALUATION'}
-];
-const ERAS=['Era I · testing','Era II · building','Era III · evaluating AI','Era II–III · building & evaluating AI'];
+/* =================== ORBIC (invented words) =================== */
+const ORBIC=[['vela','hello'],['sora','build'],['kesh','test, judge'],['ren','method, path'],['lio','read'],['tama','speak'],['vio','watch'],['nui','life'],['ka','I, me']];
+
+/* =================== CONTENT ===================
+   Every section speaks to three lenses: e = everyone, l = leader, g = engineer.
+   Every item has: s (plain one-liner), i (why it matters), m (under the hood), d (the story). */
 const BOOKS=[
- {t:'The Visual MBA',a:'Jason Barron',h:250,o:.20,b:'READING NOW',n:'An MBA in sketches. Business school is an unfinished trip of mine, so I\'m taking it one page at a time.'},
- {t:'Nexus',a:'Yuval Noah Harari',h:278,o:.16,b:'123 NOTES',n:'How information networks shape power, from the Stone Age to AI. I annotated 123 connections.'},
- {t:'Deep Work',a:'Cal Newport',h:262,o:.12,b:'BEST SPEAKER',n:'Focus is a superpower. It became my Best Speaker talk at Citi Toastmasters.'},
- {t:'Atomic Habits',a:'James Clear',h:228,o:.09,n:'Small, boring, repeatable. That\'s where compounding starts.'},
- {t:'Psychology of Money',a:'Morgan Housel',h:238,o:.14,n:'Behaviour beats spreadsheets.'},
- {t:'The Courage to Be Disliked',a:'Kishimi & Koga',h:272,o:.07,n:'Separate your tasks from other people\'s tasks.'},
- {t:'Eat That Frog!',a:'Brian Tracy',h:214,o:.11,n:'Do the hardest thing first, every morning.'},
- {t:'Zen: The Art of Simple Living',a:'Shunmyo Masuno',h:246,o:.05,n:'Calm is a skill you can practise.'},
- {t:'The Alchemist',a:'Paulo Coelho',h:224,o:.13,n:'The journey is the treasure.'}
+ {t:'The Visual MBA',a:'Jason Barron',c:'#5ff2ff',h:150,tag:'NOW',n:'An MBA in sketches. Business school is an unfinished trip of mine, so I\'m taking it one page at a time.'},
+ {t:'Nexus',a:'Yuval Noah Harari',c:'#ff9a6a',h:164,tag:'123 NOTES',n:'How information networks shape power, from the Stone Age to AI. I annotated 123 connections.'},
+ {t:'Deep Work',a:'Cal Newport',c:'#a98bff',h:156,tag:'TALK',n:'Focus is a superpower. It became my Best Speaker talk.'},
+ {t:'Atomic Habits',a:'James Clear',c:'#ffc86a',h:138,n:'Small, boring, repeatable. That\'s where compounding starts.'},
+ {t:'Psychology of Money',a:'Morgan Housel',c:'#b8ff6a',h:144,n:'Behaviour beats spreadsheets.'},
+ {t:'The Courage to Be Disliked',a:'Kishimi & Koga',c:'#ff7ad4',h:162,n:'Separate your tasks from other people\'s tasks.'},
+ {t:'Eat That Frog!',a:'Brian Tracy',c:'#6affc0',h:128,n:'Do the hardest thing first, every morning.'},
+ {t:'Zen: The Art of Simple Living',a:'Shunmyo Masuno',c:'#cfd8ff',h:150,n:'Calm is a skill you can practise.'},
+ {t:'The Alchemist',a:'Paulo Coelho',c:'#ffd9b0',h:134,n:'The journey is the treasure.'}
 ];
-const TALKS=[
- {r:'Best Speaker',w:1,t:'How Mental Models Rewired My Life',d:'Munger\'s inversion, compounding and the Lollapalooza effect, applied to everyday choices.',at:'Eminent Communicators'},
- {r:'Best Speaker',w:1,t:'Deep Work',d:'Why distraction-free focus is a career superpower.',at:'Citi Toastmasters Club'},
- {r:'Club President',t:'Beyond Boundaries',d:'My inaugural address as elected President, at Chapter Meeting #244.',at:'Eminent Communicators'},
- {r:'President',t:'Home, Heart, Horizon',d:'A welcome address that set the tone for the evening.',at:'Eminent Communicators'},
- {r:'Host',t:'ELEVATE Your Toastmasters Journey',d:'Hosted a special workshop with guest trainers.',at:'Dell Technologies SG'},
- {r:'Judge',t:'International Speech Contest',d:'Served on the judging panel.',at:'SINDA Singapore'}
+const EVAL_STATS=()=>`<p class="big">Every reply <em>sounded</em> fine.<br>Only <em>72%</em> actually did the right thing.</p>
+ <div class="stats"><div class="stat"><b>72%</b><small>runs did the right thing</small></div><div class="stat"><b>83%</b><small>tasks right at least once</small></div><div class="stat"><b>58%</b><small>tasks right every time</small></div></div>`;
+const SECTIONS=[
+ {id:'build',name:'Build',orb:'sora',num:'01',c:'#5ff2ff',R:3.7,speed:.16,incl:.10,phase:.4,size:.30,
+  title:'Things I\'ve built',
+  line:{e:'Apps and tools that solve real problems, many of them for my village and my family.',
+        l:'Shipped products with real users, built fast and spec-first with AI as a pair programmer.',
+        g:'Flutter, Node.js, PostgreSQL, Python and Go; spec-driven development with Claude Code and MCP.'},
+  items:[
+   {t:'Pannaipuram App',s:'An info hub for my village, used by 100+ people',i:'Real users, real data problem: no transit API existed, so I turned a vendor\'s memory into a database and kept it accurate with a feedback loop.',m:'Flutter Android · PWA · Node.js · PostgreSQL · Firebase',d:'Bus times, power cuts, water alerts, hospital timings and one-tap emergency numbers for my ancestral village in Tamil Nadu.',l:[['Open app','https://app.pannaipuram.com'],['Code',GH+'Pannaipuram']]},
+   {t:'agent-evals-lab',s:'Checks whether an AI agent really does its job',i:'Shows a hidden risk: an agent can sound right and still act wrong 28% of the time.',m:'Python · Ollama · qwen2.5:3b · custom harness · state-based graders',d:'A small AI support agent ran 60 graded tests on my laptop. Every reply sounded fine; only 72% did the right thing.',l:[['Live report','https://venthangowthams.github.io/agent-evals-lab/results/report.html'],['Code',GH+'agent-evals-lab']]},
+   {t:'Kaizen Folio',s:'A growth journal for children',i:'Turns scattered photos and certificates into one lifelong record, ready for any school application.',m:'Node.js · Express · Cloudflare · 32 automated tests',d:'"Small steps, every day." Families keep a child\'s paintings, speeches, medals and small wins from age 5 onward.',l:[['Code',GH+'kaizen-folio']]},
+   {t:'daybrief-agent',s:'An AI assistant I built from scratch',i:'Learning agents from first principles, so I can evaluate them properly.',m:'Python · Gemini / Claude · tool-use loop · scheduler · 17 tests',d:'Writes me a daily brief with weather, tech news and GitHub updates, running unattended every morning.',l:[['Code',GH+'daybrief-agent']]},
+   {t:'Hindu Middle School site',s:'A website for my village school, founded 1942',i:'Gave a school founded in 1942 a home online.',m:'HTML · CSS · JavaScript',d:'Honours the founder\'s legacy and tells the school\'s story.',l:[['Code',GH+'hindu-middle-school']]},
+   {t:'Go learning journey',s:'Learning the Go language, one program at a time',i:'A habit of steady practice, started on a mentor\'s advice.',m:'Go · goroutines · channels · HTTP servers',d:'Hands-on programs from basics to concurrency.',l:[['Code',GH+'go-dev-roadmap']]},
+   {t:'Test automation (2021)',s:'Where my testing mindset began',i:'Years of checking what users actually see on screen.',m:'Java · Appium · Selenium · Cucumber BDD · page objects',d:'Plain-English test scenarios for a mobile app and a web login flow, run on real screens.',l:[['Mobile',GH+'mobile-bdd-appium'],['Web',GH+'web-bdd-selenium']]}
+  ]},
+ {id:'evaluate',name:'Evaluate',orb:'kesh',num:'02',c:'#b8ff6a',R:5.1,speed:.11,incl:-.08,phase:2.2,size:.34,
+  title:'Does the AI really do its job?',
+  line:{e:'AI can now take real actions, like refunding money. It can say "done" without doing it. I check what actually happened.',
+        l:'Before an AI agent touches customers or money, someone has to measure how often it is really right. That is my work.',
+        g:'Repeatable agent evals: scenario suites, k-run trials, state-based and trajectory graders, pass@k vs pass^k.'},
+  extra:EVAL_STATS,
+  items:[
+   {t:'What I tested',s:'A small AI customer-support agent',i:'The same kind of agent companies are putting in front of customers today.',m:'qwen2.5:3b via Ollama · 3 tools: lookup_order, issue_refund, escalate_to_human',d:'In a pretend shop it looks up orders, issues refunds or hands a case to a human. It runs on my laptop at zero cloud cost.'},
+   {t:'How it\'s graded',s:'On what happened, not on what it said',i:'Measures real outcomes and reliability, not how convincing the AI sounds.',m:'12 scenarios × 5 runs = 60 trials · outcome, trajectory and efficiency graders',d:'Each scenario runs 5 times because AI isn\'t consistent. Each run is checked against the shop\'s final state.'},
+   {t:'What I learned',s:'Sounding right is not being right',i:'Right once (83%) is not right every time (58%), and users feel the second number.',m:'pass@5 = 83% · pass^5 = 58% · 72% per-trial pass rate',d:'An agent that sounds right but acts wrong is dangerous when it moves money. You only catch it by checking the outcome.'},
+   {t:'See it yourself',s:'The live report and the code',i:'Every scenario, run and transcript is public.',m:'results.json · report.html · run_evals.py',d:'Open the report to see every test, every run and what the agent did.',l:[['Live report','https://venthangowthams.github.io/agent-evals-lab/results/report.html'],['Code',GH+'agent-evals-lab']]}
+  ]},
+ {id:'method',name:'Method',orb:'ren',num:'03',c:'#7ad7ff',R:4.4,speed:.13,incl:.04,phase:5.0,size:.22,
+  title:'How I work',
+  line:{e:'Write down what we want first, build it with AI as a helper, then check it really works for people.',
+        l:'Clear requirements first, fast delivery with AI, and evidence that it works before it ships.',
+        g:'Spec-driven development, Claude Code + MCP as the build loop, evals and tests as the gate, feedback from real users.'},
+  items:[
+   {t:'Spec first',s:'Agree on what "done" means before building',i:'Requirements and acceptance criteria are written before any code, so everyone shares the same picture.',m:'Spec-Driven Development (SDD) · written specs and acceptance criteria',d:'Every project starts as a short written spec: the problem, the plan and how we will know it works.'},
+   {t:'Build with AI',s:'AI as a fast, careful pair',i:'Faster delivery without giving up control: the human sets direction and reviews.',m:'Claude Code · MCP · guardrail files for consistent sessions',d:'I build with AI coding agents, guided by the spec and checked at every step.'},
+   {t:'Prove it',s:'Test what users will really experience',i:'Decisions are based on evidence, not demos.',m:'Unit and end-to-end tests · BDD · agent evals',d:'Fourteen years of testing taught me to check outcomes, not claims.'},
+   {t:'Listen and improve',s:'Real users make it better',i:'Products get more accurate over time, like the village bus data.',m:'In-app feedback loops · iterative releases',d:'Ship small, listen, improve. Consistency compounds.'}
+  ]},
+ {id:'read',name:'Read',orb:'lio',num:'04',c:'#ffc86a',R:5.8,speed:.08,incl:.06,phase:4.1,size:.28,
+  title:'My reading shelf',
+  line:{e:'Reading is a lifelong habit. There\'s always a book on the go, and I annotate as I read.',
+        l:'Mental models from books shape how I make decisions and lead.',
+        g:'Systems thinking, information networks and habit design, read with notes.'},
+  extra:()=>`<div class="shelf">${BOOKS.map((b,i)=>`<button type="button" class="spine" data-i="${i}" style="height:${b.h}px;background:linear-gradient(90deg,${b.c},${b.c}bb)" aria-label="${b.t}">${b.tag?`<span class="tag">${b.tag}</span>`:''}<span>${b.t}</span></button>`).join('')}</div>`,
+  itemsFrom:()=>BOOKS.map(b=>({t:b.t,s:b.a+(b.tag?' · '+b.tag.toLowerCase():''),i:b.n,m:b.a,d:b.n}))},
+ {id:'speak',name:'Speak',orb:'tama',num:'05',c:'#ff7ad4',R:6.5,speed:.06,incl:-.05,phase:5.6,size:.32,ring:true,
+  title:'On stage',
+  line:{e:'I\'m Club President at Eminent Communicators Toastmasters, and a two-time Best Speaker.',
+        l:'Leading a speaking club and communicating complex ideas simply to any audience.',
+        g:'I explain technical work, like AI evaluation, in plain language.'},
+  items:[
+   {t:'How Mental Models Rewired My Life',s:'Best Speaker award',i:'Persuasive speaking, recognised by the club.',m:'Level 3 · Persuasive Influence',d:'Munger\'s inversion, compounding and the Lollapalooza effect, applied to everyday choices.'},
+   {t:'Deep Work',s:'Best Speaker award',i:'Making focus a team habit.',m:'Citi Toastmasters Club',d:'Why distraction-free focus is a career superpower.'},
+   {t:'Beyond Boundaries',s:'My first speech as Club President',i:'Setting a vision for a club.',m:'Chapter Meeting #244',d:'My inaugural address as elected President of Eminent Communicators.'},
+   {t:'Home, Heart, Horizon',s:'President\'s welcome',i:'Setting the tone for an evening.',m:'Eminent Communicators',d:'A welcome address for a themed meeting.'},
+   {t:'ELEVATE workshop',s:'Hosted at Dell Technologies Singapore',i:'Bringing learning to colleagues at work.',m:'Guest trainers from the district',d:'A special workshop on growing your Toastmasters journey.'},
+   {t:'International Speech Contest',s:'Judge',i:'Trusted to judge speakers fairly.',m:'SINDA Singapore',d:'Served on the judging panel.'}
+  ]},
+ {id:'watch',name:'Watch',orb:'vio',num:'06',c:'#a98bff',R:7.2,speed:.045,incl:.09,phase:1.2,size:.25,
+  title:'Videos',
+  line:{e:'Talks, AI explained simply, and the stories behind my builds. My YouTube channel is coming soon.',
+        l:'Short, clear explainers on AI risk and building with AI.',
+        g:'Walkthroughs of the eval harness and the builds.'},
+  items:[
+   {t:'How Mental Models Rewired My Life',s:'Coming soon',i:'The award-winning talk, on video.',m:'Talk',d:'My Best Speaker talk.'},
+   {t:'AI agents that sound right but act wrong',s:'Coming soon',i:'The evaluation story in five minutes.',m:'Explainer · agent-evals-lab',d:'What I found when I tested an AI agent 60 times.'},
+   {t:'Building an app for my village',s:'Coming soon',i:'From a bus-stop vendor\'s memory to a live app.',m:'Build story · Pannaipuram',d:'How a village got its own information hub.'}
+  ]},
+ {id:'life',name:'Life',orb:'nui',num:'07',c:'#e8ecff',R:3.0,speed:.24,incl:-.12,phase:3.3,size:.16,
+  title:'Off the screen',
+  line:{e:'Yoga, shuttle and my roots in Pannaipuram. Consistency compounds, on the mat and on the court too.',
+        l:'Balance and steady habits outside work.',
+        g:'Recharge loop: yoga, badminton, stories.'},
+  items:[
+   {t:'Yoga',s:'The daily reset',i:'Steadiness, every day.',m:'Daily',d:'Mat time keeps the mind as steady as the body.'},
+   {t:'Shuttle',s:'Badminton',i:'Fast feet, friendly rivalry.',m:'Badminton',d:'Quick reflexes and good company.'},
+   {t:'Pannaipuram',s:'My roots in Tamil Nadu',i:'Why I build things for my village.',m:'Ancestral village',d:'My ancestral village, and the reason behind many of my builds.'},
+   {t:'Tamil cinema · K-pop',s:'Stories and soundtracks',i:'Where I recharge.',m:'Music and film',d:'My go-to for stories and soundtracks.'}
+  ]}
 ];
-
-const $=s=>document.querySelector(s);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const go=id=>document.getElementById(id).scrollIntoView();
-
-/* timeline */
-const track=$('#track'),detail=$('#detail');
-const N=REPOS.length;const pos=i=>8+i*(84/(N-1));
-let lastYr='';REPOS.forEach((r,i)=>{const y=r.d.slice(0,4);
-  if(y!==lastYr){const e=document.createElement('div');e.className='yr';e.style.left=pos(i)+'%';e.textContent=y;track.appendChild(e);lastYr=y}
-  const b=document.createElement('button');b.className='pt';b.style.left=pos(i)+'%';b.setAttribute('aria-label',r.t);b.innerHTML=`<span>${esc(r.n)}</span>`;
-  b.onclick=()=>show(i);b.onmouseenter=()=>show(i);track.appendChild(b)});
-// era bands
-const bands=[[0,1,0],[2,7,3]];
-bands.forEach(([a,z,k])=>{const e=document.createElement('div');e.className='band';e.style.left=(pos(a)-2)+'%';e.style.width=(pos(z)-pos(a)+4)+'%';e.textContent=ERAS[k];track.appendChild(e)});
-function show(i){const r=REPOS[i];document.querySelectorAll('.pt').forEach((p,j)=>p.classList.toggle('on',j===i));
-  const m=new Date(r.d+'-01').toLocaleDateString('en-SG',{month:'short',year:'numeric'});
-  detail.innerHTML=`<div class="fadeswap"><span class="mono">${esc(r.tag||ERAS[r.era])}</span><h3>${esc(r.t)}</h3><p>${esc(r.p)}</p>
-   <div class="links">${r.live?`<a href="${r.live}" target="_blank" rel="noopener">Open live ↗</a>`:''}${r.gh?`<a href="${LINKS.github}/${r.n}" target="_blank" rel="noopener">View code ↗</a>`:''}</div></div>
-   <div class="kv fadeswap">repo · <b>${esc(r.n)}</b><br>last activity · <b>${m}</b><br>stack · <b>${esc(r.tech)}</b><br>era · <b>${ERAS[r.era]}</b></div>`}
-show(REPOS.length-1);
-
-/* gauges */
-$('#gauges').innerHTML=[[72,'of runs actually did the right thing'],[83,'of tasks right at least once'],[58,'of tasks right every single time']].map(([v,l])=>{
-  const C=2*Math.PI*44;return `<div class="g"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-  <circle class="arc" cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-to="${C*(1-v/100)}" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 2s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 4px #fff)"/>
-  <text x="50" y="56" text-anchor="middle" fill="#fff" font-family="Inter" font-weight="200" font-size="22">${v}%</text></svg><div class="l">${l}</div></div>`}).join('');
-
-/* shelf */
-const shelf=$('#shelf'),note=$('#bookNote');
-BOOKS.forEach(b=>{const el=document.createElement('button');el.className='book';el.style.height=b.h+'px';el.style.setProperty('--a',b.o);el.setAttribute('aria-label',b.t);
-  el.innerHTML=(b.b?`<span class="badge">${b.b}</span>`:'')+`<span>${esc(b.t)}</span>`;
-  const s=()=>{document.querySelectorAll('.book').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');note.innerHTML=`<b>${esc(b.t)}</b> · ${esc(b.a)}<br>${esc(b.n)}`};
-  el.onmouseenter=s;el.onclick=s;el.onfocus=s;shelf.appendChild(el)});
-
-$('#talks').innerHTML=TALKS.map(t=>`<div class="talk reveal"><span class="r ${t.w?'win':''}">${t.w?'✦ ':''}${esc(t.r)}</span><div><h3>${esc(t.t)}</h3><p>${esc(t.d)}</p></div><span class="at">${esc(t.at)}</span></div>`).join('');
-
-const canEmbed=!/claude\.ai|claudeusercontent|anthropic/.test(location.hostname)&&location.protocol.startsWith('http');
-$('#vids').innerHTML=VIDEOS.map(v=>{
-  if(v.id&&canEmbed)return `<div class="vid reveal"><div class="screen"><iframe src="https://www.youtube-nocookie.com/embed/${esc(v.id)}" title="${esc(v.t)}" allowfullscreen loading="lazy"></iframe></div><div class="meta"><h3>${esc(v.t)}</h3><p>${esc(v.d)}</p></div></div>`;
-  const inner=`<div class="screen">${v.id?'':'<span class="mono soon">coming soon</span>'}<div class="play"></div></div><div class="meta"><h3>${esc(v.t)}</h3><p>${esc(v.d)}</p></div>`;
-  return v.id?`<a class="vid reveal" style="border-bottom:1px solid var(--h)" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener">${inner}</a>`:`<div class="vid reveal">${inner}</div>`}).join('');
-
-$('#btns').innerHTML=(LINKS.linkedin?`<a class="cta" href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>`:'')+`<a class="cta" href="${LINKS.github}" target="_blank" rel="noopener">GitHub ↗</a>`+(LINKS.youtube?`<a class="cta" href="${LINKS.youtube}" target="_blank" rel="noopener">YouTube ↗</a>`:'')+`<button type="button" class="cta" id="askBtn">Ask my digital self</button>`;
-$('#askBtn').onclick=()=>$('#q').focus();
-
-/* reveal + gauges + rail */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');e.target.querySelectorAll('.arc').forEach(a=>a.style.strokeDashoffset=a.dataset.to);io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-const rail=[...document.querySelectorAll('#rail a')];
-const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)rail.forEach(a=>a.classList.toggle('on',a.dataset.s===e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
-['home','build','evaluate','read','speak','watch','end'].forEach(id=>ro.observe(document.getElementById(id)));
-rail.forEach(a=>a.onclick=e=>{e.preventDefault();go(a.dataset.s)});
-document.querySelectorAll('.tap').forEach((t,i)=>{t.onclick=()=>go(t.dataset.go);setTimeout(()=>t.classList.add('in'),3400+i*180)});
-const tick=()=>{try{$('#clock').textContent=new Date().toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Singapore'})}catch(e){}};tick();setInterval(tick,20000);
-
-/* ===== THE HEAD: particles of light, evolving ===== */
-const cv=$('#head'),cx=cv.getContext('2d');let W,H,dpr;
-function size(){dpr=Math.min(2,devicePixelRatio||1);const r=cv.getBoundingClientRect();W=cv.width=r.width*dpr;H=cv.height=r.height*dpr}
-size();addEventListener('resize',size);
-const sm=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)};
-const g2=(x,y,sx,sy)=>Math.exp(-(x*x)/(2*sx*sx)-(y*y)/(2*sy*sy));
-const SMALL=innerWidth<700;const RINGS=SMALL?60:86,SEG=SMALL?80:116;const base=[];
-for(let i=0;i<=RINGS;i++){const ph=i/RINGS*Math.PI;for(let j=0;j<SEG;j++){const th=j/SEG*Math.PI*2;base.push({ph,th,i,j,rnd:Math.random(),rx:Math.random()-.5,ry:Math.random()-.5,rz:Math.random()-.5})}}
-// neck + soft shoulders
-const extra=[];for(let k=0;k<18;k++){for(let j=0;j<44;j++){const th=j/44*Math.PI*2;extra.push({x:Math.sin(th)*.30,y:-.82-k*.04,z:Math.cos(th)*.30-.08})}}
-function headPoint(p,m){ // m: 0 neanderthal → 1 sapiens
-  const s=Math.sin(p.ph),c=Math.cos(p.ph);
-  let x=s*Math.sin(p.th),z=s*Math.cos(p.th),y=c;
-  const rx=.70+.02*m, ry=.90+.14*m, rz=.88+(1-m)*.16;
-  x*=rx;y*=ry;z*=rz;
-  const fr=Math.max(0,z/rz), back=Math.max(0,-z/rz);
-  // occipital bun (neanderthal)
-  z-=(1-m)*.16*g2(0,y-.1,1,.28)*back;
-  // forehead: neanderthal low & sloping, sapiens tall & vertical
-  if(y>.2){const k=sm(.2,1.05,y);z-=fr*k*((1-m)*.5+m*.05)*fr; y-=(1-m)*.10*k}
-  // temples
-  x*=1-.07*g2(0,y-.35,1,.18)*fr;
-  // brow ridge
-  z+=((1-m)*.20+m*.06)*g2(x,y-.22,.46,.08)*Math.pow(fr,2);
-  // eye sockets + eyes
-  for(const ex of [-.26,.26]){z-=.24*g2(x-ex,y-.07,.12,.075)*Math.pow(fr,2); z+=.06*g2(x-ex,y-.07,.05,.03)*Math.pow(fr,2)}
-  // cheekbones
-  z+=.07*(g2(x-.38,y+.12,.12,.1)+g2(x+.38,y+.12,.12,.1))*fr;
-  // nose bridge + tip (broad for neanderthal)
-  const nw=.075+(1-m)*.05;
-  z+=.08*g2(x,y-.0,.06,.12)*Math.pow(fr,4);
-  z+=(.33+(1-m)*.05)*g2(x,y+.26,nw*1.25,.13)*Math.pow(fr,5);
-  // midface forward (neanderthal)
-  z+=(1-m)*.10*g2(x,y+.35,.42,.25)*Math.pow(fr,3);
-  // jaw taper
-  if(y<-.3){const t=sm(-.3,-1.0,y);x*=1-.30*t}
-  // lips + mouth line
-  z+=.07*g2(x,y+.50,.16,.035)*Math.pow(fr,4); z+=.06*g2(x,y+.60,.14,.035)*Math.pow(fr,4); z-=.03*g2(x,y+.555,.14,.012)*Math.pow(fr,4);
-  // chin
-  z+=(m*.22-(1-m)*.06)*g2(x,y+.84,.2,.09)*Math.pow(fr,3);
-  // ears
-  const side=Math.abs(x)/rx; if(side>.9){x+=Math.sign(x)*.09*g2(0,y-.02,1,.15)*g2(z+.05,0,.16,1)}
-  return {x,y,z};
-}
-let evo=0,auto=true,talk=0,yaw=.95,pitch=0,tyaw=0,tpitch=0,t0=performance.now();
-const ev=$('#evo');ev.oninput=()=>{auto=false;evo=+ev.value};
-addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();tyaw=((e.clientX-(r.left+r.width/2))/innerWidth)*1.0;tpitch=((e.clientY-(r.top+r.height/2))/innerHeight)*.4});
-const labels=[[0,'Neanderthal · 40,000 BCE'],[.5,'becoming human'],[1,'Homo sapiens · today'],[1.25,'human · learning · building · evaluating'],[1.95,'2050 · digital self']];
-function label(v){let l=labels[0][1];for(const [k,s] of labels)if(v>=k-0.02)l=s;return l}
-let lastLabel='';
-const LX=.42,LY=.42,LZ=.80; // light: upper-left-front
-const obj=new Array(base.length);
-let headVisible=true;new IntersectionObserver(es=>{headVisible=es[0].isIntersecting}).observe(cv);
-const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function frame(now){
-  if(!headVisible){requestAnimationFrame(frame);return}
-  const t=(RM?0:(now-t0)/1000)+(RM?6:0);
-  if(auto){evo=sm(.8,5,t)*1.3;ev.value=evo}
-  const m=Math.min(1,evo),dg=Math.max(0,evo-1);
-  const L=label(evo);if(L!==lastLabel){lastLabel=L;$('#stageLabel').textContent=L;$('#hudStage').textContent='signal: '+(evo<1?'ancestral':evo<1.9?'human':'human + digital')}
-  yaw+=(.95+tyaw*.8+Math.sin(t*.3)*.28-yaw)*.04;pitch+=(tpitch-.05-pitch)*.05;
-  cx.clearRect(0,0,W,H);
-  const sc=Math.min(W,H)*.31,ox=W/2,oy=H*.41;
-  const cy_=Math.cos(yaw),sy_=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
-  const rot=(x,y,z)=>{let X=x*cy_+z*sy_,Z=-x*sy_+z*cy_;let Y=y*cp-Z*sp;Z=y*sp+Z*cp;return [X,Y,Z]};
-  const proj=(X,Y,Z)=>{const f=3.4/(3.4-Z);return [ox+X*sc*f,oy-Y*sc*f]};
-  const scanY=1.15-((t*.3)%1)*2.4;
-  const talkAmp=talk>0?(.5+.5*Math.sin(t*26)):0;
-  for(let k=0;k<base.length;k++){let q=headPoint(base[k],m);
-    if(talkAmp&&q.z>.45&&q.y<-.56&&q.y>-.75)q.y-=talkAmp*.05*g2(q.x,0,.15,1);
-    obj[k]=q}
-  // digital: contour rings
-  if(dg>.02){cx.lineWidth=dpr*.6;
-    for(let i=3;i<RINGS-2;i+=3){cx.beginPath();for(let j=0;j<=SEG;j++){const q=obj[i*SEG+(j%SEG)];const r=rot(q.x,q.y,q.z);const P=proj(...r);j?cx.lineTo(P[0],P[1]):cx.moveTo(P[0],P[1])}
-      cx.strokeStyle=`rgba(255,255,255,${.13*dg})`;cx.stroke()}}
-  for(let i=1;i<RINGS;i++){const ws=Math.sin(i/RINGS*Math.PI);
-    for(let j=0;j<SEG;j++){const k=i*SEG+j,p=base[k],q=obj[k];
-      if(ws<.45&&(j%2))continue;
-      const a1=obj[(i+1)*SEG+j]||q,a2=obj[i*SEG+((j+1)%SEG)];
-      const ux=a1.x-q.x,uy=a1.y-q.y,uz=a1.z-q.z,vx=a2.x-q.x,vy=a2.y-q.y,vz=a2.z-q.z;
-      let nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;const nl=Math.hypot(nx,ny,nz)||1;nx/=nl;ny/=nl;nz/=nl;
-      let n=rot(nx,ny,nz);
-      const [X,Y,Z]=rot(q.x,q.y,q.z);
-      if(n[2]<-.15&&dg<.5)continue; // back-face cull for a solid human read
-      const diff=Math.max(0,n[0]*LX+n[1]*LY+n[2]*LZ);
-      let a=.035+.95*Math.pow(diff,1.8);
-      const near=Math.abs(q.y-scanY)<.05;if(near)a=Math.min(1,a+.45);
-      let px=X,py=Y,pz=Z;
-      if(dg>0){const d=dg*dg*.28*(p.rnd>.8?1:.12);px+=p.rx*d;py+=p.ry*d;pz+=p.rz*d;a=a*(1-dg*.25)+dg*.08}
-      const P=proj(px,py,pz);const sz=dpr*(near?1.5:.95)*(.75+.35*(Z+1)/2);
-      cx.fillStyle=`rgba(255,255,255,${a})`;cx.fillRect(P[0],P[1],sz,sz)}}
-  for(const e of extra){const [X,Y,Z]=rot(e.x,e.y,e.z);const P=proj(X,Y,Z);const a=Math.max(.02,(.05+.18*((Z+1)/2))*(1-Math.min(1,Math.max(0,-e.y-1.25)*1.3)));cx.fillStyle=`rgba(255,255,255,${a})`;cx.fillRect(P[0],P[1],dpr,dpr)}
-  requestAnimationFrame(frame)}
-requestAnimationFrame(frame);
-cv.onclick=()=>$('#q').focus();
-
-/* typed name */
-const hi=$('#hi');const names=['Venthan','வேந்தன்'];let ni=0;
-setInterval(()=>{ni=(ni+1)%2;hi.style.transition='filter .5s,opacity .5s';hi.style.filter='blur(8px)';hi.style.opacity=0;
-  setTimeout(()=>{hi.firstChild.textContent=names[ni];hi.style.filter='none';hi.style.opacity=1},500)},5200);
-
-/* ===== DIGITAL SELF (ask) ===== */
-const A={
-  about:`I'm Venthan, a Senior Software Engineer at Dell Technologies in Singapore. I spent 14+ years making sure software works, across healthcare, IoT, microfinance and edge computing. Today I test and evaluate AI agents, build apps with AI, and lead a Toastmasters club as President.`,
-  plain:`In simple words: AI tools can now take actions like refunding money or sending emails. Sometimes they say "done" when they didn't do it, or did the wrong thing. I build exam rooms that catch this before real people get hurt.`,
-  build:`My favourite is the Pannaipuram app, an information hub for my village with 100+ users. There's also Kaizen Folio, a growth journal for kids; daybrief-agent, an AI agent I built from scratch; and a website for my village school.`,
-  evaluate:`I ran a small AI agent through 60 graded tests. Every reply sounded fine, but only 72% actually did the right thing. The lesson: check what the AI did, not what it said.`,
-  read:`Right now, The Visual MBA. Before that, Nexus, where I made 123 notes. Deep Work, Atomic Habits, Psychology of Money and The Courage to Be Disliked shaped me too.`,
-  speak:`I'm Club President at Eminent Communicators Toastmasters, and I've won Best Speaker twice: "How Mental Models Rewired My Life" and "Deep Work".`,
-  watch:`My YouTube channel is coming soon, with talks, AI evaluation explained simply, and the stories behind my builds.`,
-  evolve:`This avatar evolves from a Neanderthal to Homo sapiens to a 2050 digital self. Drag the slider under my face. Humans won by making tools, judging what was safe, sharing knowledge and telling stories. That's my work too.`,
-  contact:()=>`LinkedIn is easiest${LINKS.linkedin?': '+LINKS.linkedin.replace('https://',''):''}, or see my work at github.com/VenthanGowthamS. I'm open to AI evaluation and AI engineering conversations.`,
-  life:`Off the interface: yoga, shuttle, Tamil cinema and K-pop. My roots are in Pannaipuram, Tamil Nadu.`,
-  fallback:`I'm a simple digital self, still evolving like the original. Try one of the suggestions above.`
+SECTIONS.forEach(s=>{if(s.itemsFrom)s.items=s.itemsFrom()});
+const PAGE_ORDER=['build','evaluate','method','read','speak','watch','life'];
+const BYID=Object.fromEntries(SECTIONS.map(s=>[s.id,s]));
+const GLANCE={
+ everyone:[['14+','years making sure software works'],['100+','villagers use an app I built'],['72%','how often an AI agent really did the right thing in my tests'],['2×','Best Speaker at Toastmasters']],
+ leader:[['14+','years in software quality across 4 industries'],['100+','active users on a product I shipped'],['28%','of an AI agent\'s runs went wrong, though every reply sounded fine'],['1','club I lead as President']],
+ engineer:[['60','graded agent runs (12 × 5)'],['58%','pass^5: right every single time'],['8','projects on GitHub, from test suites to AI agents'],['3','clouds certified: AWS · Azure · OCI']]
 };
-const CH=[['Who are you?','about'],['Explain simply','plain'],['What have you built?','build'],['The AI test','evaluate'],['Books','read'],['Why the evolving face?','evolve'],['Contact','contact']];
-const IN=[[/simpl|plain|non.?tech|explain|mean/,'plain'],[/evolv|neander|sapien|face|avatar|head/,'evolve'],[/eval|test|agent|\bai\b|72/,'evaluate'],[/build|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],[/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life/,'life'],[/who|about|venthan|work|dell|you/,'about']];
-const GO={build:'build',evaluate:'evaluate',read:'read',speak:'speak',watch:'watch'};
+
+/* =================== HELPERS =================== */
+const $=q=>document.querySelector(q);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MOBILE=()=>innerWidth<820;
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lens='everyone';try{const s=localStorage.getItem('lens');if(['everyone','leader','engineer'].includes(s))lens=s}catch(e){}
+const LK={everyone:'e',leader:'l',engineer:'g'};
+
+/* =================== RENDERING (lens-aware) =================== */
+function oneLiner(it){return lens==='leader'?(it.i||it.s):lens==='engineer'?(it.m||it.s):it.s}
+function layers(it){
+  const rows=[['everyone','In plain words',it.d],['leader','Why it matters',it.i],['engineer','Under the hood',it.m]].filter(r=>r[2]);
+  // the visitor's lens comes first and is highlighted
+  rows.sort((a,b)=>(b[0]===lens)-(a[0]===lens));
+  return rows.map(([k,lab,txt])=>`<div class="layer${k===lens?' mine':''}"><span class="lab">${lab}</span><span>${k==='engineer'?`<code>${esc(txt)}</code>`:esc(txt)}</span></div>`).join('')+
+    (it.l?`<div class="links">${it.l.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join('')}</div>`:'');
+}
+function itemsHTML(s){return `<ul class="items">${s.items.map((it,i)=>`<li data-i="${i}"><button type="button" class="head" aria-expanded="false"><b>${esc(it.t)}</b><span>${esc(oneLiner(it))}</span><i>›</i></button><div class="more">${layers(it)}</div></li>`).join('')}</ul>`}
+function wire(root,s){
+  root.querySelectorAll('.items li').forEach(li=>{const b=li.querySelector('.head');
+    b.onclick=()=>{const o=li.classList.toggle('open');b.setAttribute('aria-expanded',o)};
+    li.onmouseenter=()=>{if(focus===s)hoverItem=+li.dataset.i};li.onmouseleave=()=>hoverItem=-1});
+  root.querySelectorAll('.spine').forEach(sp=>{sp.onclick=sp.onmouseenter=()=>{
+    root.querySelectorAll('.spine').forEach(x=>x.classList.remove('sel'));sp.classList.add('sel');
+    const li=root.querySelector(`.items li[data-i="${sp.dataset.i}"]`);if(li&&!li.classList.contains('open'))li.querySelector('.head').click();
+    if(focus===s)hoverItem=+sp.dataset.i}});
+}
+function renderPage(){
+  $('#glance').innerHTML=GLANCE[lens].map(([n,t])=>`<div class="g"><b>${n}</b><span>${esc(t)}</span></div>`).join('');
+  $('#sections').innerHTML=PAGE_ORDER.map(id=>{const s=BYID[id];return `<section class="sec" id="${id}" style="--c:${s.c}" aria-labelledby="h-${id}">
+    <header><span class="k"><span class="dot"></span>${s.num} · ${esc(s.name)} · <i class="orbic" title="Orbic for “${esc(s.name.toLowerCase())}”">${s.orb}</i></span><a class="open-orbit" href="#top" data-orbit="${id}">see it in orbit ↑</a></header>
+    <h2 class="ttl" id="h-${id}">${esc(s.title)}</h2><p class="line">${esc(s.line[LK[lens]])}</p>${s.extra?s.extra():''}${itemsHTML(s)}</section>`}).join('');
+  PAGE_ORDER.forEach(id=>wire(document.getElementById(id),BYID[id]));
+  document.querySelectorAll('[data-orbit]').forEach(a=>a.onclick=e=>{e.preventDefault();scrollTo({top:0,behavior:RM?'auto':'smooth'});setTimeout(()=>openSection(a.dataset.orbit),RM?0:500)});
+  $('#glossary').innerHTML=ORBIC.map(([w,m])=>`<tr><td>${w}</td><td>${esc(m)}</td></tr>`).join('');
+  $('#btns').innerHTML=(LINKS.linkedin?`<a class="btn" href="${LINKS.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>`:'')+
+    `<a class="btn" href="${LINKS.github}" target="_blank" rel="noopener">GitHub ↗</a>`+(LINKS.youtube?`<a class="btn" href="${LINKS.youtube}" target="_blank" rel="noopener">YouTube ↗</a>`:'')+
+    `<button type="button" class="btn" id="askBtn">Ask me ↓</button>`;
+  $('#askBtn').onclick=()=>$('#q').focus();
+}
+function setLens(v){lens=v;try{localStorage.setItem('lens',v)}catch(e){}
+  document.querySelectorAll('#lens button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lens===v));
+  renderPage();if(focus)openSection(focus.id,true)}
+document.querySelectorAll('#lens button').forEach(b=>b.onclick=()=>setLens(b.dataset.lens));
+
+/* =================== PANEL =================== */
+const panel=$('#panel');let focus=null,hoverItem=-1;
+function openSection(id,keep){const s=BYID[id];if(!s)return;focus=s;panel.style.setProperty('--c',s.c);
+  panel.innerHTML=`<button type="button" class="close" id="closeP">esc · close</button><span class="k"><span class="dot"></span>${s.num} · ${esc(s.name)} · <i class="orbic" title="Orbic">${s.orb}</i></span>
+   <h2 class="ttl" tabindex="-1">${esc(s.title)}</h2><p class="line">${esc(s.line[LK[lens]])}</p>${s.extra?s.extra():''}${itemsHTML(s)}`;
+  wire(panel,s);panel.classList.add('open');document.body.classList.add('panel-on');$('#closeP').onclick=closeSection;
+  if(!keep){panel.scrollTop=0;setTimeout(()=>panel.querySelector('h2').focus({preventScroll:true}),60)}}
+function closeSection(){const was=focus;if(was&&was.el&&panel.contains(document.activeElement))was.el.focus({preventScroll:true});focus=null;panel.classList.remove('open');document.body.classList.remove('panel-on')}
+addEventListener('keydown',e=>{if(e.key==='Escape'){if(focus)closeSection();else if(con.classList.contains('open'))closeLog()}});
+
+/* =================== PLANET LABELS =================== */
+const labels=$('#labels');let hoverPlanet=null;
+SECTIONS.forEach(s=>{const b=document.createElement('button');b.type='button';b.className='lbl';b.style.setProperty('--c',s.c);
+  b.innerHTML=`<b>${esc(s.name)}</b><small>${s.orb}</small>`;b.setAttribute('aria-label',`${s.name}: ${s.title}`);
+  b.onclick=()=>openSection(s.id);b.onmouseenter=b.onfocus=()=>hoverPlanet=s;b.onmouseleave=b.onblur=()=>hoverPlanet=null;s.el=b;labels.appendChild(b)});
+
+/* =================== THE CORE: a sphere of light =================== */
+// Evenly spread points (Fibonacci sphere). When the core speaks, ripples run across it;
+// two halo rings orbit it like electrons.
+const N=MOBILE()?1300:2200,core=[];
+for(let i=0;i<N;i++){const y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),a=i*2.399963;core.push([Math.cos(a)*r,y,Math.sin(a)*r])}
+const RINGP=170,rings=[{tilt:.5,yaw:.3,spd:.55,r:1.38,c:'95,242,255'},{tilt:-.9,yaw:1.2,spd:-.38,r:1.55,c:'169,139,255'}];
+
+/* =================== SCENE =================== */
+const hero=$('.hero'),cv=$('#space'),cx=cv.getContext('2d');let W,H,dpr;
+function size(){dpr=Math.min(2,devicePixelRatio||1);const r=hero.getBoundingClientRect();W=cv.width=r.width*dpr;H=cv.height=r.height*dpr}
+size();addEventListener('resize',size);
+const stars=Array.from({length:240},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.1+.2,p:Math.random()*6}));
+let mx=0,my=0,hoverCore=false,talking=0,talkAmt=0,coreYaw=0,camX=0,camY=0,t0=performance.now(),last=t0,heroOn=true,coreScreen=[0,0,0];
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+new IntersectionObserver(es=>{heroOn=es[0].isIntersecting}).observe(hero);
+SECTIONS.forEach(s=>s.a=s.phase);
+
+function frame(now){
+  requestAnimationFrame(frame);
+  const dt=RM?0:Math.min(.05,(now-last)/1000);last=now;
+  if(!heroOn)return;
+  const t=RM?0:(now-t0)/1000,mob=MOBILE(),open=!!focus;
+  const tx=open&&!mob?-.2:0,ty=open&&mob?-.24:0;camX+=(tx-camX)*.06;camY+=(ty-camY)*.06;
+  const ox=W*(.5+camX+(mob?0:.06)),oy=H*((mob?.56:.47)+camY);
+  const scale=mob?Math.min(W,H)/(open?13:17.5):Math.min(W/18,H/23.5);
+  const tilt=1.08+my*.12,yaw=mx*.35,ct=Math.cos(tilt),st=Math.sin(tilt),cyw=Math.cos(yaw),syw=Math.sin(yaw);
+  const view=(x,y,z)=>{let X=x*cyw+z*syw,Z=-x*syw+z*cyw;let Y=y*ct-Z*st;Z=y*st+Z*ct;const f=18/(18-Z);return [ox+X*scale*f,oy-Y*scale*f,Z,f]};
+  cx.clearRect(0,0,W,H);
+  for(const s of stars){cx.fillStyle=`rgba(255,255,255,${.22+.35*Math.sin(t*.8+s.p)**2})`;cx.fillRect(s.x*W,s.y*H,s.r*dpr,s.r*dpr)}
+  const slow=hoverPlanet?0:hoverCore?.25:1,pts=[];
+  for(const s of SECTIONS){
+    if(focus!==s)s.a+=dt*s.speed*slow;
+    const ci=Math.cos(s.incl),si=Math.sin(s.incl),at=a=>{const x=Math.cos(a)*s.R,z=Math.sin(a)*s.R;return [x,z*si,z*ci]};
+    cx.beginPath();for(let k=0;k<=96;k++){const P=view(...at(k/96*Math.PI*2));k?cx.lineTo(P[0],P[1]):cx.moveTo(P[0],P[1])}
+    const on=focus===s||hoverPlanet===s;cx.strokeStyle=on?s.c+'88':'rgba(255,255,255,.07)';cx.lineWidth=dpr*(on?1.2:.7);cx.stroke();
+    const w=at(s.a);pts.push({s,P:view(...w),w});
+  }
+  pts.sort((a,b)=>a.P[2]-b.P[2]);
+  for(const p of pts)if(p.P[2]<0)drawPlanet(p,ox,oy,scale,view,t);
+  drawCore(t,dt,ox,oy,scale);
+  for(const p of pts)if(p.P[2]>=0)drawPlanet(p,ox,oy,scale,view,t);
+}
+function drawPlanet({s,P,w},ox,oy,scale,view,t){
+  const dim=focus&&focus!==s,r=s.size*scale*P[3]*(focus===s?1.35:hoverPlanet===s?1.2:1);
+  const g=cx.createRadialGradient(P[0],P[1],0,P[0],P[1],r*4);g.addColorStop(0,s.c+(dim?'22':'55'));g.addColorStop(1,s.c+'00');cx.fillStyle=g;cx.beginPath();cx.arc(P[0],P[1],r*4,0,7);cx.fill();
+  const lx=ox-P[0],ly=oy-P[1],ll=Math.hypot(lx,ly)||1;
+  const b=cx.createRadialGradient(P[0]+lx/ll*r*.45,P[1]+ly/ll*r*.45,r*.1,P[0],P[1],r);b.addColorStop(0,'#fff');b.addColorStop(.35,s.c);b.addColorStop(1,'#0a0a1a');
+  cx.globalAlpha=dim?.35:1;cx.fillStyle=b;cx.beginPath();cx.arc(P[0],P[1],r,0,7);cx.fill();
+  if(s.ring){cx.strokeStyle=s.c+'aa';cx.lineWidth=dpr*1.2;cx.beginPath();cx.ellipse(P[0],P[1],r*2,r*.55,-.35,0,7);cx.stroke()}
+  cx.globalAlpha=1;
+  if(focus===s){const n=s.items.length;for(let k=0;k<n;k++){const a=t*.5+k/n*Math.PI*2,mr=s.size*2.6+.25;
+    const M=view(w[0]+Math.cos(a)*mr,w[1],w[2]+Math.sin(a)*mr),big=hoverItem===k;
+    cx.fillStyle=big?'#fff':s.c;cx.globalAlpha=big?1:.75;cx.beginPath();cx.arc(M[0],M[1],(big?4:2.4)*dpr,0,7);cx.fill();
+    if(big){cx.strokeStyle=s.c;cx.lineWidth=dpr;cx.beginPath();cx.moveTo(P[0],P[1]);cx.lineTo(M[0],M[1]);cx.stroke()}cx.globalAlpha=1}}
+  s.el.style.left=(P[0]/dpr)+'px';s.el.style.top=(P[1]/dpr+r/dpr+6)+'px';
+  s.el.classList.toggle('on',focus===s);s.el.classList.toggle('dim',!!dim);s.screen=[P[0],P[1],r];
+}
+function drawCore(t,dt,ox,oy,scale){
+  talkAmt+=((talking||hoverCore?1:0)-talkAmt)*.08;
+  coreYaw+=dt*(.35+talkAmt*.4);
+  const R=scale*1.75,cy=Math.cos(coreYaw),sy=Math.sin(coreYaw),pt=-.15+my*.2,cp=Math.cos(pt),sp=Math.sin(pt);
+  const rot=(x,y,z)=>{let X=x*cy+z*sy,Z=-x*sy+z*cy;let Y=y*cp-Z*sp;Z=y*sp+Z*cp;return [X,Y,Z]};
+  const corona=cx.createRadialGradient(ox,oy,R*.3,ox,oy,R*(2.6+talkAmt*.5));corona.addColorStop(0,`rgba(140,210,255,${.22+talkAmt*.12})`);corona.addColorStop(.5,'rgba(150,110,255,.07)');corona.addColorStop(1,'rgba(0,0,0,0)');
+  cx.fillStyle=corona;cx.beginPath();cx.arc(ox,oy,R*3.2,0,7);cx.fill();
+  const ringPts=(rg,front)=>{const ct=Math.cos(rg.tilt),st=Math.sin(rg.tilt),cw=Math.cos(rg.yaw),sw=Math.sin(rg.yaw);
+    for(let k=0;k<RINGP;k++){const a=k/RINGP*Math.PI*2+t*rg.spd;let x=Math.cos(a)*rg.r,y=0,z=Math.sin(a)*rg.r;
+      let y2=y*ct-z*st,z2=y*st+z*ct;let x3=x*cw+z2*sw,z3=-x*sw+z2*cw;
+      if((z3>0)!==front)continue;const f=3.6/(3.6-z3),al=(front?.55:.18)*(.6+.4*Math.sin(a*3+t));
+      cx.fillStyle=`rgba(${rg.c},${al})`;cx.fillRect(ox+x3*R*f,oy-y2*R*f,dpr*1.3,dpr*1.3)}};
+  rings.forEach(rg=>ringPts(rg,false));
+  const breathe=1+.015*Math.sin(t*1.6),scan=1.1-((t*.25)%1)*2.2;
+  for(const p of core){let [X,Y,Z]=rot(p[0],p[1],p[2]);if(Z<-.2)continue;
+    // speaking: ripples spread out from the point facing you
+    const ang=Math.acos(Math.max(-1,Math.min(1,Z)));const wave=talkAmt*.07*Math.sin(ang*9-t*9);const k=breathe+wave;
+    X*=k;Y*=k;const Zs=Z*k;
+    const diff=Math.max(0,X*.35+Y*.45+Z*.82);let al=.14+.95*Math.pow(diff,1.25)+Math.max(0,wave)*4;
+    if(Math.abs(p[1]-scan)<.04)al+=.35;
+    const f=3.6/(3.6-Zs),s=dpr*(1.1+.6*(Z+1)/2);
+    cx.fillStyle=`rgba(${225+talkAmt*20|0},${245},255,${Math.min(1,al)})`;cx.fillRect(ox+X*R*f,oy-Y*R*f,s,s)}
+  rings.forEach(rg=>ringPts(rg,true));
+  const tip=$('#coreTip');tip.style.left=(ox/dpr)+'px';tip.style.top=((oy+R*1.9)/dpr)+'px';tip.style.opacity=focus||talking?0:1;
+  coreScreen=[ox,oy,R];
+}
+requestAnimationFrame(frame);
+const hitPlanet=(x,y)=>SECTIONS.find(s=>s.screen&&Math.hypot(x-s.screen[0],y-s.screen[1])<Math.max(s.screen[2]*1.6,14*dpr));
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*dpr,y=(e.clientY-r.top)*dpr;
+  hoverCore=Math.hypot(x-coreScreen[0],y-coreScreen[1])<coreScreen[2];const hp=hitPlanet(x,y);
+  if(!(document.activeElement&&document.activeElement.classList.contains('lbl')))hoverPlanet=hp||null;cv.style.cursor=hp||hoverCore?'pointer':'default'});
+cv.addEventListener('pointerleave',()=>{hoverCore=false});
+cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*dpr,y=(e.clientY-r.top)*dpr;const hp=hitPlanet(x,y);
+  if(hp)return openSection(hp.id);
+  if(Math.hypot(x-coreScreen[0],y-coreScreen[1])<coreScreen[2]){run('hi');$('#q').focus({preventScroll:true});return}
+  if(focus)closeSection()});
+
+/* =================== CONSOLE (terminal, plain-English friendly) =================== */
+const con=$('#console'),log=$('#log');
+const A={
+  hi:()=>`vela. I'm Venthan, or rather my core. Ask me anything, or tap a suggestion.`,
+  about:()=>({everyone:`I'm Venthan, a Senior Software Engineer at Dell Technologies in Singapore. For 14+ years I've made sure software works. Now I test AI agents, build apps with AI, and lead a Toastmasters club.`,
+    leader:`14+ years in software quality across healthcare, IoT, microfinance and edge computing. Today I validate AI agent workflows at Dell and build products spec-first with AI. Club President, two-time Best Speaker.`,
+    engineer:`Senior SWE at Dell. I validate AI-assisted infra deployments (vCenter, Ceph, PowerEdge), build with Claude Code + MCP using SDD, and run agent evals. AWS · Azure · OCI certified.`})[lens],
+  plain:()=>`In simple words: AI tools can now do things, like refund money or send emails. Sometimes they say "done" when they didn't do it. I build tests that catch this before real people get hurt.`,
+  build:()=>`My favourite is the Pannaipuram app, an info hub for my village with 100+ users. Opening Build.`,
+  evaluate:()=>`I tested a small AI agent 60 times. Every reply sounded fine, but only 72% did the right thing. Opening Evaluate.`,
+  method:()=>`Spec first, build with AI, prove it with tests, then listen to users. Opening Method.`,
+  read:()=>`Right now, The Visual MBA. Before that, Nexus, with 123 notes. Opening my shelf.`,
+  speak:()=>`Club President at Eminent Communicators and two-time Best Speaker. Opening Speak.`,
+  watch:()=>`My YouTube channel is coming soon. Opening Watch.`,
+  life:()=>`Yoga, shuttle, Tamil cinema, K-pop, and my roots in Pannaipuram.`,
+  contact:()=>`LinkedIn is easiest${LINKS.linkedin?': '+LINKS.linkedin.replace('https://',''):''}, or see my work at github.com/VenthanGowthamS.`,
+  orbic:()=>`Orbic is a small language I invented for 2126:\n${ORBIC.map(([w,m])=>`  ${w.padEnd(5)} ${m}`).join('\n')}`,
+  why:()=>`In 2126 I imagine you won't browse pages; you'll pull ideas into orbit. I'm the core, my work orbits me. Pick a lens at the top so I explain things at your level.`,
+  help:()=>`Ask in plain words, or type: about · build · evaluate · method · read · speak · watch · life · contact · orbic · lens leader · clear`,
+  fallback:()=>`I'm a simple core, still evolving like the original. Try a suggestion, or type help.`
+};
+const OPEN={build:1,evaluate:1,method:1,read:1,speak:1,watch:1,life:1};
+const IN=[[/^(hi|hey|hello|vela|vanakkam)\b/,'hi'],[/^help$|commands|menu/,'help'],[/orbic|language|vela means|ora/,'orbic'],[/simpl|plain|non.?tech|explain/,'plain'],
+  [/2126|future|solar|planet|orbit|why/,'why'],[/how (do )?you work|method|process|requirement|spec/,'method'],[/eval|test|agent|\bai\b|72/,'evaluate'],
+  [/build|built|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],
+  [/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life/,'life'],[/who|about|venthan|dell|yourself|you\b/,'about']];
+const CH=[['Who are you?','about'],['Explain simply','plain'],['How do you work?','method'],['The AI test','evaluate'],['What have you built?','build'],['Why a solar system?','why']];
 $('#chips').innerHTML=CH.map(([l,k])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
-const bar=$('#bar');let typing=null;
-function ask(q,key){scripted(q,key)}
-function scripted(q,key){if(!key){const l=q.toLowerCase();for(const [re,k] of IN)if(re.test(l)){key=k;break}}key=key||'fallback';
-  const txt=typeof A[key]==='function'?A[key]():A[key];const box=$('#replyText');$('#reply').classList.add('show');bar.classList.add('active');
-  clearTimeout(typing);let i=0;talk=1;box.textContent='';
-  (function s(){i=Math.min(txt.length,i+2);box.textContent=txt.slice(0,i);if(i<txt.length)typing=setTimeout(s,16);else{talk=0;if(GO[key])typing=setTimeout(()=>go(GO[key]),900)}})();
-  if(key==='evolve'){go('home');auto=false;let v=0;const st=performance.now();(function an(n){v=Math.min(2,(n-st)/2500*2);evo=v;ev.value=v;if(v<2)requestAnimationFrame(an)})(st)}}
-$('#chips').onclick=e=>{const b=e.target.closest('button');if(b)ask(b.textContent,b.dataset.k)};
-$('#q').addEventListener('focus',()=>bar.classList.add('active'));document.addEventListener('pointerdown',e=>{if(!bar.contains(e.target)&&!$('#reply').classList.contains('show'))bar.classList.remove('active')});
-$('#form').onsubmit=e=>{e.preventDefault();const v=$('#q').value.trim();if(v){$('#q').value='';ask(v)}};
-$('#hideReply').onclick=()=>{$('#reply').classList.remove('show');bar.classList.remove('active');talk=0};
+function addLine(cls,text){const d=document.createElement('div');d.className=cls;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+let finishNow=null,booted=false;
+function boot(){if(booted)return;booted=true;
+  addLine('sys','ora 7.2 · intent runtime · 2126');addLine('code','ora ❯ hi(visitor)');}
+function say(text,after){if(finishNow)finishNow();const d=addLine('a','');let i=0,stopped=false;talking=1;
+  finishNow=()=>{stopped=true;d.textContent=text;talking=0;finishNow=null};
+  (function s(){if(stopped)return;i=Math.min(text.length,i+2);d.textContent=text.slice(0,i);log.scrollTop=log.scrollHeight;
+    if(i<text.length)setTimeout(s,RM?0:14);else{finishNow=null;setTimeout(()=>talking=0,400);after&&after()}})()}
+function openLog(){con.classList.add('open');boot()}
+function closeLog(){con.classList.remove('open');if(finishNow)finishNow()}
+function run(raw,key){const q=raw.trim();if(!q)return;openLog();addLine('u',q);const l=q.toLowerCase();
+  if(l==='clear'){log.innerHTML='';booted=false;return}
+  const lm=l.match(/^lens (everyone|leader|engineer)$/);if(lm){setLens(lm[1]);return say(`Lens set to ${lm[1]}. Everything now explains itself at that level.`)}
+  if(!key)for(const [re,k] of IN)if(re.test(l)){key=k;break}
+  key=key||'fallback';say(A[key](),()=>{if(OPEN[key]){if(scrollY>innerHeight*.5)scrollTo({top:0,behavior:RM?'auto':'smooth'});setTimeout(()=>openSection(key),RM?0:350)}})}
+$('#ask').onsubmit=e=>{e.preventDefault();const v=$('#q').value;$('#q').value='';run(v)};
+$('#chips').onclick=e=>{const b=e.target.closest('button');if(b)run(b.textContent,b.dataset.k)};
+$('#hideLog').onclick=closeLog;
+
+/* =================== START =================== */
+setLens(lens);
 </script>
-<nav class="modesw" aria-label="Site mode">
-<a href="./3100/">3100</a><a href="./" aria-current="page">2050</a><a href="./orb/">Orb</a><a href="./terminal/">Terminal</a>
-</nav>
 </body>
 </html>
