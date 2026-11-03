@@ -326,7 +326,7 @@ footer{text-align:center;padding:0 0 110px;font-family:var(--mono);font-size:10p
     <div><b>Yoga</b><small>the body's own reset</small></div>
     <div><b>Shuttle</b><small>fast feet, friendly rivalry</small></div>
     <div><b>Pannaipuram</b><small>my roots in Tamil Nadu</small></div>
-    <div><b>Tamil cinema · K-pop</b><small>stories and soundtracks</small></div>
+    <div><b>Time with my kids</b><small>stories and soundtracks</small></div>
   </div>
 </section>
 
@@ -548,7 +548,7 @@ const A={
   watch:`My YouTube channel is coming soon, with talks, AI evaluation explained simply, and the stories behind my builds.`,
   evolve:`This avatar evolves from a Neanderthal to Homo sapiens to a 2050 digital self. Drag the slider under my face. Humans won by making tools, judging what was safe, sharing knowledge and telling stories. That's my work too.`,
   contact:()=>`LinkedIn is easiest${LINKS.linkedin?': '+LINKS.linkedin.replace('https://',''):''}, or see my work at github.com/VenthanGowthamS. I'm open to AI evaluation and AI engineering conversations.`,
-  life:`Off the interface: yoga, shuttle, Tamil cinema and K-pop. My roots are in Pannaipuram, Tamil Nadu.`,
+  life:`Off the interface: yoga, shuttle and time with my kids. My roots are in Pannaipuram, Tamil Nadu.`,
   fallback:`I'm a simple digital self, still evolving like the original. Try one of the suggestions above.`
 };
 const CH=[['Who are you?','about'],['Explain simply','plain'],['What have you built?','build'],['The AI test','evaluate'],['Books','read'],['Why the evolving face?','evolve'],['Contact','contact']];
@@ -567,8 +567,6 @@ $('#q').addEventListener('focus',()=>bar.classList.add('active'));document.addEv
 $('#form').onsubmit=e=>{e.preventDefault();const v=$('#q').value.trim();if(v){$('#q').value='';ask(v)}};
 $('#hideReply').onclick=()=>{$('#reply').classList.remove('show');bar.classList.remove('active');talk=0};
 </script>
-<nav class="modesw" aria-label="Past versions">
-<a href="/">← Current site</a><a href="/2050/" aria-current="page">2050</a><a href="/3100/">3100</a><a href="/orb/">Orb</a><a href="/terminal/">Terminal</a>
-</nav>
+<nav class="modesw" aria-label="Past version"><a href="/">← Current site</a><a href="/archive/" aria-current="page">Archive</a></nav>
 </body>
 </html>

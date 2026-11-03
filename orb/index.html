@@ -339,7 +339,7 @@ footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:#8a90b8;
     <div><span>🧘</span><b>Yoga</b><small>My daily reset</small></div>
     <div><span>🏸</span><b>Shuttle</b><small>Fast feet, friendly rivalry</small></div>
     <div><span>🌾</span><b>Pannaipuram</b><small>My roots in Tamil Nadu</small></div>
-    <div><span>🎬</span><b>Tamil cinema & K-pop</b><small>Stories and soundtracks</small></div>
+    <div><span>🎬</span><b>Time with my kids</b><small>The best part of my week</small></div>
   </div>
 </section>
 
@@ -492,7 +492,7 @@ const A={
   speak:`He's Club President at Eminent Communicators Toastmasters and has won Best Speaker twice: "How Mental Models Rewired My Life" and "Deep Work".`,
   watch:`His YouTube channel is coming soon, with talks, evals explained simply and build stories.`,
   contact:()=>`The easiest way is LinkedIn${LINKS.linkedin?' ('+LINKS.linkedin.replace('https://','')+')':''}, or check his work at github.com/VenthanGowthamS. He's open to AI evaluation and AI engineering conversations.`,
-  life:`Off the keyboard: yoga 🧘, shuttle 🏸, Tamil cinema and K-pop. His heart is in Pannaipuram, his village in Tamil Nadu.`,
+  life:`Off the keyboard: yoga 🧘, shuttle 🏸 and time with his kids. His heart is in Pannaipuram, his village in Tamil Nadu.`,
   fallback:`I'm a simple twin and still learning, like the original 🙂 Try one of the buttons below.`
 };
 const CHIPS=[['Who is Venthan?','about'],['Explain his work simply','plain'],['What has he built?','build'],['Show me the AI test','evaluate'],['What does he read?','read'],['Speaking','speak'],['How to contact?','contact']];
@@ -529,8 +529,6 @@ if(matchMedia('(prefers-reduced-motion: reduce)').matches)P.forEach(p=>{p.vx=p.v
   for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<L){cx.strokeStyle=`rgba(120,160,255,${(1-d/L)*.15})`;cx.lineWidth=dpr*.6;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()}}
   requestAnimationFrame(draw)})();
 </script>
-<nav class="modesw" aria-label="Past versions">
-<a href="/">← Current site</a><a href="/2050/">2050</a><a href="/3100/">3100</a><a href="/orb/" aria-current="page">Orb</a><a href="/terminal/">Terminal</a>
-</nav>
+<nav class="modesw" aria-label="Past version"><a href="/">← Current site</a><a href="/archive/" aria-current="page">Archive</a></nav>
 </body>
 </html>

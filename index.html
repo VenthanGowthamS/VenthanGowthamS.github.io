@@ -49,8 +49,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hero{position:relative;height:100vh;min-height:620px;overflow:hidden}
 #space{position:absolute;inset:0;width:100%;height:100%;display:block}
 .intro{position:absolute;left:32px;top:84px;z-index:3;max-width:430px}
-.intro .hello{font-family:var(--mono);font-size:13px;color:var(--d);letter-spacing:1px}
-.intro .hello b{color:#fff;font-weight:500;font-size:15px}
+.intro .hello{font-size:13.5px;color:var(--d)}
+.intro .hello b{color:#fff;font-weight:500;font-size:22px;letter-spacing:.5px;margin-right:2px}
+.intro .hello span{display:block;margin-top:2px}
 .intro h1{font-weight:300;font-size:clamp(30px,3.6vw,50px);letter-spacing:-1.2px;line-height:1.08;margin:10px 0 10px}
 .intro h1 em{font-style:normal;font-weight:500}
 .intro p{font-size:16.5px;color:var(--d)}
@@ -62,8 +63,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .lbl:hover b,.lbl.on b{color:var(--c)}
 .lbl.dim{opacity:.25}
 .core-tip{position:absolute;z-index:3;transform:translate(-50%,0);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--f);text-transform:uppercase;pointer-events:none;white-space:nowrap;transition:opacity .4s}
-.scroll-cue{position:absolute;left:50%;bottom:92px;transform:translateX(-50%);z-index:3;font-size:13px;color:var(--f);text-decoration:none;animation:bob 2.4s ease-in-out infinite}
-@keyframes bob{50%{transform:translate(-50%,5px)}}
+.scroll-cue{position:absolute;left:32px;bottom:96px;z-index:3;font-size:13px;color:var(--f);text-decoration:none;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(5px)}}
 
 /* ---------- panel (layer 2 + 3) ---------- */
 .panel{position:fixed;right:0;top:0;bottom:0;z-index:30;width:min(470px,100%);background:rgba(3,4,12,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -89,6 +90,10 @@ h2.ttl{font-weight:300;font-size:32px;letter-spacing:-.7px;line-height:1.12;marg
 .layer .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--f);padding-top:3px}
 .layer.mine .lab{color:var(--c)}
 .layer code{font-family:var(--mono);font-size:12.5px;color:#cfd3ea}
+.more img.cover{float:right;width:110px;height:auto;margin:4px 0 10px 16px;border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.more::after{content:'';display:block;clear:both}
+.video{position:relative;aspect-ratio:16/9;margin:4px 0 12px;border-radius:12px;overflow:hidden;border:1px solid var(--h)}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .links{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-family:var(--mono);font-size:12.5px}
 .links a{color:var(--c);text-decoration:none;border-bottom:1px solid currentColor}
 .big{font-weight:300;font-size:22px;line-height:1.3;margin:2px 0 14px}
@@ -114,12 +119,25 @@ main.page{position:relative;z-index:2;max-width:1060px;margin:0 auto;padding:40p
 .sec h2.ttl{font-size:34px}
 .sec .open-orbit{font-family:var(--mono);font-size:11px;color:var(--f);letter-spacing:1px;text-decoration:none;border-bottom:1px dotted var(--f)}
 .sec .open-orbit:hover{color:var(--c)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 18px}
+.filters button{font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--h);color:var(--d)}
+.filters button[aria-pressed="true"]{background:#fff;color:#000;border-color:#fff}
+.timeline{list-style:none;border-left:1px solid var(--h);margin-left:6px;padding-left:22px}
+.timeline li{position:relative;padding:0 0 22px}
+.timeline li::before{content:'';position:absolute;left:-28px;top:8px;width:11px;height:11px;border-radius:50%;background:#02030a;border:2px solid var(--c,#fff);box-shadow:0 0 10px var(--c,#fff)}
+.timeline .when{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--f);text-transform:uppercase}
+.timeline .what{font-size:16px;font-weight:500;margin:2px 0}
+.timeline .what button{text-align:left;border-bottom:1px dotted var(--f)}
+.timeline .what button:hover{color:var(--c)}
+.timeline .note{font-size:14.5px;color:var(--d)}
+.timeline .empty{color:var(--f);font-size:14.5px}
 .contact{text-align:center;padding:40px 0 20px}
 .contact h2{font-weight:300;font-size:clamp(30px,4vw,48px);letter-spacing:-1px}
 .contact p{color:var(--d);margin:10px auto 24px;max-width:520px}
 .btn{display:inline-block;margin:4px 6px;font-family:var(--mono);font-size:12.5px;letter-spacing:1px;padding:11px 18px;border:1px solid var(--f);border-radius:999px;text-decoration:none;transition:.2s}
 .btn:hover{background:#fff;color:#000;border-color:#fff}
-.lang{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:70px 0 0;border-top:1px solid var(--h);padding-top:34px}
+.lang{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;margin:70px 0 0;border-top:1px solid var(--h);padding-top:34px}
+.lang>div{min-width:0}
 .lang h3{font-weight:400;font-size:18px;margin-bottom:6px}
 .lang p{font-size:14.5px;color:var(--d)}
 .lang table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
@@ -163,9 +181,9 @@ h2[tabindex="-1"]:focus{outline:none}
   .intro h1{font-size:30px}
   .intro p{font-size:15px}
   .intro .how{display:none}
-  .scroll-cue{bottom:84px}
+  .scroll-cue{display:none}
   .glance{grid-template-columns:1fr 1fr}
-  .lang{grid-template-columns:1fr}
+  .lang{grid-template-columns:minmax(0,1fr)}
   .panel{top:auto;height:70vh;width:100%;border-left:0;border-top:1px solid var(--h);border-radius:20px 20px 0 0;padding:58px 20px 150px;transform:translateY(105%)}
   .panel.open{transform:none}
   .layer{grid-template-columns:1fr;gap:2px}
@@ -191,7 +209,7 @@ h2[tabindex="-1"]:focus{outline:none}
 <section class="hero" id="top" aria-label="My work as a solar system">
   <canvas id="space" aria-hidden="true"></canvas>
   <div class="intro">
-    <p class="hello"><b class="orbic" title="Orbic for “hello”">Vela.</b> &nbsp;hello, in Orbic, a language from 2126</p>
+    <p class="hello"><b>Vela</b> 👋 <span>“Vela” means hello in Orbic, a language I imagined for the year 2126.</span></p>
     <h1>I make sure AI <em>does</em> what it says.</h1>
     <p>And I build apps people actually use. Senior Software Engineer, Singapore.</p>
     <p class="how">Tap a <b>planet</b> to explore · tap the <b>core</b> or type below to ask me.</p>
@@ -203,6 +221,13 @@ h2[tabindex="-1"]:focus{outline:none}
 
 <main class="page" id="page">
   <div class="glance" id="glance"></div>
+  <section class="sec diary" id="log" aria-labelledby="h-log">
+    <header><span class="k">My log · newest first</span></header>
+    <h2 class="ttl" id="h-log">What I've been doing</h2>
+    <p class="line">A running diary of books finished, talks given, runs, builds and learning. It's my record, and yours to browse.</p>
+    <div class="filters" id="logFilters" role="group" aria-label="Filter the log"></div>
+    <ol class="timeline" id="timeline"></ol>
+  </section>
   <div id="sections"></div>
   <section class="contact" id="contact" aria-label="Contact">
     <h2>Still evolving. Let's talk.</h2>
@@ -218,7 +243,7 @@ h2[tabindex="-1"]:focus{outline:none}
     <div>
       <h3>Ora, intent code</h3>
       <p>Code in 2126 states what you mean, not how to do it. This is the "hi code" that greets you in the console:</p>
-<pre class="ora"><span class="c">// Ora · intent code</span>
+<pre class="ora" tabindex="0" aria-label="Ora hi code example"><span class="c">// Ora · intent code</span>
 <span class="kw">intent</span> <span class="w">hi</span>(visitor) {
   <span class="kw">say</span>   <span class="s">"vela"</span>              <span class="c">// hello</span>
   <span class="kw">offer</span> [sora, kesh, lio, tama]  <span class="c">// build, test, read, speak</span>
@@ -229,12 +254,12 @@ h2[tabindex="-1"]:focus{outline:none}
   </section>
 </main>
 <footer>Venthan · Senior Software Engineer, Dell Technologies Singapore · AWS · Azure · OCI certified<br>
-Past versions: <a href="/2050/">2050</a> · <a href="/3100/">3100</a> · <a href="/orb/">Orb</a> · <a href="/terminal/">Terminal</a></footer>
+<a href="/archive/">Archive of everything built so far</a></footer>
 
 <aside class="panel" id="panel" aria-label="Details"></aside>
 
 <section class="console" id="console" aria-label="Ask me">
-  <div class="log" id="log" aria-live="polite"></div>
+  <div class="log" id="convo" aria-live="polite"></div>
   <div class="chips" id="chips"></div>
   <form id="ask" autocomplete="off">
     <span class="pr" aria-hidden="true">ora ❯</span>
@@ -248,6 +273,9 @@ Past versions: <a href="/2050/">2050</a> · <a href="/3100/">3100</a> · <a href
 /* =================== CONFIG =================== */
 const LINKS={github:'https://github.com/VenthanGowthamS',linkedin:'',youtube:''};
 const GH='https://github.com/VenthanGowthamS/';
+// Videos: upload to YouTube (public or unlisted), then put each video's ID here.
+// The ID is the part after "v=" in the link, e.g. youtube.com/watch?v=AbC123xyz → 'AbC123xyz'.
+const VIDEOS={mentalModels:'',agentEvals:'',villageApp:''};
 
 /* =================== ORBIC (invented words) =================== */
 const ORBIC=[['vela','hello'],['sora','build'],['kesh','test, judge'],['ren','method, path'],['lio','read'],['tama','speak'],['vio','watch'],['nui','life'],['ka','I, me']];
@@ -256,8 +284,9 @@ const ORBIC=[['vela','hello'],['sora','build'],['kesh','test, judge'],['ren','me
    Every section speaks to three lenses: e = everyone, l = leader, g = engineer.
    Every item has: s (plain one-liner), i (why it matters), m (under the hood), d (the story). */
 const BOOKS=[
- {t:'The Visual MBA',a:'Jason Barron',c:'#5ff2ff',h:150,tag:'NOW',n:'An MBA in sketches. Business school is an unfinished trip of mine, so I\'m taking it one page at a time.'},
- {t:'Nexus',a:'Yuval Noah Harari',c:'#ff9a6a',h:164,tag:'123 NOTES',n:'How information networks shape power, from the Stone Age to AI. I annotated 123 connections.'},
+ {t:'The LinkedIn Playbook for Employees',a:'James Cheo',c:'#2f5fd0',h:158,tag:'NEW',lang:'English',done:'2026-11',cover:'books/the-linkedin-playbook-for-employees.jpg',n:'How to build a professional brand without losing your job. It\'s the playbook behind how I now share my work on LinkedIn.'},
+ {t:'The Visual MBA',a:'Jason Barron',c:'#5ff2ff',h:150,tag:'NOW',reading:true,lang:'English',n:'An MBA in sketches. Business school is an unfinished trip of mine, so I\'m taking it one page at a time.'},
+ {t:'Nexus',a:'Yuval Noah Harari',c:'#ff9a6a',h:164,tag:'123 NOTES',lang:'English',n:'How information networks shape power, from the Stone Age to AI. I annotated 123 connections.'},
  {t:'Deep Work',a:'Cal Newport',c:'#a98bff',h:156,tag:'TALK',n:'Focus is a superpower. It became my Best Speaker talk.'},
  {t:'Atomic Habits',a:'James Clear',c:'#ffc86a',h:138,n:'Small, boring, repeatable. That\'s where compounding starts.'},
  {t:'Psychology of Money',a:'Morgan Housel',c:'#b8ff6a',h:144,n:'Behaviour beats spreadsheets.'},
@@ -308,11 +337,11 @@ const SECTIONS=[
   ]},
  {id:'read',name:'Read',orb:'lio',num:'04',c:'#ffc86a',R:5.8,speed:.08,incl:.06,phase:4.1,size:.28,
   title:'My reading shelf',
-  line:{e:'Reading is a lifelong habit. There\'s always a book on the go, and I annotate as I read.',
+  line:{e:'Reading is a lifelong habit, in English and Tamil. There\'s always a book on the go, and I annotate as I read. Newest first.',
         l:'Mental models from books shape how I make decisions and lead.',
         g:'Systems thinking, information networks and habit design, read with notes.'},
   extra:()=>`<div class="shelf">${BOOKS.map((b,i)=>`<button type="button" class="spine" data-i="${i}" style="height:${b.h}px;background:linear-gradient(90deg,${b.c},${b.c}bb)" aria-label="${b.t}">${b.tag?`<span class="tag">${b.tag}</span>`:''}<span>${b.t}</span></button>`).join('')}</div>`,
-  itemsFrom:()=>BOOKS.map(b=>({t:b.t,s:b.a+(b.tag?' · '+b.tag.toLowerCase():''),i:b.n,m:b.a,d:b.n}))},
+  itemsFrom:()=>BOOKS.map(b=>({t:b.t,s:b.a+(b.reading?' · reading now':b.done?' · finished '+monthName(b.done):''),m:[b.a,b.lang,b.done&&'finished '+monthName(b.done)].filter(Boolean).join(' · '),d:b.n,img:b.cover,imgAlt:'Cover of '+b.t}))},
  {id:'speak',name:'Speak',orb:'tama',num:'05',c:'#ff7ad4',R:6.5,speed:.06,incl:-.05,phase:5.6,size:.32,ring:true,
   title:'On stage',
   line:{e:'I\'m Club President at Eminent Communicators Toastmasters, and a two-time Best Speaker.',
@@ -332,23 +361,39 @@ const SECTIONS=[
         l:'Short, clear explainers on AI risk and building with AI.',
         g:'Walkthroughs of the eval harness and the builds.'},
   items:[
-   {t:'How Mental Models Rewired My Life',s:'Coming soon',i:'The award-winning talk, on video.',m:'Talk',d:'My Best Speaker talk.'},
-   {t:'AI agents that sound right but act wrong',s:'Coming soon',i:'The evaluation story in five minutes.',m:'Explainer · agent-evals-lab',d:'What I found when I tested an AI agent 60 times.'},
-   {t:'Building an app for my village',s:'Coming soon',i:'From a bus-stop vendor\'s memory to a live app.',m:'Build story · Pannaipuram',d:'How a village got its own information hub.'}
+   {t:'How Mental Models Rewired My Life',s:VIDEOS.mentalModels?'Watch':'Coming soon',i:'The award-winning talk, on video.',m:'Talk',d:'My Best Speaker talk.',video:VIDEOS.mentalModels},
+   {t:'AI agents that sound right but act wrong',s:VIDEOS.agentEvals?'Watch':'Coming soon',video:VIDEOS.agentEvals,i:'The evaluation story in five minutes.',m:'Explainer · agent-evals-lab',d:'What I found when I tested an AI agent 60 times.'},
+   {t:'Building an app for my village',s:VIDEOS.villageApp?'Watch':'Coming soon',video:VIDEOS.villageApp,i:'From a bus-stop vendor\'s memory to a live app.',m:'Build story · Pannaipuram',d:'How a village got its own information hub.'}
   ]},
  {id:'life',name:'Life',orb:'nui',num:'07',c:'#e8ecff',R:3.0,speed:.24,incl:-.12,phase:3.3,size:.16,
   title:'Off the screen',
-  line:{e:'Yoga, shuttle and my roots in Pannaipuram. Consistency compounds, on the mat and on the court too.',
-        l:'Balance and steady habits outside work.',
-        g:'Recharge loop: yoga, badminton, stories.'},
+  line:{e:'Time with my kids, yoga every day, shuttle and running, and building with AI just for fun. Consistency compounds.',
+        l:'Family first, daily habits, and steady practice outside work.',
+        g:'Recharge loop: family, yoga, badminton, running, side builds.'},
   items:[
-   {t:'Yoga',s:'The daily reset',i:'Steadiness, every day.',m:'Daily',d:'Mat time keeps the mind as steady as the body.'},
-   {t:'Shuttle',s:'Badminton',i:'Fast feet, friendly rivalry.',m:'Badminton',d:'Quick reflexes and good company.'},
-   {t:'Pannaipuram',s:'My roots in Tamil Nadu',i:'Why I build things for my village.',m:'Ancestral village',d:'My ancestral village, and the reason behind many of my builds.'},
-   {t:'Tamil cinema · K-pop',s:'Stories and soundtracks',i:'Where I recharge.',m:'Music and film',d:'My go-to for stories and soundtracks.'}
+   {t:'Time with my kids',s:'The best part of my week',i:'Family first.',m:'Every week',d:'Time with my children keeps everything else in perspective.'},
+   {t:'Yoga',s:'Every day',i:'Steadiness, every day.',m:'Daily practice',d:'Mat time keeps the mind as steady as the body.'},
+   {t:'Shuttle',s:'Badminton on weekends',i:'Fast feet, friendly rivalry.',m:'Weekends',d:'Quick reflexes and good company.'},
+   {t:'Running',s:'Logging my runs',i:'Small steps that add up.',m:'Run log below',d:'My runs go into the log on this page.'},
+   {t:'Building with AI',s:'Weekend side projects',i:'Learning by shipping.',m:'Claude Code · MCP',d:'Weekends are for small builds, like the village app and this site.'},
+   {t:'Pannaipuram',s:'My roots in Tamil Nadu',i:'Why I build things for my village.',m:'Ancestral village',d:'My ancestral village, and the reason behind many of my builds.'}
   ]}
 ];
+BOOKS.sort((a,b)=>(b.reading?1:0)-(a.reading?1:0)||(b.done||'').localeCompare(a.done||''));
+const monthName=d=>d?new Date(d+'-01T00:00:00').toLocaleDateString('en-SG',{month:'short',year:'numeric'}):'';
 SECTIONS.forEach(s=>{if(s.itemsFrom)s.items=s.itemsFrom()});
+// Newest first is automatic. type: book | speech | run | build | learn | work
+const LOG=[
+ {date:'2026-11',type:'book',title:'Finished “The LinkedIn Playbook for Employees”',note:'James Cheo. How to build a professional brand without losing your job.',open:'read'},
+ {date:'2026-11',type:'build',title:'Launched this site',note:'One page for everyone, with an agent core, a solar system of work and three lenses.'},
+ {date:'2026-11',type:'work',title:'Became Senior Software Engineer, Dell Technologies',note:'After five years as Senior Software Quality Engineer.'},
+ {date:'2026-11',type:'build',title:'Hardened agent-evals-lab',note:'The pretend shop now enforces its full refund policy; 11 new tests.',open:'evaluate'},
+ {date:'2026-10',type:'build',title:'Published agent-evals-lab',note:'60 graded runs: every reply sounded fine, only 72% did the right thing.',open:'evaluate'},
+ {date:'2026-10',type:'book',title:'Started “The Visual MBA”',note:'Jason Barron. Reading now.',open:'read'},
+ {date:'2026-09',type:'book',title:'Read “Nexus” with 123 notes',note:'Yuval Noah Harari. Annotated 123 connections.',open:'read'},
+ {date:'2025-08',type:'learn',title:'Completed “Test AI & LLM Apps with DeepEval, RAGAs & Ollama”',note:'Udemy, 10 hours. The start of my AI evaluation path.'}
+];
+const LOG_TYPES={all:'All',book:'Books',speech:'Speeches',run:'Runs',build:'Builds',learn:'Learning',work:'Work'};
 const PAGE_ORDER=['build','evaluate','method','read','speak','watch','life'];
 const BYID=Object.fromEntries(SECTIONS.map(s=>[s.id,s]));
 const GLANCE={
@@ -370,8 +415,9 @@ function oneLiner(it){return lens==='leader'?(it.i||it.s):lens==='engineer'?(it.
 function layers(it){
   const rows=[['everyone','In plain words',it.d],['leader','Why it matters',it.i],['engineer','Under the hood',it.m]].filter(r=>r[2]);
   // the visitor's lens comes first and is highlighted
+  if(it.notes)rows.push(['notes','My notes',it.notes]);
   rows.sort((a,b)=>(b[0]===lens)-(a[0]===lens));
-  return rows.map(([k,lab,txt])=>`<div class="layer${k===lens?' mine':''}"><span class="lab">${lab}</span><span>${k==='engineer'?`<code>${esc(txt)}</code>`:esc(txt)}</span></div>`).join('')+
+  return (it.img?`<img class="cover" src="${it.img}" alt="${esc(it.imgAlt||it.t)}" loading="lazy" width="120">`:'')+(it.date?`<div class="layer"><span class="lab">When</span><span>${esc(monthName(it.date))}</span></div>`:'')+(it.video?`<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${esc(it.video)}" title="${esc(it.t)}" allow="encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`:'')+rows.map(([k,lab,txt])=>`<div class="layer${k===lens?' mine':''}"><span class="lab">${lab}</span><span>${k==='engineer'?`<code>${esc(txt)}</code>`:esc(txt)}</span></div>`).join('')+
     (it.l?`<div class="links">${it.l.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join('')}</div>`:'');
 }
 function itemsHTML(s){return `<ul class="items">${s.items.map((it,i)=>`<li data-i="${i}"><button type="button" class="head" aria-expanded="false"><b>${esc(it.t)}</b><span>${esc(oneLiner(it))}</span><i>›</i></button><div class="more">${layers(it)}</div></li>`).join('')}</ul>`}
@@ -397,9 +443,20 @@ function renderPage(){
     `<button type="button" class="btn" id="askBtn">Ask me ↓</button>`;
   $('#askBtn').onclick=()=>$('#q').focus();
 }
+let logFilter='all';
+const TYPE_COLOR={book:'#ffc86a',speech:'#ff7ad4',run:'#e8ecff',build:'#5ff2ff',learn:'#a98bff',work:'#b8ff6a'};
+function renderLog(){
+  const counts={};LOG.forEach(e=>counts[e.type]=(counts[e.type]||0)+1);
+  $('#logFilters').innerHTML=Object.entries(LOG_TYPES).filter(([k])=>k==='all'||counts[k]).map(([k,v])=>`<button type="button" data-f="${k}" aria-pressed="${k===logFilter}">${v}${k==='all'?'':` · ${counts[k]}`}</button>`).join('');
+  $('#logFilters').onclick=e=>{const b=e.target.closest('button');if(b){logFilter=b.dataset.f;renderLog()}};
+  const rows=LOG.filter(e=>logFilter==='all'||e.type===logFilter).sort((a,b)=>b.date.localeCompare(a.date));
+  $('#timeline').innerHTML=rows.length?rows.map(e=>`<li style="--c:${TYPE_COLOR[e.type]}"><div class="when">${monthName(e.date)} · ${LOG_TYPES[e.type]}</div>
+    <div class="what">${e.open?`<button type="button" data-open="${e.open}">${esc(e.title)}</button>`:esc(e.title)}</div>${e.note?`<div class="note">${esc(e.note)}</div>`:''}</li>`).join(''):'<li class="empty">Nothing logged here yet.</li>';
+  $('#timeline').querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{const t=document.getElementById(b.dataset.open);if(t)t.scrollIntoView({behavior:RM?'auto':'smooth'})});
+}
 function setLens(v){lens=v;try{localStorage.setItem('lens',v)}catch(e){}
   document.querySelectorAll('#lens button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lens===v));
-  renderPage();if(focus)openSection(focus.id,true)}
+  renderPage();renderLog();if(focus)openSection(focus.id,true)}
 document.querySelectorAll('#lens button').forEach(b=>b.onclick=()=>setLens(b.dataset.lens));
 
 /* =================== PANEL =================== */
@@ -442,7 +499,7 @@ function frame(now){
   const t=RM?0:(now-t0)/1000,mob=MOBILE(),open=!!focus;
   const tx=open&&!mob?-.2:0,ty=open&&mob?-.24:0;camX+=(tx-camX)*.06;camY+=(ty-camY)*.06;
   const ox=W*(.5+camX+(mob?0:.06)),oy=H*((mob?.56:.47)+camY);
-  const scale=mob?Math.min(W,H)/(open?13:17.5):Math.min(W/18,H/23.5);
+  const scale=mob?Math.min(W/(open?13:17.5),H/(open?16:25)):Math.min(W/18,H/23.5);
   const tilt=1.08+my*.12,yaw=mx*.35,ct=Math.cos(tilt),st=Math.sin(tilt),cyw=Math.cos(yaw),syw=Math.sin(yaw);
   const view=(x,y,z)=>{let X=x*cyw+z*syw,Z=-x*syw+z*cyw;let Y=y*ct-Z*st;Z=y*st+Z*ct;const f=18/(18-Z);return [ox+X*scale*f,oy-Y*scale*f,Z,f]};
   cx.clearRect(0,0,W,H);
@@ -513,7 +570,7 @@ cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect(),x=(e.clientX-
   if(focus)closeSection()});
 
 /* =================== CONSOLE (terminal, plain-English friendly) =================== */
-const con=$('#console'),log=$('#log');
+const con=$('#console'),log=$('#convo');
 const A={
   hi:()=>`vela. I'm Venthan, or rather my core. Ask me anything, or tap a suggestion.`,
   about:()=>({everyone:`I'm Venthan, a Senior Software Engineer at Dell Technologies in Singapore. For 14+ years I've made sure software works. Now I test AI agents, build apps with AI, and lead a Toastmasters club.`,
@@ -526,19 +583,20 @@ const A={
   read:()=>`Right now, The Visual MBA. Before that, Nexus, with 123 notes. Opening my shelf.`,
   speak:()=>`Club President at Eminent Communicators and two-time Best Speaker. Opening Speak.`,
   watch:()=>`My YouTube channel is coming soon. Opening Watch.`,
-  life:()=>`Yoga, shuttle, Tamil cinema, K-pop, and my roots in Pannaipuram.`,
+  life:()=>`Time with my kids, yoga every day, shuttle on weekends, running, and building with AI for fun. Opening Life.`,
   contact:()=>`LinkedIn is easiest${LINKS.linkedin?': '+LINKS.linkedin.replace('https://',''):''}, or see my work at github.com/VenthanGowthamS.`,
   orbic:()=>`Orbic is a small language I invented for 2126:\n${ORBIC.map(([w,m])=>`  ${w.padEnd(5)} ${m}`).join('\n')}`,
   why:()=>`In 2126 I imagine you won't browse pages; you'll pull ideas into orbit. I'm the core, my work orbits me. Pick a lens at the top so I explain things at your level.`,
-  help:()=>`Ask in plain words, or type: about · build · evaluate · method · read · speak · watch · life · contact · orbic · lens leader · clear`,
+  log:()=>`Latest in my log:\n${[...LOG].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(e=>`  ${monthName(e.date)} · ${e.title}`).join('\n')}\nThe full log is on the page, below the hero.`,
+  help:()=>`Ask in plain words, or type: about · build · evaluate · method · read · speak · watch · life · log · contact · orbic · lens leader · clear`,
   fallback:()=>`I'm a simple core, still evolving like the original. Try a suggestion, or type help.`
 };
 const OPEN={build:1,evaluate:1,method:1,read:1,speak:1,watch:1,life:1};
-const IN=[[/^(hi|hey|hello|vela|vanakkam)\b/,'hi'],[/^help$|commands|menu/,'help'],[/orbic|language|vela means|ora/,'orbic'],[/simpl|plain|non.?tech|explain/,'plain'],
+const IN=[[/^(hi|hey|hello|vela|vanakkam)\b/,'hi'],[/^help$|commands|menu/,'help'],[/^log$|diary|timeline|recent|latest|what.*(doing|done)/,'log'],[/orbic|language|vela means|ora/,'orbic'],[/simpl|plain|non.?tech|explain/,'plain'],
   [/2126|future|solar|planet|orbit|why/,'why'],[/how (do )?you work|method|process|requirement|spec/,'method'],[/eval|test|agent|\bai\b|72/,'evaluate'],
   [/build|built|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],
-  [/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life/,'life'],[/who|about|venthan|dell|yourself|you\b/,'about']];
-const CH=[['Who are you?','about'],['Explain simply','plain'],['How do you work?','method'],['The AI test','evaluate'],['What have you built?','build'],['Why a solar system?','why']];
+  [/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life|kids|family|run/,'life'],[/who|about|venthan|dell|yourself|you\b/,'about']];
+const CH=[['Who are you?','about'],['Explain simply','plain'],['How do you work?','method'],['The AI test','evaluate'],['What have you built?','build'],['What have you done lately?','log'],['Why a solar system?','why']];
 $('#chips').innerHTML=CH.map(([l,k])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
 function addLine(cls,text){const d=document.createElement('div');d.className=cls;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
 let finishNow=null,booted=false;

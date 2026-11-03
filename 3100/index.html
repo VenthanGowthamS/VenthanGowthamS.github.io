@@ -214,7 +214,7 @@ const SECTIONS=[
    {t:'Yoga',s:'The daily reset',d:'Mat time keeps the mind as steady as the body.',m:''},
    {t:'Shuttle',s:'Badminton',d:'Fast feet, quick reflexes, friendly rivalry.',m:''},
    {t:'Pannaipuram',s:'My roots in Tamil Nadu',d:'My ancestral village, and the reason I build things for it.',m:''},
-   {t:'Tamil cinema · K-pop',s:'Stories and soundtracks',d:'My go-to for stories and soundtracks.',m:''}
+   {t:'Time with my kids',s:'The best part of my week',d:'Family first.',m:''}
   ]}
 ];
 const BOOKS=[
@@ -440,7 +440,7 @@ const A={
   read:`Right now, The Visual MBA. Before that, Nexus, where I made 123 notes. Opening my shelf.`,
   speak:`I'm Club President at Eminent Communicators and a two-time Best Speaker. Opening Speak.`,
   watch:`My YouTube channel is coming soon. Opening Watch.`,
-  life:`Yoga, shuttle, Tamil cinema and K-pop, and my roots in Pannaipuram.`,
+  life:`Yoga, shuttle, time with my kids, and my roots in Pannaipuram.`,
   idea:`In 3100, I imagine you won't navigate pages. You'll pull ideas into orbit. The sun is me; each planet is a part of my work. Tap one for a summary, then tap again for the details.`,
   contact:()=>`LinkedIn is easiest${LINKS.linkedin?': '+LINKS.linkedin.replace('https://',''):''}, or see my work at github.com/VenthanGowthamS.`,
   fallback:`I'm a simple core, still evolving like the original. Try one of the suggestions above, or tap a planet.`
@@ -463,8 +463,6 @@ $('#reply').addEventListener('click',()=>{$('#reply').classList.remove('show');b
 // deep links: /3100/#build opens Build
 const h=location.hash.slice(1);if(BYID[h])setTimeout(()=>openSection(h,true),400);
 </script>
-<nav class="modesw" aria-label="Past versions">
-<a href="/">← Current site</a><a href="/2050/">2050</a><a href="/3100/" aria-current="page">3100</a><a href="/orb/">Orb</a><a href="/terminal/">Terminal</a>
-</nav>
+<nav class="modesw" aria-label="Past version"><a href="/">← Current site</a><a href="/archive/" aria-current="page">Archive</a></nav>
 </body>
 </html>

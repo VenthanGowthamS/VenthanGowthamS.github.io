@@ -19,14 +19,13 @@ One page that works for everyone who visits:
 - **Orbic:** a small word-language for 2126. Planet names carry an Orbic word (*sora* = build, *kesh* = test, *lio* = read, *tama* = speak), always with English beside it.
 - **Ora:** "intent code", where you state what you mean, not how to do it. The site's "hi code" is written in Ora, and the console boots with it.
 
-## Past versions
+## The log
 
-| Version | Path |
-|---|---|
-| 2050: holographic head that evolves | `/2050/` |
-| 3100: first solar system | `/3100/` |
-| Orb: glowing orb with reaching hands | `/orb/` |
-| Terminal: agent terminal | `/terminal/` |
+A dated timeline below the hero covers books finished, speeches, runs, builds, learning and work. It's a diary and a showcase at once, and visitors can filter it. Add entries to `LOG` in `index.html`; newest-first sorting is automatic.
+
+## Archive
+
+**`/archive/`** shows every past version with a screenshot and the idea behind it: Terminal → Orb → 2050 → 3100 → 2126. Each one still runs at its own path (`/terminal/`, `/orb/`, `/2050/`, `/3100/`).
 
 ## How it's built
 
@@ -37,7 +36,21 @@ One page that works for everyone who visits:
 
 ## Update content
 
-Everything lives in the `SECTIONS`, `BOOKS`, `GLANCE` and `LINKS` objects near the top of `index.html`'s script. Each item has `s` (plain one-liner), `i` (why it matters), `m` (under the hood), `d` (the story) and optional `l` (links).
+Everything lives near the top of `index.html`'s script:
+
+| What | Where | Notes |
+|---|---|---|
+| Books | `BOOKS` | `lang`, `done: 'YYYY-MM'`, `reading: true`, `cover: 'books/<name>.jpg'` (about 480px wide, under 100 KB) |
+| Speech notes | `SECTIONS` → `speak` items | add `date: 'YYYY-MM'` and `notes: '…'`; they show as a "My notes" layer |
+| Videos | `VIDEOS` | YouTube IDs; videos play inline on the site |
+| Log | `LOG` | `{date, type: book/speech/run/build/learn/work, title, note, open}` |
+| Links | `LINKS` | `linkedin`, `youtube` |
+
+Each item has `s` (plain one-liner), `i` (why it matters), `m` (under the hood), `d` (the story) and optional `l` (links).
+
+**Why videos aren't stored in this repo:** GitHub rejects files over 100 MB, Pages sites should stay under 1 GB, and Pages doesn't stream video well. YouTube (public or unlisted) streams to any phone at the right quality for free, and the site embeds it.
+
+What's still needed from me is in [TODO.md](TODO.md).
 
 ## Custom domain (later)
 
