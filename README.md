@@ -4,6 +4,8 @@ My personal site, imagined for the year 2126.
 
 **Live:** https://venthangowthams.github.io
 
+> Still being built. New work, books, talks and videos are added as they are finished.
+
 ## What it is
 
 One page that works for everyone who visits:
