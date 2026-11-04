@@ -589,13 +589,39 @@ const A={
   why:()=>`In 2126 I imagine you won't browse pages; you'll pull ideas into orbit. I'm the core, my work orbits me. Pick a lens at the top so I explain things at your level.`,
   log:()=>`Latest in my log:\n${[...LOG].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(e=>`  ${monthName(e.date)} · ${e.title}`).join('\n')}\nThe full log is on the page, below the hero.`,
   help:()=>`Ask in plain words, or type: about · build · evaluate · method · read · speak · watch · life · log · contact · orbic · lens leader · clear`,
-  fallback:()=>`I'm a simple core, still evolving like the original. Try a suggestion, or type help.`
+  private:()=>`That one is private, so I keep it off this site. Ask me about my work instead: what I build, test, read or speak about.`,
+  task:()=>`I can't do tasks for you; I'm a small scripted core that explains Venthan's work. For real help, message him on LinkedIn.`,
+  skills:()=>`14+ years in software quality and test automation. Certified on AWS, Azure and Oracle Cloud. These days: AI agent evaluation, building with Claude Code and MCP, and spec-first development.`,
+  where:()=>`I'm based in Singapore, and I work at Dell Technologies here. My family roots are in Pannaipuram, a village in Tamil Nadu.`,
+  fallback:()=>`I can't answer that one. I'm a scripted core, not a live AI, so I only know what is on this site. Try a suggestion below, or ask Venthan directly on LinkedIn.`
 };
 const OPEN={build:1,evaluate:1,method:1,read:1,speak:1,watch:1,life:1};
-const IN=[[/^(hi|hey|hello|vela|vanakkam)\b/,'hi'],[/^help$|commands|menu/,'help'],[/^log$|diary|timeline|recent|latest|what.*(doing|done)/,'log'],[/orbic|language|vela means|ora/,'orbic'],[/simpl|plain|non.?tech|explain/,'plain'],
-  [/2126|future|solar|planet|orbit|why/,'why'],[/how (do )?you work|method|process|requirement|spec/,'method'],[/eval|test|agent|\bai\b|72/,'evaluate'],
-  [/build|built|app|project|github|code|pannaipuram|kaizen/,'build'],[/book|read/,'read'],[/speak|speech|toastmaster|talk|stage/,'speak'],
-  [/video|youtube|watch/,'watch'],[/contact|linkedin|hire|job|reach|connect/,'contact'],[/yoga|shuttle|badminton|hobb|life|kids|family|run/,'life'],[/who|about|venthan|dell|yourself|you\b/,'about']];
+/* Each topic has weighted whole-word patterns. The topic with the best total wins; a weak or empty score gets an honest "I don't know". */
+const IN=[
+ ['private',[[/\b(salary|income|earn\w*|wife|husband|spouse|daughter|son|address|phone|age|birthday|how old|born|password)\b/,3]]],
+ ['task',[[/\b(write|make|create|generate|fix|debug|draft|translate|solve)\b.*\b(me|my|this|that|code|email|essay)\b/,3.5],[/\bcan you\b/,.5]]],
+ ['hi',[[/^(hi|hey|hello|vela|vanakkam|namaste)\W*$/,3]]],
+ ['help',[[/\b(help|commands?|menu)\b/,3]]],
+ ['log',[[/\b(log|diary|timeline|lately|recent(ly)?|latest|news|updates?)\b/,2],[/what.*\b(doing|done|up to)\b/,2]]],
+ ['orbic',[[/\b(orbic|ora)\b/,3],[/\b(invented|language)\b/,1.5],[/vela (mean|stand)/,3]]],
+ ['plain',[[/\b(simple|simply|plain|layman|eli5|non.?tech\w*)\b/,2.5],[/\bexplain\b/,1]]],
+ ['why',[[/\b2126\b|\b(solar|planets?|orbit\w*)\b/,2.5],[/\b(future|futuristic)\b/,1.5],[/why (a |the |this )?(site|website|page)/,2.5]]],
+ ['method',[[/how (do |does )?(you|he) (work|build)/,3],[/\b(method|process|requirements?|spec|sdd|approach)\b/,2]]],
+ ['evaluate',[[/\b(evals?|evaluat\w*|testing|tests?|tester|llm|72)\b/,2.5],[/\b(agents?|ai|quality|reliab\w*|safe\w*)\b/,1.2]]],
+ ['build',[[/\b(built|build|builds|apps?|projects?|github|code|pannaipuram|kaizen|portfolio|repos?)\b/,2.5]]],
+ ['read',[[/\b(books?|reading|read|shelf|nexus|mba)\b/,2.5]]],
+ ['speak',[[/\b(speak\w*|speech\w*|toastmasters?|talks?|stage|president|club)\b/,2.5]]],
+ ['watch',[[/\b(videos?|youtube|channel|watch)\b/,2.5]]],
+ ['contact',[[/\b(contact|linkedin|hire|hiring|job|jobs|reach|connect|email|resume|cv|available|availability|interview)\b/,2.5]]],
+ ['life',[[/\b(yoga|shuttle|badminton|hobb\w*|life|kids?|family|running|runs?|cinema|music)\b/,2.5]]],
+ ['skills',[[/\b(skills?|tech stack|stack|certif\w*|aws|azure|oci|cloud|tools?|experience|years)\b/,2.5]]],
+ ['where',[[/\b(where|location|based|country|city|singapore)\b/,2.5]]],
+ ['about',[[/\b(who|about|venthan|dell|yourself|introduce)\b/,2],[/what do you (do|work)|for a living|your (role|work|title|position)/,3],[/\byou\b/,.5]]]
+];
+function pickIntent(l){let best=null,bs=0,second=0;
+  for(const [k,pats] of IN){let sc=0;for(const [re,w] of pats)if(re.test(l))sc+=w;
+    if(sc>bs){second=bs;bs=sc;best=k}else if(sc>second)second=sc}
+  return {key:bs>=2?best:null,near:bs>0?best:null}}
 const CH=[['Who are you?','about'],['Explain simply','plain'],['How do you work?','method'],['The AI test','evaluate'],['What have you built?','build'],['What have you done lately?','log'],['Why a solar system?','why']];
 $('#chips').innerHTML=CH.map(([l,k])=>`<button type="button" data-k="${k}">${l}</button>`).join('');
 function addLine(cls,text){const d=document.createElement('div');d.className=cls;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
@@ -611,7 +637,9 @@ function closeLog(){con.classList.remove('open');if(finishNow)finishNow()}
 function run(raw,key){const q=raw.trim();if(!q)return;openLog();addLine('u',q);const l=q.toLowerCase();
   if(l==='clear'){log.innerHTML='';booted=false;return}
   const lm=l.match(/^lens (everyone|leader|engineer)$/);if(lm){setLens(lm[1]);return say(`Lens set to ${lm[1]}. Everything now explains itself at that level.`)}
-  if(!key)for(const [re,k] of IN)if(re.test(l)){key=k;break}
+  let near=null;if(!key){const r=pickIntent(l);key=r.key;near=r.near}
+  if(!key&&near&&near!=='hi'&&near!=='help'){const nm=(CH.find(c=>c[1]===near)||[])[0];
+    return say(A.fallback()+(nm?` Closest I have is "${nm}". Tap it if that helps.`:''))}
   key=key||'fallback';say(A[key](),()=>{if(OPEN[key]){if(scrollY>innerHeight*.5)scrollTo({top:0,behavior:RM?'auto':'smooth'});setTimeout(()=>openSection(key),RM?0:350)}})}
 $('#ask').onsubmit=e=>{e.preventDefault();const v=$('#q').value;$('#q').value='';run(v)};
 $('#chips').onclick=e=>{const b=e.target.closest('button');if(b)run(b.textContent,b.dataset.k)};
